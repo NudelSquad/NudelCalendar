@@ -139,19 +139,24 @@ public class DBHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(KEY_EVENT_NAME, event.getName());
-        values.put(KEY_SH_ADDR, event.getAddress());
+        values.put(KEY_EVENT_ID, event.getEVENT_ID());
+        values.put(KEY_EVENT_NAME, event.getEVENT_NAME()); // Event Name
+        values.put(KEY_EVENT_START, event.getEVENT_START());
+        values.put(KEY_EVENT_STOP, event.getEVENT_END());
+        values.put(KEY_EVENT_TYPE, event.getEVENT_TYPE());
+        values.put(KEY_EVENT_LOCATION, event.getEVENT_LOCATION());
+        values.put(KEY_EVENT_COLOR, event.getEVENT_COLOR());
 
-// updating row
+        // updating row
         return db.update(TABLE_EVENTS, values, KEY_EVENT_ID + " = ?",
-                new String[]{String.valueOf(event.getId())});
+                new String[]{String.valueOf(event.getEVENT_ID())});
     }
 
     // Deleting a event
     public void deleteEvent(Event event) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_EVENTS, KEY_EVENT_ID + " = ?",
-                new String[] { String.valueOf(event.getId()) });
+                new String[] { String.valueOf(event.getEVENT_ID()) });
         db.close();
     }
 }
