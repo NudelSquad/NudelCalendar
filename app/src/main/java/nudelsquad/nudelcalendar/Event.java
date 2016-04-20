@@ -16,6 +16,9 @@ public class Event {
     private int EVENT_COLOR;
     //TODO Implement Reminder
 
+    public Event() {
+
+    }
 
     public Event(int EVENT_ID, int EVENT_START, int EVENT_END, String EVENT_NAME, String EVENT_TYPE, String EVENT_LOCATION, int EVENT_COLOR) {
         this.EVENT_ID = EVENT_ID;
@@ -26,6 +29,8 @@ public class Event {
         this.EVENT_LOCATION = EVENT_LOCATION;
         this.EVENT_COLOR = EVENT_COLOR;
     }
+
+
 
     public int getEVENT_ID() {
         return EVENT_ID;
