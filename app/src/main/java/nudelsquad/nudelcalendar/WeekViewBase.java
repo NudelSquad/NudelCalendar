@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,7 +55,11 @@ public class WeekViewBase extends Fragment implements WeekView.EventClickListene
 
         // Set up a date time interpreter to interpret how the date and time will be formatted in
         // the week view. This is optional
+
+
+
         setupDateTimeInterpreter(false);
+        mWeekView.notifyDatasetChanged();
 
         /*
         if (mWeekViewType != TYPE_WEEK_VIEW) {
@@ -71,63 +76,6 @@ public class WeekViewBase extends Fragment implements WeekView.EventClickListene
     }
 
 
-
-        /*
-            @Override
-            public boolean onCreateOptionsMenu(Menu menu) {
-                getMenuInflater().inflate(R.menu.main, menu);
-                return true;
-            }
-
-            @Override
-            public boolean onOptionsItemSelected(MenuItem item) {
-                int id = item.getItemId();
-                setupDateTimeInterpreter(id == R.id.action_week_view);
-                switch (id){
-                    case R.id.action_today:
-                        mWeekView.goToToday();
-                        return true;
-                    case R.id.action_day_view:
-                        if (mWeekViewType != TYPE_DAY_VIEW) {
-                            item.setChecked(!item.isChecked());
-                            mWeekViewType = TYPE_DAY_VIEW;
-                            mWeekView.setNumberOfVisibleDays(1);
-
-                            // Lets change some dimensions to best fit the view.
-                            mWeekView.setColumnGap((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, getResources().getDisplayMetrics()));
-                            mWeekView.setTextSize((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 12, getResources().getDisplayMetrics()));
-                            mWeekView.setEventTextSize((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 12, getResources().getDisplayMetrics()));
-                        }
-                        return true;
-                    case R.id.action_three_day_view:
-                        if (mWeekViewType != TYPE_THREE_DAY_VIEW) {
-                            item.setChecked(!item.isChecked());
-                            mWeekViewType = TYPE_THREE_DAY_VIEW;
-                            mWeekView.setNumberOfVisibleDays(3);
-
-                            // Lets change some dimensions to best fit the view.
-                            mWeekView.setColumnGap((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, getResources().getDisplayMetrics()));
-                            mWeekView.setTextSize((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 12, getResources().getDisplayMetrics()));
-                            mWeekView.setEventTextSize((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 12, getResources().getDisplayMetrics()));
-                        }
-                        return true;
-                    case R.id.action_week_view:
-                        if (mWeekViewType != TYPE_WEEK_VIEW) {
-                            item.setChecked(!item.isChecked());
-                            mWeekViewType = TYPE_WEEK_VIEW;
-                            mWeekView.setNumberOfVisibleDays(7);
-
-                            // Lets change some dimensions to best fit the view.
-                            mWeekView.setColumnGap((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, getResources().getDisplayMetrics()));
-                            mWeekView.setTextSize((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 10, getResources().getDisplayMetrics()));
-                            mWeekView.setEventTextSize((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 10, getResources().getDisplayMetrics()));
-                        }
-                        return true;
-                }
-
-                return super.onOptionsItemSelected(item);
-            }
-
             /**
              * Set up a date time interpreter which will show short date values when in week view and long
              * date values otherwise.
@@ -137,23 +85,26 @@ public class WeekViewBase extends Fragment implements WeekView.EventClickListene
             mWeekView.setDateTimeInterpreter(new DateTimeInterpreter() {
                 @Override
                 public String interpretDate(Calendar date) {
-                    SimpleDateFormat weekdayNameFormat = new SimpleDateFormat("EEE", Locale.getDefault());
-                    String weekday = weekdayNameFormat.format(date.getTime());
-                    SimpleDateFormat format = new SimpleDateFormat(" M/d", Locale.getDefault());
+                    //SimpleDateFormat weekdayNameFormat = new SimpleDateFormat("EEE", Locale.getDefault());
+                    //String weekday = weekdayNameFormat.format(date.getTime());
+                    SimpleDateFormat format = new SimpleDateFormat("dd.MM", Locale.getDefault());
 
                     // All android api level do not have a standard way of getting the first letter of
                     // the week day name. Hence we get the first char programmatically.
                     // Details: http://stackoverflow.com/questions/16959502/get-one-letter-abbreviation-of-week-day-of-a-date-in-java#answer-16959657
-                    if (shortDate)
-                        weekday = String.valueOf(weekday.charAt(0));
-                    return weekday.toUpperCase() + format.format(date.getTime());
+                    //if (shortDate)
+                      //  weekday = String.valueOf(weekday.charAt(0));
+
+                    //return weekday.toUpperCase() + format.format(date.getTime());
+                    Log.e("Date", "" + format.format((date.getTime())));
+                    return format.format(date.getTime());
                 }
 
                 @Override
                 public String interpretTime(int hour) {
-                    return hour + "";
-
-                    //return hour > 11 ? (hour - 12) + " PM" : (hour == 0 ? "12 AM" : hour + " AM");
+                    if (hour < 10)
+                        return "0" + hour + ":00";
+                    return hour + ":00";
                 }
             });
         }
@@ -163,19 +114,19 @@ public class WeekViewBase extends Fragment implements WeekView.EventClickListene
         }
 
         @Override
-        public void onEventClick(WeekViewEvent event, RectF eventRect) {
+        public void onEventClick(WeekViewEvent event, RectF eventRect) {                //go to Event
 
-            Toast.makeText(rootView.getContext(), "Clicked " + event.getName(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(rootView.getContext(), "go to Event", Toast.LENGTH_SHORT).show();
         }
 
         @Override
         public void onEventLongPress(WeekViewEvent event, RectF eventRect) {
-            Toast.makeText(rootView.getContext(), "Long pressed event: " + event.getName(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(rootView.getContext(), "is needed?", Toast.LENGTH_SHORT).show();
         }
 
         @Override
         public void onEmptyViewLongPress(Calendar time) {
-            Toast.makeText(rootView.getContext(), "Empty view long pressed: " + getEventTitle(time), Toast.LENGTH_SHORT).show();
+            Toast.makeText(rootView.getContext(), "is needed?", Toast.LENGTH_SHORT).show();
         }
 
         public com.alamkanak.weekview.WeekView getWeekView() {

@@ -15,11 +15,11 @@
         app:headerColumnTextColor="@color/colorAccent"
         app:headerRowPadding="12dp"
         app:columnGap="8dp"
-        app:noOfVisibleDays="3"
+        app:noOfVisibleDays="5"
         app:headerRowBackgroundColor="@color/colorPrimary"
         app:dayBackgroundColor="#05000000"
         app:todayBackgroundColor="#1848adff"
         app:headerColumnBackground="#ffffffff"
-        app:todayHeaderTextColor="@color/colorPrimaryDark" />
+        app:todayHeaderTextColor="#ae22af" />
 
 </LinearLayout>
