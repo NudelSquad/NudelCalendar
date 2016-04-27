@@ -33,9 +33,13 @@ ListView taskboardview;
         List<Task> tasklist = new ArrayList<Task>();
         tasklist.add(new Task("Task 12", 200, "ho"));
         tasklist.add(new Task("Task Müll wegraumen",50, "Notes bitte nicht vergessen..."));
+        tasklist.add(new Task("Task Müll wegraumen",60, "Notes bitte nicht vergessen..."));
+        tasklist.add(new Task("Task Müll wegraumen",90, "NoteBLABLABLBABALBALBALBen..."));
 
-        String[] test = new String[]{"23","44","55"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this.getActivity(), android.R.layout.simple_list_item_1, test);
+      //  String[] test = new String[]{"23","44","55"};
+
+
+        ArrayAdapter<Task> adapter = new ArrayAdapter<Task>(this.getActivity(), android.R.layout.simple_list_item_1, tasklist);
         ListView listView = (ListView) rootView.findViewById(R.id.taskboard_list);
         listView.setAdapter(adapter);
 
