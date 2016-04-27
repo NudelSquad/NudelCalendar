@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.support.v4.app.Fragment;
@@ -33,8 +34,10 @@ ListView taskboardview;
         tasklist.add(new Task("Task 12", 200, "ho"));
         tasklist.add(new Task("Task Müll wegraumen",50, "Notes bitte nicht vergessen..."));
 
-       // daylist_adapter = new DayListAdapter(rootView.getContext(), eventlist);
-        //daylist.setAdapter(daylist_adapter);
+        String[] test = new String[]{"23","44","55"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this.getActivity(), android.R.layout.simple_list_item_1, test);
+        ListView listView = (ListView) rootView.findViewById(R.id.taskboard_list);
+        listView.setAdapter(adapter);
 
         TextView txTaskHeader = (TextView)rootView.findViewById(R.id.txTasks);
 
