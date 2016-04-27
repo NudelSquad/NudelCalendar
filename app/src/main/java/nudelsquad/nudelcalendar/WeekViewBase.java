@@ -151,8 +151,9 @@ public class WeekViewBase extends Fragment implements WeekView.EventClickListene
 
                 @Override
                 public String interpretTime(int hour) {
-                    //return hour + "";
-                    return hour > 11 ? (hour - 12) + " PM" : (hour == 0 ? "12 AM" : hour + " AM");
+                    return hour + "";
+
+                    //return hour > 11 ? (hour - 12) + " PM" : (hour == 0 ? "12 AM" : hour + " AM");
                 }
             });
         }
