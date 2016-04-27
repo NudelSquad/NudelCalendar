@@ -44,7 +44,7 @@ public class DBHandlerTask extends SQLiteOpenHelper
     //TODO Implement reminder logic
 
     
-    public DBHandler(Context context) {
+    public DBHandlerTask(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
@@ -88,7 +88,7 @@ public class DBHandlerTask extends SQLiteOpenHelper
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(KEY_TASK_ID, task.getTASK_ID();
+        values.put(KEY_TASK_ID, task.getTASK_ID());
         values.put(KEY_TASK_NAME, task.getTASK_NAME());
         values.put(KEY_TASK_DUE, task.getTASK_DUE());
         values.put(KEY_TASK_NOTE, task.getTASK_NOTES());
@@ -127,8 +127,12 @@ public class DBHandlerTask extends SQLiteOpenHelper
                 cursor.getString(3), cursor.getInt(4) > 0);
         return single_task;
     }
-    
-    public List<Task> getTasksByDate
+
+    /**
+     * Get a list of tasks sorted by nearest first
+     * @return List tasklist
+     */
+    public List<Task> getTasksByDate()
     {
         List<Task> taskList = new ArrayList<Task>();
         String dbQuery = "SELECT * FROM " + TABLE_TASKS + " WHERE " + KEY_TASK_DUE +
@@ -176,6 +180,7 @@ public class DBHandlerTask extends SQLiteOpenHelper
                 taskList.add(task);
             } while (cursor.moveToNext());
         }
+        close();
         return taskList;
     }
 
