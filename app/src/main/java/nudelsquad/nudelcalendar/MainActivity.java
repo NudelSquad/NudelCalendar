@@ -135,11 +135,11 @@ public class MainActivity extends AppCompatActivity
         }
         else if (id == R.id.nav_taskboard)
         {
-            android.app.Fragment fragment_tasks = new TaskBoard();
+            Fragment fragment = new TaskBoard();
 
             FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction transaction = fm.beginTransaction();
-            transaction.replace(R.id.main_frame, fragment_tasks);
+            transaction.replace(R.id.main_frame, fragment);
             transaction.commit();
 
 
