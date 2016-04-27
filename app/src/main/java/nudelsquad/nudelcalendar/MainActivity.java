@@ -132,9 +132,22 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_month) {
 
-        } else if (id == R.id.nav_settings) {
+        }
+        else if (id == R.id.nav_taskboard)
+        {
+            Fragment fragment = new DayList();
+            FragmentManager fm = getSupportFragmentManager();
+            FragmentTransaction transaction = fm.beginTransaction();
+            transaction.replace(R.id.main_frame, fragment);
+            transaction.commit();
+
+
 
         }
+        else if (id == R.id.nav_settings) {
+
+        }
+
 
 
 
