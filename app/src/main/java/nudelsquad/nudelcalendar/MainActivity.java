@@ -129,6 +129,11 @@ public class MainActivity extends AppCompatActivity
             transaction.commit();
 
         } else if (id == R.id.nav_week) {
+            Fragment fragment = new WeekViewBase();
+            FragmentManager fm = getSupportFragmentManager();
+            FragmentTransaction transaction = fm.beginTransaction();
+            transaction.replace(R.id.main_frame, fragment);
+            transaction.commit();
 
         } else if (id == R.id.nav_month) {
 
