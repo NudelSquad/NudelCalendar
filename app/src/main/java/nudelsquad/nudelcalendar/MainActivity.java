@@ -15,6 +15,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,6 +25,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
@@ -198,33 +200,47 @@ public class MainActivity extends AppCompatActivity
 
 
     //Startscreen Fragment ist hier, weils sonst Probleme mit dem ändern des MainFrames gibt (glaub ich)
-    public class StartScreenFrame extends Fragment{
+    public class StartScreenFrame extends Fragment implements View.OnClickListener{
+        View rootView;
         public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
             //setContentView(R.layout.activity_day_list);
-            final View rootView = inflater.inflate(
+            rootView = inflater.inflate(
                     R.layout.startscreen_fragment, container, false);
-
-
-            //---------------------------------------------------------- Btn On Click Listeners
-            rootView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(v.getId() == R.id.btn_day){
-                        Fragment fragment = new DayList();
-                        FragmentManager fm = getSupportFragmentManager();
-                        FragmentTransaction transaction = fm.beginTransaction();
-                        transaction.replace(R.id.main_frame, fragment);
-                        transaction.commit();
-                    } else if(v.getId() == R.id.btn_week){
-                     //------------WEEK
-                    } else if(v.getId() == R.id.btn_month){
-                    //----------MONTH
-                }
-                }
-            });
-            //-------------------------------------------------------------
-
+            getUiInitialization();
             return rootView;
+        }
+
+        public void getUiInitialization(){
+            Button btn = (Button)rootView.findViewById(R.id.btn_day);
+            btn.setOnClickListener(this);
+            btn = (Button)rootView.findViewById(R.id.btn_week);
+            btn.setOnClickListener(this);
+            btn = (Button)rootView.findViewById(R.id.btn_month);
+            btn.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+
+            switch (v.getId()){
+                case R.id.btn_day:
+                    Fragment fragment = new DayList();
+                    FragmentManager fm = getSupportFragmentManager();
+                    FragmentTransaction transaction = fm.beginTransaction();
+                    transaction.replace(R.id.main_frame, fragment);
+                    transaction.commit();
+                    break;
+                case  R.id.btn_week:
+                    fragment = new WeekViewBase();
+                    fm = getSupportFragmentManager();
+                    transaction = fm.beginTransaction();
+                    transaction.replace(R.id.main_frame, fragment);
+                    transaction.commit();
+                    break;
+                case R.id.btn_month:
+
+                    break;
+            }
         }
     }
 }

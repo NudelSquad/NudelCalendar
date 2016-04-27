@@ -96,7 +96,7 @@ public class WeekViewBase extends Fragment implements WeekView.EventClickListene
                       //  weekday = String.valueOf(weekday.charAt(0));
 
                     //return weekday.toUpperCase() + format.format(date.getTime());
-                    Log.e("Date", "" + format.format((date.getTime())));
+                    //Log.e("Date", "" + format.format((date.getTime())));
                     return format.format(date.getTime());
                 }
 
