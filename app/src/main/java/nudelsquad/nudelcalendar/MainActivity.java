@@ -132,6 +132,8 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_month) {
 
+        } else if (id == R.id.nav_taskwall) {
+
         } else if (id == R.id.nav_settings) {
 
         }
@@ -194,19 +196,29 @@ public class MainActivity extends AppCompatActivity
     public class StartScreenFrame extends Fragment{
         public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
             //setContentView(R.layout.activity_day_list);
-            View rootView = inflater.inflate(
+            final View rootView = inflater.inflate(
                     R.layout.startscreen_fragment, container, false);
-            Button today_btn = (Button)rootView.findViewById(R.id.today_btn);
-            today_btn.setOnClickListener(new View.OnClickListener() {
+
+
+            //---------------------------------------------------------- Btn On Click Listeners
+            rootView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Fragment fragment = new DayList();
-                    FragmentManager fm = getSupportFragmentManager();
-                    FragmentTransaction transaction = fm.beginTransaction();
-                    transaction.replace(R.id.main_frame, fragment);
-                    transaction.commit();
+                    if(v.getId() == R.id.btn_day){
+                        Fragment fragment = new DayList();
+                        FragmentManager fm = getSupportFragmentManager();
+                        FragmentTransaction transaction = fm.beginTransaction();
+                        transaction.replace(R.id.main_frame, fragment);
+                        transaction.commit();
+                    } else if(v.getId() == R.id.btn_week){
+                     //------------WEEK
+                    } else if(v.getId() == R.id.btn_month){
+                    //----------MONTH
+                }
                 }
             });
+            //-------------------------------------------------------------
+
             return rootView;
         }
     }
