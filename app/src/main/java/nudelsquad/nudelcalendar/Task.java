@@ -9,6 +9,8 @@ public class Task {
     private int TASK_DUE;
     private String TASK_NOTES;
     private boolean TASK_DONE;
+    //TODO Implement Reminder Logic?
+
 
     public Task() {
     }
@@ -22,6 +24,22 @@ public class Task {
         this.TASK_NAME = TASK_NAME;
         this.TASK_DUE = TASK_DUE;
         this.TASK_NOTES = TASK_NOTES;
+    }
+
+    public Task(int TASK_ID, String TASK_NAME, int TASK_DUE, String TASK_NOTES, boolean TASK_DONE) {
+        this.TASK_ID = TASK_ID;
+        this.TASK_NAME = TASK_NAME;
+        this.TASK_DUE = TASK_DUE;
+        this.TASK_NOTES = TASK_NOTES;
+        this.TASK_DONE = TASK_DONE;
+    }
+
+    public int getTASK_ID() {
+        return TASK_ID;
+    }
+
+    public void setTASK_ID(int TASK_ID) {
+        this.TASK_ID = TASK_ID;
     }
 
     public String getTASK_NAME() {
