@@ -17,8 +17,8 @@ import java.util.List;
 
 public class DayList extends Fragment {
     ListView daylist;
-    DayListAdapter daylist_adapter;
 
+    DayListAdapter daylist_adapter;
 
     @Nullable
     @Override

@@ -18,15 +18,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Upcoming Events"
-            android:id="@+id/txEvents"
+            android:text="Upcoming Tasks"
+            android:id="@+id/txTasks"
             android:layout_marginBottom="5dp"
             android:layout_gravity="center" />
 
         <ListView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/taskboard_events"
+            android:id="@+id/taskboard_list"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />

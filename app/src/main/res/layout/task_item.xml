@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Name of Task:"
+            android:id="@+id/txt_taskname"
+            android:layout_marginLeft="5dp"
+            android:gravity="center" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Date of Task"
+            android:id="@+id/txt_duedate"
+            android:layout_marginLeft="40dp"
+            android:gravity="center" />
+
+        <CheckBox
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Check if finish"
+            android:id="@+id/check_task"
+            android:checked="false"
+            android:enabled="true"
+            android:height="20dp"
+            android:layout_gravity="right"
+            android:visibility="visible"
+            android:layout_marginLeft="40dp"
+            android:gravity="center" />
+
+    </TableRow>
+</LinearLayout>

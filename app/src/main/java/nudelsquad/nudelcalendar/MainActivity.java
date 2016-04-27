@@ -128,23 +128,25 @@ public class MainActivity extends AppCompatActivity
             transaction.replace(R.id.main_frame, fragment);
             transaction.commit();
 
-        } else if (id == R.id.nav_week) {
+        } else if (id == R.id.nav_week){
 
         } else if (id == R.id.nav_month) {
 
         }
         else if (id == R.id.nav_taskboard)
         {
-            Fragment fragment = new DayList();
+            android.app.Fragment fragment_tasks = new TaskBoard();
+
             FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction transaction = fm.beginTransaction();
-            transaction.replace(R.id.main_frame, fragment);
+            transaction.replace(R.id.main_frame, fragment_tasks);
             transaction.commit();
 
 
 
         }
-        else if (id == R.id.nav_settings) {
+        else if (id == R.id.nav_settings)
+        {
 
         }
 
