@@ -20,7 +20,10 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+
+import java.util.Objects;
 import java.util.zip.Inflater;
+
 
 /**
  * Created by waser2 on 27.04.2016.
@@ -36,8 +39,10 @@ public class TaskBoard extends Fragment {
         Calendar.getInstance().getTime();
         View rootView = inflater.inflate(R.layout.activity_taskboard, container, false);
         Bundle args = getArguments();
+
         taskboardview = (ListView) rootView.findViewById(R.id.taskboard_list);
         List<Task> tasklist = new ArrayList<Task>();
+
         tasklist.add(new Task("Task 12", 200, "ho"));
         tasklist.add(new Task("Task Müll wegraumen", 50, "Notes bitte nicht vergessen..."));
         tasklist.add(new Task("Task Müll wegraumen", 60, "Notes bitte nicht vergessen..."));
@@ -51,14 +56,13 @@ public class TaskBoard extends Fragment {
         tasklist.add(new Task("Task Müll wegraumen", 50, "Notes bitte nicht vergessen..."));
         tasklist.add(new Task("Task Müll wegraumen", 60, "Notes bitte nicht vergessen..."));
         tasklist.add(new Task("Task Müll wegraumen", 90, "NoteBLABLABLBABALBALBALBen..."));
-
-        //  String[] test = new String[]{"23","44","55"};
-
+        
 
         TaskBoardAdapter adapter = new TaskBoardAdapter(rootView.getContext(), tasklist);
 
         final ListView listView = (ListView) rootView.findViewById(R.id.taskboard_list);
         listView.setAdapter(adapter);
+        listView.setClickable(true);
 
 
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -66,6 +70,7 @@ public class TaskBoard extends Fragment {
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 Object item = listView.getAdapter().getItem(position);
                 TextView description = (TextView) view.findViewById(R.id.txt_descpriton);
+
 
                 int visibility = description.getVisibility();
                 if (visibility == View.GONE)
