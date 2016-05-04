@@ -39,7 +39,8 @@ ListView taskboardview;
       //  String[] test = new String[]{"23","44","55"};
 
 
-        ArrayAdapter<Task> adapter = new ArrayAdapter<Task>(this.getActivity(), android.R.layout.simple_list_item_1, tasklist);
+        TaskBoardAdapter adapter = new TaskBoardAdapter(rootView.getContext(), tasklist);
+
         ListView listView = (ListView) rootView.findViewById(R.id.taskboard_list);
         listView.setAdapter(adapter);
 

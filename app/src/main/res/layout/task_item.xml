@@ -19,7 +19,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="Date of Task"
+            android:text="Due-Date of Task"
             android:id="@+id/txt_duedate"
             android:layout_marginLeft="40dp"
             android:gravity="center" />
