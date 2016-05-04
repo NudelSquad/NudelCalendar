@@ -122,7 +122,6 @@ public class MainActivity extends AppCompatActivity
             transaction.replace(R.id.main_frame, fragment);
             transaction.commit();
 
-
         } else if (id == R.id.nav_day) {
             Fragment fragment = new DayList();
             FragmentManager fm = getSupportFragmentManager();
@@ -142,7 +141,11 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_taskwall) {
 
         } else if (id == R.id.nav_settings) {
-
+            Fragment fragment = new SettingsView();
+            FragmentManager fm = getSupportFragmentManager();
+            FragmentTransaction transaction = fm.beginTransaction();
+            transaction.replace(R.id.main_frame, fragment);
+            transaction.commit();
         }
 
 
