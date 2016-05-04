@@ -137,6 +137,11 @@ public class MainActivity extends AppCompatActivity
             transaction.commit();
 
         } else if (id == R.id.nav_month) {
+            Fragment fragment = new MonthView();
+            FragmentManager fm = getSupportFragmentManager();
+            FragmentTransaction transaction = fm.beginTransaction();
+            transaction.replace(R.id.main_frame, fragment);
+            transaction.commit();
 
         } else if (id == R.id.nav_taskwall) {
 
@@ -240,8 +245,12 @@ public class MainActivity extends AppCompatActivity
                     transaction.replace(R.id.main_frame, fragment);
                     transaction.commit();
                     break;
-                case R.id.btn_month:
-
+                case R.id.btn_month:fragment = new WeekViewBase();
+                    fragment = new MonthView();
+                    fm = getSupportFragmentManager();
+                    transaction = fm.beginTransaction();
+                    transaction.replace(R.id.main_frame, fragment);
+                    transaction.commit();
                     break;
             }
         }
