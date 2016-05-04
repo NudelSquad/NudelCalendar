@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 /**
@@ -31,7 +32,7 @@ public class ShowEventView extends Fragment implements View.OnClickListener {
 
     public void initGUI(){
         ListView ls_tasks = (ListView) rootView.findViewById(R.id.list_event_tasks);
-        String items[] = {"Task1", "Task2", "Task3"};
+        String items[] = {"eCard am start?", "Task2", "Task3"};
         ArrayAdapter adp = new ArrayAdapter(rootView.getContext(), android.R.layout.simple_list_item_1, items);
         ls_tasks.setAdapter(adp);
         ls_tasks.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -48,6 +49,19 @@ public class ShowEventView extends Fragment implements View.OnClickListener {
         btn.setOnClickListener(this);
         FrameLayout color = (FrameLayout) rootView.findViewById(R.id.event_color);
         color.setBackgroundColor(Color.RED);
+        TextView tx = (TextView) rootView.findViewById(R.id.txt_event_name);
+        tx.setText("Dentist Appointment");
+        tx = (TextView) rootView.findViewById(R.id.txt_event_Date);
+        tx.setText("04.05.2016");
+        tx = (TextView) rootView.findViewById(R.id.txt_event_starttime);
+        tx.setText("16:00");
+        tx = (TextView) rootView.findViewById(R.id.txt_event_endtime);
+        tx.setText("18:00");
+        tx = (TextView) rootView.findViewById(R.id.txt_event_place);
+        tx.setText("Jakominiplatz drölf");
+        tx = (TextView) rootView.findViewById(R.id.txt_event_type);
+        tx.setText("Termin");
+
     }
 
     @Override

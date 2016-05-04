@@ -5,6 +5,7 @@ import android.graphics.RectF;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.TypedValue;
@@ -116,7 +117,9 @@ public class WeekViewBase extends Fragment implements WeekView.EventClickListene
         @Override
         public void onEventClick(WeekViewEvent event, RectF eventRect) {                //go to Event
 
-            Toast.makeText(rootView.getContext(), "go to Event", Toast.LENGTH_SHORT).show();
+            final FragmentTransaction ft = getFragmentManager().beginTransaction();
+            ft.replace(R.id.main_frame, new TaskLookView(), "NewFragmentTag");
+            ft.commit();
         }
 
         @Override
