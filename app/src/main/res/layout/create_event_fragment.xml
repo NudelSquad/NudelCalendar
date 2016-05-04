@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="DISCARD"
+            android:id="@+id/button"
+            android:layout_alignBottom="@+id/progressBar"
+            android:width="150dp"
+            android:textSize="30dp"
+            android:layout_alignTop="@+id/progressBar" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SAVE"
+            android:id="@+id/button2"
+            android:width="175dp"
+            android:textSize="30dp"
+            android:layout_alignTop="@+id/progressBar" />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/progressBar"
+        android:layout_alignParentBottom="true">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/eventNameText"
+                android:textSize="25dp"
+                android:hint="@string/eventNameText"
+                android:layout_below="@+id/progressBar" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textFromDate"
+                android:textSize="25dp"
+                android:hint="@string/from_date"
+                android:layout_below="@+id/eventNameText" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/begin"
+                android:textSize="25dp"
+                android:hint="@string/begin"
+                android:layout_below="@+id/textFromDate" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/editText6"
+                android:textSize="25dp"
+                android:hint="@string/endOfEvent"
+                android:layout_below="@+id/begin" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/placeText"
+                android:textSize="25dp"
+                android:hint="@string/placeText"
+                android:layout_below="@+id/editText6" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/eventTypeText"
+                android:textSize="25dp"
+                android:hint="@string/eventTypeText"
+                android:layout_below="@+id/placeText" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/colorEditText"
+                android:textSize="25dp"
+                android:hint="@string/colorEditText"
+                android:layout_below="@+id/eventTypeText"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add Task"
+                android:id="@+id/addTaskAct"
+                android:width="175dp"
+                android:textSize="25dp" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

@@ -5,4 +5,18 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+
+
+    <string name="from_date">Date of event</string>
+    <string name="begin">Begin of event</string>
+    <string name="endOfEvent">End of event</string>
+    <string name="eventNameText">Name of event</string>
+    <string name="eventTypeText">Type of event</string>
+    <string name="placeText">Place of event</string>
+    <string name="colorEditText">Color</string>
+    <string name="taskName">Task name</string>
+    <string name="taskDate">Task date</string>
+    <string name="reminder">Set reminder</string>
+    <string name="editText">Text</string>
+    <string name="editText2">Select color</string>
 </resources>
