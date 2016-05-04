@@ -24,8 +24,7 @@ public class DayList extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         //setContentView(R.layout.activity_day_list);
-        View rootView = inflater.inflate(
-                R.layout.activity_day_list, container, false);
+        View rootView = inflater.inflate(R.layout.activity_day_list, container, false);
         Bundle args = getArguments();
         daylist = (ListView)rootView.findViewById(R.id.day_eventlist);
         List<EventBean> eventlist = new ArrayList<EventBean>();
