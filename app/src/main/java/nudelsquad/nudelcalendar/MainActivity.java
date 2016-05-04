@@ -150,6 +150,10 @@ public class MainActivity extends AppCompatActivity
         else if (id == R.id.nav_taskboard)
         {
             Fragment fragment = new TaskBoard();
+            FragmentManager fm = getSupportFragmentManager();
+            FragmentTransaction transaction = fm.beginTransaction();
+            transaction.replace(R.id.main_frame, fragment);
+            transaction.commit();
 
         } else if (id == R.id.nav_settings) {
             Fragment fragment = new SettingsView();
