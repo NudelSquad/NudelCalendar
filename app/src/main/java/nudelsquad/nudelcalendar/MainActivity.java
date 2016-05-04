@@ -58,8 +58,11 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "OPEN ADD FRAME", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Fragment fragment = new CreateEventView();
+                FragmentManager fm = getSupportFragmentManager();
+                FragmentTransaction transaction = fm.beginTransaction();
+                transaction.replace(R.id.main_frame, fragment);
+                transaction.commit();
             }
         });
 
