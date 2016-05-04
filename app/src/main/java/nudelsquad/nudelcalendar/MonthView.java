@@ -13,6 +13,10 @@ import android.widget.CalendarView;
 import android.widget.CalendarView.OnDateChangeListener;
 import android.widget.Toast;
 
+import com.roomorama.caldroid.CaldroidFragment;
+
+import java.util.Calendar;
+
 /**
  * Created by Sathearo on 27.04.2016.
  */
@@ -23,19 +27,16 @@ public class MonthView extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.month_fragment, container, false);
 
-        CalendarView calendarView = (CalendarView) rootView.findViewById(R.id.calendarView);
-        calendarView.setOnDateChangeListener(new OnDateChangeListener() {
+        CaldroidFragment caldroidFragment = new CaldroidFragment();
+        Bundle args = new Bundle();
+        Calendar cal = Calendar.getInstance();
+        args.putInt(CaldroidFragment.MONTH, cal.get(Calendar.MONTH) + 1);
+        args.putInt(CaldroidFragment.YEAR, cal.get(Calendar.YEAR));
+        caldroidFragment.setArguments(args);
 
-            @Override
-            public void onSelectedDayChange(CalendarView view, int year, int month,
-                                            int dayOfMonth) {
-                Fragment fragment = new DayList();
-                FragmentManager fm = getFragmentManager();
-                FragmentTransaction transaction = fm.beginTransaction();
-                transaction.replace(R.id.main_frame, fragment);
-                transaction.commit();
-            }
-        });
+        final FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.replace(R.id.calendarFragment, caldroidFragment, "NewFragmentTag");
+        ft.commit();
 
         return rootView;
 
