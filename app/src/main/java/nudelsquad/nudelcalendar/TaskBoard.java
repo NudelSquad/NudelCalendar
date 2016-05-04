@@ -18,6 +18,7 @@ import android.support.v4.app.Fragment;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.zip.Inflater;
 
@@ -32,7 +33,7 @@ public class TaskBoard extends Fragment {
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-
+        Calendar.getInstance().getTime();
         View rootView = inflater.inflate(R.layout.activity_taskboard, container, false);
         Bundle args = getArguments();
         taskboardview = (ListView) rootView.findViewById(R.id.taskboard_list);
