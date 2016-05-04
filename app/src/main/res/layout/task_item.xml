@@ -2,60 +2,63 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:descendantFocusability="blocksDescendants"
     android:orientation="vertical"
-    android:background="@drawable/itemborder"
-    android:layout_marginBottom="5dp"
-    >
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp">
 
-    <TableRow
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="top"
-        android:weightSum="1"
-        android:baselineAligned="false">
-
-        <GridLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="0.20"
-            android:id="@+id/grid_taskcolor"></GridLayout>
+        android:layout_height="0dp"
+        android:descendantFocusability="blocksDescendants"
+        android:orientation="horizontal"
+        android:layout_weight="1">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="Name of Task:"
             android:id="@+id/txt_taskname"
-            android:layout_weight="0.30" />
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_gravity="center_vertical"
+            android:text="Name of Task:"
+            android:layout_weight="0.45"
+            android:layout_width="wrap_content" />
 
         <TextView
-            android:inputType="date"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="Date"
             android:id="@+id/txt_duedate"
-            android:layout_weight="0.30"
-            />
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_gravity="center_horizontal"
+            android:inputType="date"
+            android:text="Date"
+            android:layout_weight="0.45"
+            android:layout_width="wrap_content" />
 
         <CheckBox
 
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:id="@+id/check_task"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:checked="false"
             android:enabled="true"
-            android:height="20dp"
-            android:visibility="visible"
-            android:layout_weight="0.20"
-            android:gravity="center" />
+            android:gravity="end"
+            android:layout_weight="0.2"
+            android:layout_gravity="center_vertical" />
 
-    </TableRow>
-
+    </LinearLayout>
 
 
-    <TableRow
+    <TextView
+        android:id="@+id/txt_descpriton"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="0dp"
+        android:layout_gravity="center_vertical"
+        android:text="alkdlkaöfsdkfdalsjkladfskjlfd"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:visibility="gone"
+        android:layout_weight="1" />
 
+
+<<<<<<< HEAD
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -63,5 +66,7 @@
             android:id="@+id/tv_expand"
             android:visibility="visible" />
     </TableRow>
+=======
+>>>>>>> createTask
 
 </LinearLayout>
