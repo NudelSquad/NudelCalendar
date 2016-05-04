@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <EditText
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/taskName"
+        android:textSize="25dp"
+        android:hint="@string/taskName"
+        android:layout_below="@+id/editText2" />
+    <EditText
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/taskDate"
+        android:textSize="25dp"
+        android:hint="@string/taskDate"
+        android:ems="10"
+        android:drawableLeft="@drawable/calendar"
+        android:layout_below="@+id/taskName" />
+    <requestFocus />
+    <CheckBox
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/reminder"
+        android:textSize="25dp"
+        android:id="@+id/reminder"
+        android:layout_below="@+id/taskDate"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:id="@+id/editText"
+        android:hint="@string/editText"
+        android:lines="5"
+        android:gravity="top|left"
+        android:background="#f0efef"
+        android:layout_below="@+id/reminder" />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="25dp"
+        android:hint="@string/editText2"
+        android:id="@+id/editText2" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:layout_width="150dp"
+            android:layout_height="60dp"
+            android:id="@+id/addTaskBtn"
+            android:text="SAVE" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="DISCARD"
+            android:id="@+id/discardBtn"
+            android:layout_alignBottom="@+id/addTaskBtn"
+            android:layout_alignTop="@+id/addTaskBtn" />
+    </LinearLayout>
+
+</LinearLayout>
