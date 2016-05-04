@@ -3,11 +3,14 @@ package nudelsquad.nudelcalendar;
 import android.graphics.Color;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -43,6 +46,16 @@ public class DayList extends Fragment {
         eventlist.add(new EventBean("8:00","13:00","test_event","meeting","graz", Color.BLUE,11));
         daylist_adapter = new DayListAdapter(rootView.getContext(), eventlist);
         daylist.setAdapter(daylist_adapter);
+        daylist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                final FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.replace(R.id.main_frame, new ShowEventView(), "NewFragmentTag");
+                ft.commit();
+            }
+        });
 
         TextView txDay = (TextView)rootView.findViewById(R.id.txDay);
         //txDay setText here
