@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.GridLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -47,6 +48,7 @@ public class TaskBoardAdapter extends BaseAdapter {
         {
             holder = new ViewHolder();
             convertView = this.inflater.inflate(R.layout.task_item,parent,false);
+            holder.grid_colortask = (GridLayout) convertView.findViewById(R.id.grid_color);
             holder.txtname = (TextView) convertView.findViewById(R.id.txt_taskname);
             holder.txtdate = (TextView) convertView.findViewById(R.id.txt_duedate);
             holder.chk_task = (CheckBox) convertView.findViewById(R.id.check_task);
@@ -69,6 +71,7 @@ public class TaskBoardAdapter extends BaseAdapter {
     }
 
     private class ViewHolder{
+        GridLayout grid_colortask;
         TextView txtname, txtdate;
         CheckBox chk_task;
 

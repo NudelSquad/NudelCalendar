@@ -1,41 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/itemborder"
+    android:layout_marginBottom="5dp"
+    >
 
     <TableRow
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="top">
+        android:layout_gravity="top"
+        android:weightSum="1"
+        android:baselineAligned="false">
+
+        <GridLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="0.20"
+            android:id="@+id/grid_taskcolor"></GridLayout>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="Name of Task:"
             android:id="@+id/txt_taskname"
-            android:layout_marginLeft="5dp"
-            android:gravity="center" />
+            android:layout_weight="0.30" />
 
         <TextView
+            android:inputType="date"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="Due-Date of Task"
+            android:text="Date"
             android:id="@+id/txt_duedate"
-            android:layout_marginLeft="40dp"
-            android:gravity="center" />
+            android:layout_weight="0.30"
+            />
 
         <CheckBox
-            android:layout_width="match_parent"
+
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Check if finish"
             android:id="@+id/check_task"
             android:checked="false"
             android:enabled="true"
             android:height="20dp"
-            android:layout_gravity="right"
             android:visibility="visible"
-            android:layout_marginLeft="40dp"
+            android:layout_weight="0.20"
             android:gravity="center" />
 
     </TableRow>
+
+
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:id="@+id/textView"
+            android:visibility="visible" />
+    </TableRow>
+
 </LinearLayout>
