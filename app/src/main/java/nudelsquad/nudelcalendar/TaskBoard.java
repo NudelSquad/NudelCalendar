@@ -30,6 +30,7 @@ import java.util.zip.Inflater;
  */
 public class TaskBoard extends Fragment {
     ListView taskboardview;
+    private View rootView;
 
 
     @Nullable
@@ -37,29 +38,12 @@ public class TaskBoard extends Fragment {
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         Calendar.getInstance().getTime();
-        View rootView = inflater.inflate(R.layout.activity_taskboard, container, false);
+        rootView = inflater.inflate(R.layout.activity_taskboard, container, false);
         Bundle args = getArguments();
 
         taskboardview = (ListView) rootView.findViewById(R.id.taskboard_list);
-        List<Task> tasklist = new ArrayList<Task>();
-
-        //TODO
-/*
-        tasklist.add(new Task("Task 12", 200, "ho"));
-        tasklist.add(new Task("Task Müll wegraumen", 50, "Notes bitte nicht vergessen..."));
-        tasklist.add(new Task("Task Müll wegraumen", 60, "Notes bitte nicht vergessen..."));
-        tasklist.add(new Task("Task Müll wegraumen", 90, "NoteBLABLABLBABALBALBALBen..."));
-        tasklist.add(new Task("Task Müll wegraumen", 50, "Notes bitte nicht vergessen..."));
-        tasklist.add(new Task("Task Müll wegraumen", 60, "Notes bitte nicht vergessen..."));
-        tasklist.add(new Task("Task Müll wegraumen", 90, "NoteBLABLABLBABALBALBALBen..."));
-        tasklist.add(new Task("Task Müll wegraumen", 50, "Notes bitte nicht vergessen..."));
-        tasklist.add(new Task("Task Müll wegraumen", 60, "Notes bitte nicht vergessen..."));
-        tasklist.add(new Task("Task Müll wegraumen", 90, "NoteBLABLABLBABALBALBALBen..."));
-        tasklist.add(new Task("Task Müll wegraumen", 50, "Notes bitte nicht vergessen..."));
-        tasklist.add(new Task("Task Müll wegraumen", 60, "Notes bitte nicht vergessen..."));
-        tasklist.add(new Task("Task Müll wegraumen", 90, "NoteBLABLABLBABALBALBALBen..."));
-        
-*/
+        DBHandlerTask dbh = new DBHandlerTask(rootView.getContext());
+        List<Task> tasklist = dbh.getAllTasks();
         TaskBoardAdapter adapter = new TaskBoardAdapter(rootView.getContext(), tasklist);
 
         final ListView listView = (ListView) rootView.findViewById(R.id.taskboard_list);

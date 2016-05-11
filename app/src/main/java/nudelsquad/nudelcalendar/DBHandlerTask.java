@@ -18,7 +18,7 @@ public class DBHandlerTask extends SQLiteOpenHelper
      * Version of DB
      * Change if members are added/removed from Task.java
      */
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
 
     /**
