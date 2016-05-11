@@ -23,15 +23,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-<<<<<<< HEAD
 import android.widget.ListView;
 import android.widget.Spinner;
-=======
 import android.widget.ImageButton;
->>>>>>> recordVoice
+
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -68,10 +67,10 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
     private ImageButton btnRecord;
     private ImageButton btnPlay;
     private ColorPickerDialog colPicker;
-<<<<<<< HEAD
+
     private ListView lvTasks;
     ArrayList<Task> tasks;
-=======
+
     private MediaRecorder mRecorder = null;
     private MediaPlayer mPlayer = null;
     private Button discardButton;
@@ -79,7 +78,6 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
     private static boolean mStartPlaying = true;
 
 
->>>>>>> recordVoice
     //private Spinner days;
     int color = Color.parseColor("#33b5e5");
     private String mFileName;
@@ -145,7 +143,7 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
                     alert2.show();
                 } else {
                     AlertDialog.Builder alert1 = new AlertDialog.Builder(rootView.getContext());
-<<<<<<< HEAD
+
                     alert1.setMessage("Save Event??!")
                             .setCancelable(false)
                             .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
@@ -156,14 +154,7 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
                                     // Add function to save into Database
                                 }
                             })
-=======
-                    alert1.setMessage("Save Event??!").setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
 
-                        }
-                    })
->>>>>>> recordVoice
                             .setNegativeButton("NO", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
@@ -223,13 +214,7 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
         return rootView;
     }
 
-<<<<<<< HEAD
-
-
     private void findViewsById(){
-=======
-    private void findViewsById() {
->>>>>>> recordVoice
         edtTextBegin = (EditText) rootView.findViewById(R.id.begin);
         edtTextBegin.setInputType(InputType.TYPE_NULL);
         edtTextBegin.requestFocus();
@@ -341,7 +326,6 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
         }
     }
 
-<<<<<<< HEAD
     private void saveEvent() {
         String Start = edtTextBegin.getText().toString();
         String End = edtTextEnd.getText().toString();
@@ -366,7 +350,8 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
 
         Task.getOpenTasks().clear();
     }
-=======
+
+
     private void onRecord(boolean start) {
 
 
@@ -445,6 +430,5 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
     }
 
 
->>>>>>> recordVoice
 }
 
