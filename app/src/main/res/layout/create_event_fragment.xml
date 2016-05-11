@@ -30,7 +30,7 @@
 
     <ScrollView
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/progressBar"
         android:layout_alignParentBottom="true">
 
@@ -95,6 +95,17 @@
                 android:hint="@string/colorEditText"
                 android:layout_below="@+id/eventTypeText"/>
 
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                ></FrameLayout>
+
+            <ListView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tasks_list" />
+
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -102,6 +113,8 @@
                 android:id="@+id/addTaskAct"
                 android:width="175dp"
                 android:textSize="25dp" />
+
+
         </LinearLayout>
     </ScrollView>
 
