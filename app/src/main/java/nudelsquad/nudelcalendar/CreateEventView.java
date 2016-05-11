@@ -12,6 +12,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.text.InputType;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -27,6 +29,7 @@ import net.margaritov.preference.colorpicker.ColorPickerDialog;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
@@ -48,6 +51,8 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
     private  TimePickerDialog timePick2;
     private EditText colorText;
     private ColorPickerDialog colPicker;
+    private ListView lvTasks;
+    ArrayList<Task> tasks;
     //private Spinner days;
     int color = Color.parseColor("#33b5e5");
     @Nullable
@@ -65,7 +70,7 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
         addTaskButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 final FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ft.replace(R.id.main_frame, new CreateTaskView(), "NewFragmentTag");
+                ft.replace(R.id.main_frame, new CreateTaskView(1), "NewFragmentTag");
                 ft.commit();
             }
         });
@@ -111,6 +116,8 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
                             .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
+                                    saveEvent();
+                                    Toast.makeText(rootView.getContext(),"Saved", Toast.LENGTH_SHORT).show();
                                     // Add function to save into Database
                                 }
                             })
@@ -129,6 +136,8 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
 
         return rootView;
     }
+
+
 
     private void findViewsById(){
         edtTextBegin = (EditText) rootView.findViewById(R.id.begin);
@@ -152,6 +161,18 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
         eventType = (EditText) rootView.findViewById(R.id.eventTypeText);
         eventPlace = (EditText) rootView.findViewById(R.id.placeText);
         //days = (Spinner) rootView.findViewById(R.id.days);
+
+        lvTasks = (ListView) rootView.findViewById(R.id.tasks_list);
+        tasks = Task.getOpenTasks();
+        String items[] = new String[tasks.size()];
+        for(int i = 0; i < tasks.size(); i++) {
+            items[i] = tasks.get(i).getTASK_NAME();
+            Log.e("Task", items[i]);
+        }
+        ArrayAdapter adp = new ArrayAdapter(rootView.getContext(), android.R.layout.simple_list_item_1, items);
+        lvTasks.setAdapter(adp);
+
+
     }
 
     private void setDateTimeField(){
@@ -227,5 +248,30 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
         else if(view == colorText){
             colPicker.show();
         }
+    }
+
+    private void saveEvent() {
+        String Start = edtTextBegin.getText().toString();
+        String End = edtTextEnd.getText().toString();
+        String Datum = edtTextEventDate.getText().toString();
+        String Name = eventName.getText().toString();
+        String Type = eventType.getText().toString();
+        String Loc = eventPlace.getText().toString();
+        String Col = colorText.getText().toString();
+        int c = Color.parseColor(Col);
+
+        Event e = new Event(Name, Start, End, Datum, Type, Loc, c);
+
+        DBHandlerEvent dbh = new DBHandlerEvent(rootView.getContext());
+        dbh.addEvent(e);
+
+        int evid = dbh.getEventsCount();
+        DBHandlerTask dbht = new DBHandlerTask(rootView.getContext());
+        for(int i = 0; i < tasks.size(); i++){
+            tasks.get(i).setTASK_EVENTID(evid);
+            dbht.addTask(tasks.get(i));
+        }
+
+        Task.getOpenTasks().clear();
     }
 }

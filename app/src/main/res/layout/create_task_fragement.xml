@@ -29,7 +29,7 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:id="@+id/editText"
+        android:id="@+id/txText"
         android:hint="@string/editText"
         android:lines="5"
         android:gravity="top|left"
@@ -40,7 +40,7 @@
         android:layout_height="wrap_content"
         android:textSize="25dp"
         android:hint="@string/editText2"
-        android:id="@+id/editText2" />
+        android:id="@+id/txColor" />
 
     <LinearLayout
         android:orientation="horizontal"

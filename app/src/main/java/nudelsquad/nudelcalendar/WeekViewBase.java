@@ -118,7 +118,7 @@ public class WeekViewBase extends Fragment implements WeekView.EventClickListene
         public void onEventClick(WeekViewEvent event, RectF eventRect) {                //go to Event
 
             final FragmentTransaction ft = getFragmentManager().beginTransaction();
-            ft.replace(R.id.main_frame, new TaskLookView(), "NewFragmentTag");
+            ft.replace(R.id.main_frame, new ShowEventView(1), "NewFragmentTag");
             ft.commit();
         }
 

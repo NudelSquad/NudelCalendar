@@ -16,6 +16,11 @@ import android.widget.TextView;
  */
 public class TaskLookView extends Fragment {
     private View rootView;
+    private int taskID = -1;
+
+    public TaskLookView(int taskID) {
+        this.taskID = taskID;
+    }
 
     @Nullable
     @Override
@@ -27,14 +32,16 @@ public class TaskLookView extends Fragment {
     }
 
     public void initGUI(){
+        DBHandlerTask dbh = new DBHandlerTask(rootView.getContext());
+        Task t = dbh.getTask(taskID);
         FrameLayout color = (FrameLayout) rootView.findViewById(R.id.task_color);
-        color.setBackgroundColor(Color.RED);
+        color.setBackgroundColor(t.getTASK_COLOR());
         TextView tx = (TextView) rootView.findViewById(R.id.txt_task_name);
-        tx.setText("eCard am start?");
+        tx.setText(t.getTASK_NAME());
         tx = (TextView) rootView.findViewById(R.id.txt_task_date);
-        tx.setText("04.05.2016");
+        tx.setText(t.getTASK_DATUM());
         tx = (TextView) rootView.findViewById(R.id.txt_task_notes);
-        tx.setText("Take out your wallet. \n Look if your eCard is there \n Task is finished");
+        tx.setText(t.getTASK_TEXT());
         CheckBox cb = (CheckBox) rootView.findViewById(R.id.cb_task_reminder);
         cb.setChecked(true);
     }

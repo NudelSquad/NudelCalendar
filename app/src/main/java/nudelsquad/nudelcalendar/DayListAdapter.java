@@ -2,6 +2,7 @@ package nudelsquad.nudelcalendar;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,11 +16,11 @@ import java.util.List;
 
 public class DayListAdapter extends BaseAdapter {
 
-    private List<EventBean> event_bean_list_;
+    private List<Event> event_bean_list_;
     private Context layout_context_;
     LayoutInflater inflater;
 
-    public DayListAdapter(Context context,  List<EventBean> objects) {
+    public DayListAdapter(Context context,  List<Event> objects) {
         //super(context, resource, objects);
         this.event_bean_list_ = objects;
         this.layout_context_ = context;
@@ -38,7 +39,7 @@ public class DayListAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(int position) {
-        return event_bean_list_.get(position).getEventid_();
+        return event_bean_list_.get(position).getEVENT_ID();
     }
 
     @Override
@@ -63,15 +64,16 @@ public class DayListAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        EventBean ev_bean_ =  event_bean_list_.get(position);
+        Event ev_bean_ =  event_bean_list_.get(position);
 
+        Log.e("EVENT", "StartTime = " + ev_bean_.getEVENT_START() + "Type = " + ev_bean_.getEVENT_TYPE());
 
-        holder.txtstart.setText(ev_bean_.getStart_time_());
-        holder.txtend.setText(ev_bean_.getEnd_time_());
-        holder.txtevent.setText(ev_bean_.getName_());
-        holder.txttype.setText(ev_bean_.getType_());
-        holder.txtplace.setText(ev_bean_.getPlace_());
-        holder.gridColor.setBackgroundColor(ev_bean_.getColor_());
+        holder.txtstart.setText(ev_bean_.getEVENT_START());
+        holder.txtend.setText(ev_bean_.getEVENT_END());
+        holder.txtevent.setText(ev_bean_.getEVENT_NAME());
+        holder.txttype.setText(ev_bean_.getEVENT_TYPE());
+        holder.txtplace.setText(ev_bean_.getEVENT_LOCATION());
+        holder.gridColor.setBackgroundColor(ev_bean_.getEVENT_COLOR());
 
 
         return convertView;

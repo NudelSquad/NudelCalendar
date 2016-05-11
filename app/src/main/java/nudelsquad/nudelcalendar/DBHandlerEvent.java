@@ -8,14 +8,15 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class DBHandler extends SQLiteOpenHelper {
+public class DBHandlerEvent extends SQLiteOpenHelper {
 
     // Database Version
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     // Database Name
     private static final String DATABASE_NAME = "NudelCal_Data";
@@ -28,21 +29,23 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String KEY_EVENT_NAME = "name";
     private static final String KEY_EVENT_START = "start";
     private static final String KEY_EVENT_STOP = "stop";
+    private static final String KEY_EVENT_DATUM = "datum";
     private static final String KEY_EVENT_TYPE = "type";
     private static final String KEY_EVENT_LOCATION = "location";
     private static final String KEY_EVENT_COLOR = "color";
     //TODO Implement reminder logic
 
-    public DBHandler(Context context) {
+    public DBHandlerEvent(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
     @Override
     public void onCreate(SQLiteDatabase db) {
         String CREATE_CONTACTS_TABLE = "CREATE TABLE " + TABLE_EVENTS + "("
-                + KEY_EVENT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + KEY_EVENT_NAME + " TEXT,"
-                + KEY_EVENT_START + " INTEGER," + KEY_EVENT_STOP + "INTEGER," + KEY_EVENT_TYPE
-                //TODO Implement Reminder logic after "INTEGER"
-                + "TEXT," + KEY_EVENT_LOCATION + "TEXT," + KEY_EVENT_COLOR + "INTEGER" + ")";
+                + KEY_EVENT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + KEY_EVENT_NAME + " TEXT,"
+                + KEY_EVENT_START + " TIME, " + KEY_EVENT_STOP + " TIME,"
+                + KEY_EVENT_DATUM + " DATE, "
+                + KEY_EVENT_TYPE + " TEXT, " + KEY_EVENT_LOCATION + " TEXT, "
+                + KEY_EVENT_COLOR + " INTEGER" + ")";
         db.execSQL(CREATE_CONTACTS_TABLE);
     }
     @Override
@@ -61,11 +64,12 @@ public class DBHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(KEY_EVENT_ID, event.getEVENT_ID());
+        //values.put(KEY_EVENT_ID, 0);
         values.put(KEY_EVENT_NAME, event.getEVENT_NAME()); // Event Name
         values.put(KEY_EVENT_START, event.getEVENT_START());
         values.put(KEY_EVENT_STOP, event.getEVENT_END());
         values.put(KEY_EVENT_TYPE, event.getEVENT_TYPE());
+        values.put(KEY_EVENT_DATUM, event.getEVENT_DATUM());
         values.put(KEY_EVENT_LOCATION, event.getEVENT_LOCATION());
         values.put(KEY_EVENT_COLOR, event.getEVENT_COLOR());
 
@@ -75,21 +79,22 @@ public class DBHandler extends SQLiteOpenHelper {
         // Inserting a Row
         db.insert(TABLE_EVENTS, null, values);
         db.close(); // Closing database connection
+        Log.e("IN DB", "Added");
     }
     // Getting one event
     public Event getEvent(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.query(TABLE_EVENTS, new String[]{KEY_EVENT_ID,
-                        KEY_EVENT_NAME, KEY_EVENT_START, KEY_EVENT_STOP, KEY_EVENT_TYPE,
+                        KEY_EVENT_NAME, KEY_EVENT_START, KEY_EVENT_STOP, KEY_EVENT_DATUM, KEY_EVENT_TYPE,
                         KEY_EVENT_LOCATION, KEY_EVENT_COLOR}, KEY_EVENT_ID + "=?",
                 new String[]{String.valueOf(id)}, null, null, null, null);
         if (cursor != null)
             cursor.moveToFirst();
 
-        Event single_event = new Event(Integer.parseInt(cursor.getString(0)),
-                cursor.getInt(1), cursor.getInt(2), cursor.getString(3), cursor.getString(4),
-                cursor.getString(5), cursor.getInt(6));
+        Event single_event = new Event(cursor.getInt(0),
+                cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4),
+                cursor.getString(5), cursor.getString(6), cursor.getInt(7));
 
         // return event object
         return single_event;
@@ -106,14 +111,34 @@ public class DBHandler extends SQLiteOpenHelper {
     // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
-                Event event = new Event();
-                event.setEVENT_ID(cursor.getInt(0));
-                event.setEVENT_START(cursor.getInt(1));
-                event.setEVENT_END(cursor.getInt(2));
-                event.setEVENT_NAME(cursor.getString(3));
-                event.setEVENT_TYPE(cursor.getString(4));
-                event.setEVENT_LOCATION(cursor.getString(5));
-                event.setEVENT_COLOR(cursor.getInt(6));
+                Event event = new Event(cursor.getInt(0),
+                        cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4),
+                        cursor.getString(5), cursor.getString(6), cursor.getInt(7));
+
+                // Adding events to list
+                eventList.add(event);
+            } while (cursor.moveToNext());
+        }
+
+        // return ecents list (Debug only)
+        return eventList;
+    }
+
+    public List<Event> getEventsFromDay(String day) {
+        List<Event> eventList = new ArrayList<Event>();
+        // Select All Query
+        String selectQuery = "SELECT * FROM " + TABLE_EVENTS + " where " + KEY_EVENT_DATUM
+                + " = '" + day + "'";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                Event event = new Event(cursor.getInt(0),
+                        cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4),
+                        cursor.getString(5), cursor.getString(6), cursor.getInt(7));
 
                 // Adding events to list
                 eventList.add(event);
@@ -129,10 +154,11 @@ public class DBHandler extends SQLiteOpenHelper {
         String countQuery = "SELECT * FROM " + TABLE_EVENTS;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(countQuery, null);
+        int count = cursor.getCount();
         cursor.close();
 
         // return count
-        return cursor.getCount();
+        return count;
     }
     // Updating a event
     public int updateEvent(Event event) {
