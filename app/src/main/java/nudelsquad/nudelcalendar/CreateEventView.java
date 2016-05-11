@@ -12,6 +12,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.text.InputType;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -111,6 +112,8 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
                             .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
+                                    saveEvent();
+                                    Toast.makeText(rootView.getContext(),"Saved", Toast.LENGTH_SHORT).show();
                                     // Add function to save into Database
                                 }
                             })
@@ -129,6 +132,8 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
 
         return rootView;
     }
+
+
 
     private void findViewsById(){
         edtTextBegin = (EditText) rootView.findViewById(R.id.begin);
@@ -227,5 +232,22 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
         else if(view == colorText){
             colPicker.show();
         }
+    }
+
+    private void saveEvent() {
+        String Start = edtTextBegin.getText().toString();
+        String End = edtTextEnd.getText().toString();
+        String Datum = edtTextEventDate.getText().toString();
+        String Name = eventName.getText().toString();
+        String Type = eventType.getText().toString();
+        String Loc = eventPlace.getText().toString();
+        String Col = colorText.getText().toString();
+        int c = Color.parseColor(Col);
+
+        Event e = new Event(Name, Start, End, Datum, Type, Loc, c);
+
+        DBHandlerEvent dbh = new DBHandlerEvent(rootView.getContext());
+        dbh.addEvent(e);
+
     }
 }

@@ -21,6 +21,7 @@ import android.widget.Toast;
  */
 public class ShowEventView extends Fragment implements View.OnClickListener {
     private View rootView;
+    private int EventID = -1;
 
     @Nullable
     @Override
@@ -28,6 +29,10 @@ public class ShowEventView extends Fragment implements View.OnClickListener {
         rootView = inflater.inflate(R.layout.showevent_fragment, container, false);
         initGUI();
         return rootView;
+    }
+
+    public ShowEventView(int eventID) {
+        EventID = eventID;
     }
 
     public void initGUI(){
@@ -43,24 +48,30 @@ public class ShowEventView extends Fragment implements View.OnClickListener {
                 ft.commit();
             }
         });
+        if(EventID != -1){
+            DBHandlerEvent dbh = new DBHandlerEvent(rootView.getContext());
+            Event e = dbh.getEvent(EventID);
+            FrameLayout color = (FrameLayout) rootView.findViewById(R.id.event_color);
+            color.setBackgroundColor(e.getEVENT_COLOR());
+            TextView tx = (TextView) rootView.findViewById(R.id.txt_event_name);
+            tx.setText(e.getEVENT_NAME());
+            tx = (TextView) rootView.findViewById(R.id.txt_event_Date);
+            tx.setText(e.getEVENT_DATUM());
+            tx = (TextView) rootView.findViewById(R.id.txt_event_starttime);
+            tx.setText(e.getEVENT_START());
+            tx = (TextView) rootView.findViewById(R.id.txt_event_endtime);
+            tx.setText(e.getEVENT_END());
+            tx = (TextView) rootView.findViewById(R.id.txt_event_place);
+            tx.setText(e.getEVENT_LOCATION());
+            tx = (TextView) rootView.findViewById(R.id.txt_event_type);
+            tx.setText(e.getEVENT_TYPE());
+
+        }
         Button btn = (Button) rootView.findViewById(R.id.btn_event_delete);
         btn.setOnClickListener(this);
         btn = (Button) rootView.findViewById(R.id.btn_event_edit);
         btn.setOnClickListener(this);
-        FrameLayout color = (FrameLayout) rootView.findViewById(R.id.event_color);
-        color.setBackgroundColor(Color.RED);
-        TextView tx = (TextView) rootView.findViewById(R.id.txt_event_name);
-        tx.setText("Dentist Appointment");
-        tx = (TextView) rootView.findViewById(R.id.txt_event_Date);
-        tx.setText("04.05.2016");
-        tx = (TextView) rootView.findViewById(R.id.txt_event_starttime);
-        tx.setText("16:00");
-        tx = (TextView) rootView.findViewById(R.id.txt_event_endtime);
-        tx.setText("18:00");
-        tx = (TextView) rootView.findViewById(R.id.txt_event_place);
-        tx.setText("Jakominiplatz drölf");
-        tx = (TextView) rootView.findViewById(R.id.txt_event_type);
-        tx.setText("Termin");
+
 
     }
 

@@ -64,11 +64,12 @@ public class TaskBoardAdapter extends BaseAdapter {
 
         Task taskitem =  task_list.get(position);
 
-
+        /*
         holder.txtname.setText(taskitem.getTASK_NAME());
         holder.txtdate.setText(Integer.toString(taskitem.getTASK_DUE()));
         holder.chk_task.setChecked(taskitem.isTASK_DONE());
-
+        */
+        //TODO
         return convertView;
     }
 

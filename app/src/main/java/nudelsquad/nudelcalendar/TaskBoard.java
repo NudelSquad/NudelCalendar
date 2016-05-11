@@ -43,6 +43,8 @@ public class TaskBoard extends Fragment {
         taskboardview = (ListView) rootView.findViewById(R.id.taskboard_list);
         List<Task> tasklist = new ArrayList<Task>();
 
+        //TODO
+/*
         tasklist.add(new Task("Task 12", 200, "ho"));
         tasklist.add(new Task("Task Müll wegraumen", 50, "Notes bitte nicht vergessen..."));
         tasklist.add(new Task("Task Müll wegraumen", 60, "Notes bitte nicht vergessen..."));
@@ -57,7 +59,7 @@ public class TaskBoard extends Fragment {
         tasklist.add(new Task("Task Müll wegraumen", 60, "Notes bitte nicht vergessen..."));
         tasklist.add(new Task("Task Müll wegraumen", 90, "NoteBLABLABLBABALBALBALBen..."));
         
-
+*/
         TaskBoardAdapter adapter = new TaskBoardAdapter(rootView.getContext(), tasklist);
 
         final ListView listView = (ListView) rootView.findViewById(R.id.taskboard_list);

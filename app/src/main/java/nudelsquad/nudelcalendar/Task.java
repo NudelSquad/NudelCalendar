@@ -6,137 +6,87 @@ package nudelsquad.nudelcalendar;
  */
 public class Task {
     private int TASK_ID;
-    private  String TASK_NAME;
-    private int TASK_DUE;
-    private String TASK_NOTES;
-    private boolean TASK_DONE;
-    //TODO Implement Reminder Logic?
+    private String TASK_NAME;
+    private String TASK_DATUM;
+    private String TASK_TEXT;
+    private int TASK_COLOR;
+    private int TASK_EVENTID;
+    private String TASK_CHECKED;
 
+    public Task(){}
 
-    /**
-     * Empty Constructur
-     */
-    public Task() {
-    }
-
-
-    /**
-     * Constructor with minimal requirements
-     * @param TASK_NAME
-     * @param TASK_DUE
-     */
-    public Task(String TASK_NAME, int TASK_DUE) {
-        this.TASK_NAME = TASK_NAME;
-        this.TASK_DUE = TASK_DUE;
-    }
-
-
-    /**
-     * Constructor with notes
-     * @param TASK_NAME
-     * @param TASK_DUE
-     * @param TASK_NOTES
-     */
-    public Task(String TASK_NAME, int TASK_DUE, String TASK_NOTES) {
-        this.TASK_NAME = TASK_NAME;
-        this.TASK_DUE = TASK_DUE;
-        this.TASK_NOTES = TASK_NOTES;
-    }
-
-
-    /**
-     * Constructor with maximum Elements
-     * @param TASK_ID
-     * @param TASK_NAME
-     * @param TASK_DUE
-     * @param TASK_NOTES
-     * @param TASK_DONE
-     */
-    public Task(int TASK_ID, String TASK_NAME, int TASK_DUE, String TASK_NOTES, boolean TASK_DONE) {
+    public Task(int TASK_ID, String TASK_NAME, String TASK_DATUM, String TASK_TEXT, int TASK_COLOR, int TASK_EVENTID, String TASK_CHECKED) {
         this.TASK_ID = TASK_ID;
         this.TASK_NAME = TASK_NAME;
-        this.TASK_DUE = TASK_DUE;
-        this.TASK_NOTES = TASK_NOTES;
-        this.TASK_DONE = TASK_DONE;
+        this.TASK_DATUM = TASK_DATUM;
+        this.TASK_TEXT = TASK_TEXT;
+        this.TASK_COLOR = TASK_COLOR;
+        this.TASK_EVENTID = TASK_EVENTID;
+        this.TASK_CHECKED = TASK_CHECKED;
     }
 
-    /**
-     * Get ID
-     * @return int taskID
-     */
+    public Task(String TASK_NAME, String TASK_DATUM, String TASK_TEXT, int TASK_COLOR, int TASK_EVENTID, String TASK_CHECKED) {
+        this.TASK_NAME = TASK_NAME;
+        this.TASK_DATUM = TASK_DATUM;
+        this.TASK_TEXT = TASK_TEXT;
+        this.TASK_COLOR = TASK_COLOR;
+        this.TASK_EVENTID = TASK_EVENTID;
+        this.TASK_CHECKED = TASK_CHECKED;
+    }
+
     public int getTASK_ID() {
         return TASK_ID;
     }
 
-    /**
-     * Set ID
-     * @param TASK_ID
-     */
     public void setTASK_ID(int TASK_ID) {
         this.TASK_ID = TASK_ID;
     }
 
-    /**
-     * Get Task Name
-     * @return String
-     */
     public String getTASK_NAME() {
         return TASK_NAME;
     }
 
-    /**
-     * Set Task Name
-     * @param TASK_NAME
-     */
     public void setTASK_NAME(String TASK_NAME) {
         this.TASK_NAME = TASK_NAME;
     }
 
-    /**
-     * Get Task Due date
-     * @return int
-     */
-    public int getTASK_DUE() {
-        return TASK_DUE;
+    public String getTASK_DATUM() {
+        return TASK_DATUM;
     }
 
-    /**
-     * Set Task Due Date
-     * @param TASK_DUE
-     */
-    public void setTASK_DUE(int TASK_DUE) {
-        this.TASK_DUE = TASK_DUE;
+    public void setTASK_DATUM(String TASK_DATUM) {
+        this.TASK_DATUM = TASK_DATUM;
     }
 
-    /**
-     * Get Task Notes
-     * @return TASK_NOTES
-     */
-    public String getTASK_NOTES() {
-        return TASK_NOTES;
+    public String getTASK_TEXT() {
+        return TASK_TEXT;
     }
 
-    /**
-     * Set Task Notes
-     * @param TASK_NOTES
-     */
-    public void setTASK_NOTES(String TASK_NOTES) {
-        this.TASK_NOTES = TASK_NOTES;
+    public void setTASK_TEXT(String TASK_TEXT) {
+        this.TASK_TEXT = TASK_TEXT;
     }
 
-    /**
-     * Get Boolean if Task is done
-     * @return boolean
-     */
-    public boolean isTASK_DONE() {
-        return TASK_DONE;
+    public int getTASK_COLOR() {
+        return TASK_COLOR;
     }
 
-    /**
-     * Set Boolean if Task is done
-     * @param TASK_DONE
-     */
-    public void setTASK_DONE(boolean TASK_DONE) {
-        this.TASK_DONE = TASK_DONE;
+    public void setTASK_COLOR(int TASK_COLOR) {
+        this.TASK_COLOR = TASK_COLOR;
+    }
+
+    public int getTASK_EVENTID() {
+        return TASK_EVENTID;
+    }
+
+    public void setTASK_EVENTID(int TASK_EVENTID) {
+        this.TASK_EVENTID = TASK_EVENTID;
+    }
+
+    public String getTASK_CHECKED() {
+        return TASK_CHECKED;
+    }
+
+    public void setTASK_CHECKED(String TASK_CHECKED) {
+        this.TASK_CHECKED = TASK_CHECKED;
     }
 }
