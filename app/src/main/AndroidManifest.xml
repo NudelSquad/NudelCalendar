@@ -6,7 +6,6 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.MICROPHONE" />
 
 
     <application
@@ -35,10 +34,6 @@
             android:value="@integer/google_play_services_version" />
 
         <activity android:name=".TaskCreateActivity" />
-        <activity
-            android:name=".AudioRecordTest"
-            android:label="@string/title_activity_audio_record_test"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

@@ -1,9 +1,11 @@
 package nudelsquad.nudelcalendar;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
@@ -11,8 +13,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.text.InputType;
 import android.text.format.DateUtils;
 import android.util.Log;
@@ -24,6 +28,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import net.margaritov.preference.colorpicker.ColorPickerDialog;
 
@@ -41,6 +46,7 @@ import java.util.Locale;
 
 public class CreateEventView extends Fragment implements View.OnClickListener {
     private static final String LOG_TAG = "RECORDER";
+    private static final int PERMISSION_VOICE_RECORD = 1;
     private View rootView;
     private EditText edtTextEventDate;
     private EditText edtTextBegin;
@@ -129,11 +135,11 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
                 } else {
                     AlertDialog.Builder alert1 = new AlertDialog.Builder(rootView.getContext());
                     alert1.setMessage("Save Event??!").setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
 
-                                }
-                            })
+                        }
+                    })
                             .setNegativeButton("NO", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
@@ -152,6 +158,21 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
         btnRecord.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (ContextCompat.checkSelfPermission(getActivity(),
+                        Manifest.permission.RECORD_AUDIO)
+                        != PackageManager.PERMISSION_GRANTED ||
+                        ContextCompat.checkSelfPermission(getActivity(),
+                                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                                != PackageManager.PERMISSION_GRANTED) {
+
+
+                    ActivityCompat.requestPermissions(getActivity(),
+                            new String[]{Manifest.permission.READ_PHONE_STATE},
+                            PERMISSION_VOICE_RECORD);
+
+                    return;
+                }
+
                 onRecord(mStartRecording);
                 if (mStartRecording) {
                     eventName.setText("Stop recording");
@@ -279,6 +300,8 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
     }
 
     private void onRecord(boolean start) {
+
+
         if (start) {
             startRecording();
         } else {
