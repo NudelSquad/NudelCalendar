@@ -1,32 +1,43 @@
 package nudelsquad.nudelcalendar;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.media.MediaPlayer;
+import android.media.MediaRecorder;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.text.InputType;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+<<<<<<< HEAD
 import android.widget.ListView;
 import android.widget.Spinner;
+=======
+import android.widget.ImageButton;
+>>>>>>> recordVoice
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import net.margaritov.preference.colorpicker.ColorPickerDialog;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -35,26 +46,44 @@ import java.util.Locale;
 
 /**
  * Created by Marco on 04.05.2016.
+ * <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+ * <uses-permission android:name="android.permission.RECORD_AUDIO" />
  */
 
 public class CreateEventView extends Fragment implements View.OnClickListener {
+    private static final String LOG_TAG = "RECORDER";
+    private static final int PERMISSION_VOICE_RECORD = 1;
     private View rootView;
     private EditText edtTextEventDate;
-    private  EditText edtTextBegin;
-    private  EditText edtTextEnd;
+    private EditText edtTextBegin;
+    private EditText edtTextEnd;
     private EditText eventName;
     private EditText eventType;
     private EditText eventPlace;
     private DatePickerDialog eventDatePickerDialog;
     private DateFormat dateFormater;
     private TimePickerDialog timePick1;
-    private  TimePickerDialog timePick2;
+    private TimePickerDialog timePick2;
     private EditText colorText;
+    private ImageButton btnRecord;
+    private ImageButton btnPlay;
     private ColorPickerDialog colPicker;
+<<<<<<< HEAD
     private ListView lvTasks;
     ArrayList<Task> tasks;
+=======
+    private MediaRecorder mRecorder = null;
+    private MediaPlayer mPlayer = null;
+    private Button discardButton;
+    private static boolean mStartRecording = true;
+    private static boolean mStartPlaying = true;
+
+
+>>>>>>> recordVoice
     //private Spinner days;
     int color = Color.parseColor("#33b5e5");
+    private String mFileName;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -66,6 +95,10 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
         setEndTimeField();
         setColorField();
 
+
+        mFileName = Environment.getExternalStorageDirectory().getAbsolutePath();
+        mFileName += "/audiorecordtest.3gp";
+
         Button addTaskButton = (Button) rootView.findViewById(R.id.addTaskAct);
         addTaskButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -75,7 +108,8 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
             }
         });
 
-        Button discardButton = (Button) rootView.findViewById(R.id.button);
+
+        discardButton = (Button) rootView.findViewById(R.id.btn_discard);
         discardButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 edtTextBegin.setText("");
@@ -88,7 +122,7 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
             }
         });
 
-        Button addNewEvent = (Button) rootView.findViewById(R.id.button2);
+        Button addNewEvent = (Button) rootView.findViewById(R.id.btn_add_event);
         addNewEvent.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (edtTextBegin.getText().toString().isEmpty() ||
@@ -111,6 +145,7 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
                     alert2.show();
                 } else {
                     AlertDialog.Builder alert1 = new AlertDialog.Builder(rootView.getContext());
+<<<<<<< HEAD
                     alert1.setMessage("Save Event??!")
                             .setCancelable(false)
                             .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
@@ -121,6 +156,14 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
                                     // Add function to save into Database
                                 }
                             })
+=======
+                    alert1.setMessage("Save Event??!").setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    })
+>>>>>>> recordVoice
                             .setNegativeButton("NO", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
@@ -130,16 +173,63 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
                     AlertDialog alert3 = alert1.create();
                     alert3.setTitle("ADD EVENT");
                     alert3.show();
+
+
                 }
+            }
+        });
+
+        btnRecord.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (ContextCompat.checkSelfPermission(getActivity(),
+                        Manifest.permission.RECORD_AUDIO)
+                        != PackageManager.PERMISSION_GRANTED ||
+                        ContextCompat.checkSelfPermission(getActivity(),
+                                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                                != PackageManager.PERMISSION_GRANTED) {
+
+
+                    ActivityCompat.requestPermissions(getActivity(),
+                            new String[]{Manifest.permission.READ_PHONE_STATE},
+                            PERMISSION_VOICE_RECORD);
+
+                    return;
+                }
+
+                onRecord(mStartRecording);
+                if (mStartRecording) {
+                    eventName.setText("Stop recording");
+                } else {
+                    eventName.setText("Start recording");
+                }
+                mStartRecording = !mStartRecording;
+            }
+        });
+
+        btnPlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onPlay(mStartPlaying);
+                if (mStartPlaying) {
+                    eventName.setText("Stop playing");
+                } else {
+                    eventName.setText("Start playing");
+                }
+                mStartPlaying = !mStartPlaying;
             }
         });
 
         return rootView;
     }
 
+<<<<<<< HEAD
 
 
     private void findViewsById(){
+=======
+    private void findViewsById() {
+>>>>>>> recordVoice
         edtTextBegin = (EditText) rootView.findViewById(R.id.begin);
         edtTextBegin.setInputType(InputType.TYPE_NULL);
         edtTextBegin.requestFocus();
@@ -160,6 +250,9 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
 
         eventType = (EditText) rootView.findViewById(R.id.eventTypeText);
         eventPlace = (EditText) rootView.findViewById(R.id.placeText);
+
+        btnRecord = (ImageButton) rootView.findViewById(R.id.btn_record);
+        btnPlay = (ImageButton) rootView.findViewById(R.id.btn_play);
         //days = (Spinner) rootView.findViewById(R.id.days);
 
         lvTasks = (ListView) rootView.findViewById(R.id.tasks_list);
@@ -175,7 +268,7 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
 
     }
 
-    private void setDateTimeField(){
+    private void setDateTimeField() {
         edtTextEventDate.setOnClickListener(this);
         //   Calendar newDate = Calendar.getInstance();
         Calendar newCalendar = Calendar.getInstance();
@@ -186,70 +279,69 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
                 newDate.set(year, monthOfYear, dayOfMonth);
                 edtTextEventDate.setText(dateFormater.format(newDate.getTime()));
             }
-        },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+        }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
     }
 
-    private void setBeginTimeField(){
+    private void setBeginTimeField() {
         edtTextBegin.setOnClickListener(this);
         Calendar calendar = Calendar.getInstance();
-        timePick1 = new TimePickerDialog(rootView.getContext(), new TimePickerDialog.OnTimeSetListener(){
+        timePick1 = new TimePickerDialog(rootView.getContext(), new TimePickerDialog.OnTimeSetListener() {
             @Override
-            public void  onTimeSet(TimePicker view, int hourOfDay, int minute){
+            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                 Calendar newTime = Calendar.getInstance();
                 newTime.set(Calendar.HOUR_OF_DAY, hourOfDay);
                 newTime.set(Calendar.MINUTE, minute);
-                String timeString = DateUtils.formatDateTime(rootView.getContext(), newTime.getTimeInMillis(),DateUtils.FORMAT_SHOW_TIME);
+                String timeString = DateUtils.formatDateTime(rootView.getContext(), newTime.getTimeInMillis(), DateUtils.FORMAT_SHOW_TIME);
                 edtTextBegin.setText(timeString);
             }
-        },calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), android.text.format.DateFormat.is24HourFormat(rootView.getContext()));
+        }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), android.text.format.DateFormat.is24HourFormat(rootView.getContext()));
     }
 
 
-    private void setEndTimeField(){
+    private void setEndTimeField() {
         edtTextEnd.setOnClickListener(this);
         Calendar calendar = Calendar.getInstance();
-        timePick2 = new TimePickerDialog(rootView.getContext(), new TimePickerDialog.OnTimeSetListener(){
+        timePick2 = new TimePickerDialog(rootView.getContext(), new TimePickerDialog.OnTimeSetListener() {
             @Override
-            public void  onTimeSet(TimePicker view, int hourOfDay, int minute){
+            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                 Calendar newTime = Calendar.getInstance();
                 newTime.set(Calendar.HOUR_OF_DAY, hourOfDay);
                 newTime.set(Calendar.MINUTE, minute);
-                String timeString = DateUtils.formatDateTime(rootView.getContext(), newTime.getTimeInMillis(),DateUtils.FORMAT_SHOW_TIME);
+                String timeString = DateUtils.formatDateTime(rootView.getContext(), newTime.getTimeInMillis(), DateUtils.FORMAT_SHOW_TIME);
                 edtTextEnd.setText(timeString);
             }
-        },calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), android.text.format.DateFormat.is24HourFormat(rootView.getContext()));
+        }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), android.text.format.DateFormat.is24HourFormat(rootView.getContext()));
     }
 
-    private void setColorField(){
+    private void setColorField() {
         colorText.setOnClickListener(this);
-        colPicker = new ColorPickerDialog(rootView.getContext(),color);
+        colPicker = new ColorPickerDialog(rootView.getContext(), color);
         colPicker.setAlphaSliderVisible(true);
         colPicker.setHexValueEnabled(true);
         colPicker.setTitle("Farbe auswählen");
-        colPicker.setOnColorChangedListener(new ColorPickerDialog.OnColorChangedListener(){
+        colPicker.setOnColorChangedListener(new ColorPickerDialog.OnColorChangedListener() {
             @Override
-            public void onColorChanged(int i){
+            public void onColorChanged(int i) {
                 color = i;
                 colorText.setText("#" + Integer.toHexString(i));
                 colorText.setBackgroundColor(i);
             }
-        });}
+        });
+    }
 
-    public void onClick(View view){
-        if(view == edtTextEventDate){
+    public void onClick(View view) {
+        if (view == edtTextEventDate) {
             eventDatePickerDialog.show();
-        }
-        else if(view == edtTextBegin ){
+        } else if (view == edtTextBegin) {
             timePick1.show();
-        }
-        else if(view == edtTextEnd){
+        } else if (view == edtTextEnd) {
             timePick2.show();
-        }
-        else if(view == colorText){
+        } else if (view == colorText) {
             colPicker.show();
         }
     }
 
+<<<<<<< HEAD
     private void saveEvent() {
         String Start = edtTextBegin.getText().toString();
         String End = edtTextEnd.getText().toString();
@@ -274,4 +366,85 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
 
         Task.getOpenTasks().clear();
     }
+=======
+    private void onRecord(boolean start) {
+
+
+        if (start) {
+            startRecording();
+        } else {
+            stopRecording();
+        }
+    }
+
+    private void onPlay(boolean start) {
+        if (start) {
+            startPlaying();
+        } else {
+            stopPlaying();
+        }
+    }
+
+    private void startPlaying() {
+        mPlayer = new MediaPlayer();
+        btnPlay.setImageDrawable(getResources().getDrawable(R.drawable.ic_stop_black_24dp));
+        try {
+            mPlayer.setDataSource(mFileName);
+            mPlayer.prepare();
+            mPlayer.start();
+        } catch (IOException e) {
+            Log.e(LOG_TAG, "prepare() failed");
+        }
+    }
+
+    private void stopPlaying() {
+        mPlayer.release();
+        btnPlay.setImageDrawable(getResources().getDrawable(R.drawable.ic_play_arrow_black_24dp));
+        mPlayer = null;
+    }
+
+    private void startRecording() {
+        btnRecord.setBackgroundColor(Color.RED);
+        mRecorder = new MediaRecorder();
+        mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+        mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+        mRecorder.setOutputFile(mFileName);
+        mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+
+        try {
+            mRecorder.prepare();
+        } catch (IOException e) {
+            Log.e(LOG_TAG, "prepare() failed");
+        }
+
+        mRecorder.start();
+    }
+
+    private void stopRecording() {
+        mRecorder.stop();
+        mRecorder.release();
+        mRecorder = null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            btnRecord.setBackground(discardButton.getBackground());
+        }
+    }
+
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (mRecorder != null) {
+            mRecorder.release();
+            mRecorder = null;
+        }
+
+        if (mPlayer != null) {
+            mPlayer.release();
+            mPlayer = null;
+        }
+    }
+
+
+>>>>>>> recordVoice
 }
+
