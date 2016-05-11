@@ -49,6 +49,7 @@ public class DBHandlerTask extends SQLiteOpenHelper
 
     
     public DBHandlerTask(Context context) {
+
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
