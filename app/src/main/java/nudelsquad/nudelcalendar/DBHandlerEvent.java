@@ -154,10 +154,11 @@ public class DBHandlerEvent extends SQLiteOpenHelper {
         String countQuery = "SELECT * FROM " + TABLE_EVENTS;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(countQuery, null);
+        int count = cursor.getCount();
         cursor.close();
 
         // return count
-        return cursor.getCount();
+        return count;
     }
     // Updating a event
     public int updateEvent(Event event) {

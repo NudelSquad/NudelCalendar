@@ -16,6 +16,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Marco on 04.05.2016.
  */
@@ -37,14 +40,21 @@ public class ShowEventView extends Fragment implements View.OnClickListener {
 
     public void initGUI(){
         ListView ls_tasks = (ListView) rootView.findViewById(R.id.list_event_tasks);
-        String items[] = {"eCard am start?", "Task2", "Task3"};
+
+        DBHandlerTask dbht = new DBHandlerTask(rootView.getContext());
+        final List<Task> list = dbht.getTasksFromEvent(EventID);
+        String items[] = new String[list.size()];
+        for(int i = 0; i < list.size(); i++)
+            items[i] = list.get(i).getTASK_NAME();
+        
         ArrayAdapter adp = new ArrayAdapter(rootView.getContext(), android.R.layout.simple_list_item_1, items);
         ls_tasks.setAdapter(adp);
         ls_tasks.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
                 final FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ft.replace(R.id.main_frame, new TaskLookView(), "NewFragmentTag");
+                ft.replace(R.id.main_frame, new TaskLookView(list.get(position).getTASK_ID()), "NewFragmentTag");
                 ft.commit();
             }
         });

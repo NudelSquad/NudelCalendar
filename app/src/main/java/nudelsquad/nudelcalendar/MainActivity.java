@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity
                             fragment = new CreateEventView();
                         }
                         if (which == 1){
-                           fragment = new CreateTaskView();
+                           fragment = new CreateTaskView(-1);  //-1 wil eigener Task
                         }
                         FragmentManager fm = getSupportFragmentManager();
                         FragmentTransaction transaction = fm.beginTransaction();

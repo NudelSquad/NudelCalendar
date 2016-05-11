@@ -1,5 +1,7 @@
 package nudelsquad.nudelcalendar;
 
+import java.util.ArrayList;
+
 /**
  * Created by emanuel on 27/04/16.
  * If Members are changed please increase DB version in DBHandlerTask.java
@@ -12,6 +14,8 @@ public class Task {
     private int TASK_COLOR;
     private int TASK_EVENTID;
     private String TASK_CHECKED;
+
+    private static ArrayList<Task> openTasks = new ArrayList<Task>();
 
     public Task(){}
 
@@ -89,4 +93,9 @@ public class Task {
     public void setTASK_CHECKED(String TASK_CHECKED) {
         this.TASK_CHECKED = TASK_CHECKED;
     }
+
+    public static ArrayList<Task> getOpenTasks() {
+        return openTasks;
+    }
+
 }

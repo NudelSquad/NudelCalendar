@@ -20,6 +20,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -28,6 +29,7 @@ import net.margaritov.preference.colorpicker.ColorPickerDialog;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
@@ -49,6 +51,8 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
     private  TimePickerDialog timePick2;
     private EditText colorText;
     private ColorPickerDialog colPicker;
+    private ListView lvTasks;
+    ArrayList<Task> tasks;
     //private Spinner days;
     int color = Color.parseColor("#33b5e5");
     @Nullable
@@ -66,7 +70,7 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
         addTaskButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 final FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ft.replace(R.id.main_frame, new CreateTaskView(), "NewFragmentTag");
+                ft.replace(R.id.main_frame, new CreateTaskView(1), "NewFragmentTag");
                 ft.commit();
             }
         });
@@ -157,6 +161,18 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
         eventType = (EditText) rootView.findViewById(R.id.eventTypeText);
         eventPlace = (EditText) rootView.findViewById(R.id.placeText);
         //days = (Spinner) rootView.findViewById(R.id.days);
+
+        lvTasks = (ListView) rootView.findViewById(R.id.tasks_list);
+        tasks = Task.getOpenTasks();
+        String items[] = new String[tasks.size()];
+        for(int i = 0; i < tasks.size(); i++) {
+            items[i] = tasks.get(i).getTASK_NAME();
+            Log.e("Task", items[i]);
+        }
+        ArrayAdapter adp = new ArrayAdapter(rootView.getContext(), android.R.layout.simple_list_item_1, items);
+        lvTasks.setAdapter(adp);
+
+
     }
 
     private void setDateTimeField(){
@@ -249,5 +265,13 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
         DBHandlerEvent dbh = new DBHandlerEvent(rootView.getContext());
         dbh.addEvent(e);
 
+        int evid = dbh.getEventsCount();
+        DBHandlerTask dbht = new DBHandlerTask(rootView.getContext());
+        for(int i = 0; i < tasks.size(); i++){
+            tasks.get(i).setTASK_EVENTID(evid);
+            dbht.addTask(tasks.get(i));
+        }
+
+        Task.getOpenTasks().clear();
     }
 }

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -105,6 +106,7 @@ public class DBHandlerTask extends SQLiteOpenHelper
          */
         db.insert(TABLE_TASKS, null, values);
         db.close(); // Closing database connection
+        Log.e("Task insert ", values.toString());
     }
 
 
@@ -171,6 +173,30 @@ public class DBHandlerTask extends SQLiteOpenHelper
     public List<Task> getAllTasks() {
         List<Task> taskList = new ArrayList<Task>();
         String dbQuery = "SELECT * FROM " + TABLE_TASKS;
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(dbQuery, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                Task task = new Task();
+                task.setTASK_ID(cursor.getInt(0));
+                task.setTASK_NAME(cursor.getString(1));
+                task.setTASK_DATUM(cursor.getString(2));
+                task.setTASK_TEXT(cursor.getString(3));
+                task.setTASK_COLOR(cursor.getInt(4));
+                task.setTASK_EVENTID(cursor.getInt(5));
+                task.setTASK_CHECKED(cursor.getString(6));
+
+                taskList.add(task);
+            } while (cursor.moveToNext());
+        }
+        close();
+        return taskList;
+    }
+
+    public List<Task> getTasksFromEvent(int EventID) {
+        List<Task> taskList = new ArrayList<Task>();
+        String dbQuery = "SELECT * FROM " + TABLE_TASKS + " where " + KEY_TASK_EVENTID + " = " + EventID;
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(dbQuery, null);
 
