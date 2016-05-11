@@ -3,11 +3,10 @@
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-
+    <string name="nameoftask"><u>Name of Task:</u></string>
+    <string name="duedate"><u>Due Date:</u></string>
     <string name="action_settings">Settings</string>
-
-
-    <string name="from_date">Date of event</string>
+  <string name="from_date">Date of event</string>
     <string name="begin">Begin of event</string>
     <string name="endOfEvent">End of event</string>
     <string name="eventNameText">Name of event</string>
@@ -19,4 +18,5 @@
     <string name="reminder">Set reminder</string>
     <string name="editText">Text</string>
     <string name="editText2">Select color</string>
+
 </resources>
