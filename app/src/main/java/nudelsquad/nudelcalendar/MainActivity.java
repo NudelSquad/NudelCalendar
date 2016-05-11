@@ -62,7 +62,6 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.e("hallo", "ja da");
 /*
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 builder.setTitle("What do you want to create?")
@@ -117,12 +116,19 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
+        Fragment fragment = new StartScreenFrame();
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction transaction = fm.beginTransaction();
+        transaction.replace(R.id.main_frame, fragment);
+        transaction.commit();
+        /*
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
         }
+        */
     }
 
     @Override
@@ -256,6 +262,8 @@ public class MainActivity extends AppCompatActivity
         AppIndex.AppIndexApi.end(client, viewAction);
         client.disconnect();
     }
+
+
 
 
     //Startscreen Fragment ist hier, weils sonst Probleme mit dem ändern des MainFrames gibt (glaub ich)
