@@ -4,10 +4,10 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
@@ -19,19 +19,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import net.margaritov.preference.colorpicker.ColorPickerDialog;
 
-import java.io.FileDescriptor;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -40,9 +35,12 @@ import java.util.Locale;
 
 /**
  * Created by Marco on 04.05.2016.
+ * <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+ * <uses-permission android:name="android.permission.RECORD_AUDIO" />
  */
 
 public class CreateEventView extends Fragment implements View.OnClickListener {
+    private static final String LOG_TAG = "RECORDER";
     private View rootView;
     private EditText edtTextEventDate;
     private EditText edtTextBegin;
@@ -59,9 +57,9 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
     private ImageButton btnPlay;
     private ColorPickerDialog colPicker;
     private MediaRecorder mRecorder = null;
-    private MediaPlayer   mPlayer = null;
-
-    private static boolean mStartRecording=true;
+    private MediaPlayer mPlayer = null;
+    private Button discardButton;
+    private static boolean mStartRecording = true;
     private static boolean mStartPlaying = true;
 
 
@@ -93,7 +91,8 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
             }
         });
 
-        Button discardButton = (Button) rootView.findViewById(R.id.button);
+
+        discardButton = (Button) rootView.findViewById(R.id.btn_discard);
         discardButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 edtTextBegin.setText("");
@@ -106,7 +105,7 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
             }
         });
 
-        Button addNewEvent = (Button) rootView.findViewById(R.id.button2);
+        Button addNewEvent = (Button) rootView.findViewById(R.id.btn_add_event);
         addNewEvent.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (edtTextBegin.getText().toString().isEmpty() ||
@@ -129,12 +128,10 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
                     alert2.show();
                 } else {
                     AlertDialog.Builder alert1 = new AlertDialog.Builder(rootView.getContext());
-                    alert1.setMessage("Save Event??!")
-                            .setCancelable(false)
-                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    alert1.setMessage("Save Event??!").setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    // Add function to save into Database
+
                                 }
                             })
                             .setNegativeButton("NO", new DialogInterface.OnClickListener() {
@@ -146,7 +143,35 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
                     AlertDialog alert3 = alert1.create();
                     alert3.setTitle("ADD EVENT");
                     alert3.show();
+
+
                 }
+            }
+        });
+
+        btnRecord.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onRecord(mStartRecording);
+                if (mStartRecording) {
+                    eventName.setText("Stop recording");
+                } else {
+                    eventName.setText("Start recording");
+                }
+                mStartRecording = !mStartRecording;
+            }
+        });
+
+        btnPlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onPlay(mStartPlaying);
+                if (mStartPlaying) {
+                    eventName.setText("Stop playing");
+                } else {
+                    eventName.setText("Start playing");
+                }
+                mStartPlaying = !mStartPlaying;
             }
         });
 
@@ -250,47 +275,7 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
             timePick2.show();
         } else if (view == colorText) {
             colPicker.show();
-        } else if (view == btnRecord) {
-            mStartRecording=true;
-            record();
-            mStartRecording=!mStartRecording;
-        } else if (view == btnPlay) {
-            mStartPlaying=true;
-            play();
-            mStartPlaying=!mStartPlaying;
         }
-    }
-
-    private void play() {
-        onPlay(mStartPlaying);
-    }
-
-    private void record() {
-        onRecord(mStartRecording);
-    }
-
-
-
-    private void startRecording() {
-        mRecorder = new MediaRecorder();
-        mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-        mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-        mRecorder.setOutputFile(mFileName);
-        mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
-
-        try {
-            mRecorder.prepare();
-        } catch (IOException e) {
-            Log.e("RECORD", "prepare() failed");
-        }
-
-        mRecorder.start();
-    }
-
-    private void stopRecording() {
-        mRecorder.stop();
-        mRecorder.release();
-        mRecorder = null;
     }
 
     private void onRecord(boolean start) {
@@ -300,7 +285,6 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
             stopRecording();
         }
     }
-
 
     private void onPlay(boolean start) {
         if (start) {
@@ -312,18 +296,63 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
 
     private void startPlaying() {
         mPlayer = new MediaPlayer();
+        btnPlay.setImageDrawable(getResources().getDrawable(R.drawable.ic_stop_black_24dp));
         try {
             mPlayer.setDataSource(mFileName);
             mPlayer.prepare();
             mPlayer.start();
         } catch (IOException e) {
-            Log.e("RECORDER", "prepare() failed");
+            Log.e(LOG_TAG, "prepare() failed");
         }
     }
 
     private void stopPlaying() {
         mPlayer.release();
+        btnPlay.setImageDrawable(getResources().getDrawable(R.drawable.ic_play_arrow_black_24dp));
         mPlayer = null;
     }
+
+    private void startRecording() {
+        btnRecord.setBackgroundColor(Color.RED);
+        mRecorder = new MediaRecorder();
+        mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+        mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+        mRecorder.setOutputFile(mFileName);
+        mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+
+        try {
+            mRecorder.prepare();
+        } catch (IOException e) {
+            Log.e(LOG_TAG, "prepare() failed");
+        }
+
+        mRecorder.start();
+    }
+
+    private void stopRecording() {
+        mRecorder.stop();
+        mRecorder.release();
+        mRecorder = null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            btnRecord.setBackground(discardButton.getBackground());
+        }
+    }
+
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (mRecorder != null) {
+            mRecorder.release();
+            mRecorder = null;
+        }
+
+        if (mPlayer != null) {
+            mPlayer.release();
+            mPlayer = null;
+        }
+    }
+
+
 }
 
