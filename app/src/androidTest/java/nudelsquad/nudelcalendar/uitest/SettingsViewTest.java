@@ -33,7 +33,10 @@ public class SettingsViewTest extends ActivityInstrumentationTestCase2<MainActiv
     public void testOpenAndCloseNavigationDrawer() {
 
 
-        closeNavigationDrawer();
+        boolean b = solo.searchText("Settings");
+        assertEquals(b, true);
+        solo.clickOnText("Settings");
+        
 
 
         solo.sleep(2000);
@@ -73,10 +76,9 @@ public class SettingsViewTest extends ActivityInstrumentationTestCase2<MainActiv
         Point deviceSize = new Point();
         getActivity().getWindowManager().getDefaultDisplay().getSize(deviceSize);
 
-        int screenWidth = deviceSize.x;
-        int screenHeight = deviceSize.y;
 
-        solo.clickOnScreen(screenWidth-20, screenHeight-20);
+
+        solo.clickOnScreen(deviceSize.x-100, deviceSize.y-100);
     }
 
 
