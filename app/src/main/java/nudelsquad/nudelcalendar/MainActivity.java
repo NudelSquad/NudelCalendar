@@ -163,7 +163,7 @@ public class MainActivity extends AppCompatActivity
             transaction.commit();
 
         } else if (id == R.id.nav_month) {
-            Fragment fragment = new Speech();
+            Fragment fragment = new MonthView();
             FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction transaction = fm.beginTransaction();
             transaction.replace(R.id.main_frame, fragment, "month");
