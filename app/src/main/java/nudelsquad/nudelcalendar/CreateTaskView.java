@@ -149,7 +149,7 @@ public class CreateTaskView extends Fragment {
 
         Task t = new Task(name, datum, text, c, -1, "false");
         if(fromEvent == -1){
-            DBHandlerTask dbh = new DBHandlerTask(rootView.getContext());
+            DBHandler dbh = new DBHandler(rootView.getContext());
             dbh.addTask(t);
             final FragmentTransaction ft = getFragmentManager().beginTransaction();
             ft.replace(R.id.main_frame, new TaskBoard(), "NewFragmentTag");

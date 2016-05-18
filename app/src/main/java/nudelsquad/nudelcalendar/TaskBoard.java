@@ -42,7 +42,7 @@ public class TaskBoard extends Fragment {
         Bundle args = getArguments();
 
         taskboardview = (ListView) rootView.findViewById(R.id.taskboard_list);
-        DBHandlerTask dbh = new DBHandlerTask(rootView.getContext());
+        DBHandler dbh = new DBHandler(rootView.getContext());
         List<Task> tasklist = dbh.getAllTasks();
         TaskBoardAdapter adapter = new TaskBoardAdapter(rootView.getContext(), tasklist);
 

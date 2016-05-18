@@ -1,6 +1,5 @@
 package nudelsquad.nudelcalendar;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -16,7 +15,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -41,8 +39,8 @@ public class ShowEventView extends Fragment implements View.OnClickListener {
     public void initGUI(){
         ListView ls_tasks = (ListView) rootView.findViewById(R.id.list_event_tasks);
 
-        DBHandlerTask dbht = new DBHandlerTask(rootView.getContext());
-        final List<Task> list = dbht.getTasksFromEvent(EventID);
+        DBHandler dbh = new DBHandler(rootView.getContext());
+        final List<Task> list = dbh.getTasksFromEvent(EventID);
         String items[] = new String[list.size()];
         for(int i = 0; i < list.size(); i++)
             items[i] = list.get(i).getTASK_NAME();
@@ -59,7 +57,6 @@ public class ShowEventView extends Fragment implements View.OnClickListener {
             }
         });
         if(EventID != -1){
-            DBHandlerEvent dbh = new DBHandlerEvent(rootView.getContext());
             Event e = dbh.getEvent(EventID);
             FrameLayout color = (FrameLayout) rootView.findViewById(R.id.event_color);
             color.setBackgroundColor(e.getEVENT_COLOR());

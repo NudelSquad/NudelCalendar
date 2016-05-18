@@ -32,7 +32,7 @@ public class TaskLookView extends Fragment {
     }
 
     public void initGUI(){
-        DBHandlerTask dbh = new DBHandlerTask(rootView.getContext());
+        DBHandler dbh = new DBHandler(rootView.getContext());
         Task t = dbh.getTask(taskID);
         FrameLayout color = (FrameLayout) rootView.findViewById(R.id.task_color);
         color.setBackgroundColor(t.getTASK_COLOR());
