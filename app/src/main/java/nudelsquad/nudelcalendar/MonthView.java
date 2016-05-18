@@ -41,9 +41,9 @@ public class MonthView extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.month_fragment, container, false);
 
-        CaldroidFragment caldroidFragment = new CaldroidFragment();
+        final CaldroidFragment caldroidFragment = new CaldroidFragment();
         Bundle args = new Bundle();
-        Calendar cal = Calendar.getInstance();
+        final Calendar cal = Calendar.getInstance();
         args.putInt(CaldroidFragment.MONTH, cal.get(Calendar.MONTH) + 1);
         args.putInt(CaldroidFragment.YEAR, cal.get(Calendar.YEAR));
         caldroidFragment.setArguments(args);
@@ -52,34 +52,6 @@ public class MonthView extends Fragment {
         final FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.replace(R.id.calendarFragment, caldroidFragment, "NewFragmentTag");
         ft.commit();
-
-        int currentMonth = cal.get(Calendar.MONTH) + 1;
-        int currentYear = cal.get(Calendar.YEAR);
-        String monthOfYear = ((currentMonth > 9) ? currentMonth : "0" + currentMonth) + "-" + currentYear;
-
-        DBHandler dbh = new DBHandler(rootView.getContext());
-        final List<Event> events = dbh.getEventsFromMonthOfYear(monthOfYear);
-
-        String dayWithEventString;
-        Date dayWithEvent;
-
-        for (Event e: events) {
-            dayWithEventString = e.getEVENT_DATUM();
-
-            DateFormat format = new SimpleDateFormat("dd-MM-yyyy", Locale.GERMANY);
-            ParsePosition pos = new ParsePosition(0);
-            dayWithEvent = format.parse(dayWithEventString, pos);
-
-            Calendar c1 = GregorianCalendar.getInstance();
-            c1.setTime(dayWithEvent);
-            Date greenDate = c1.getTime();
-            ColorDrawable green = new ColorDrawable(Color.GREEN);
-
-            caldroidFragment.setBackgroundDrawableForDate(green, greenDate);
-        }
-
-
-        caldroidFragment.refreshView();
 
         final CaldroidListener listener = new CaldroidListener() {
 
@@ -98,9 +70,29 @@ public class MonthView extends Fragment {
 
             @Override
             public void onChangeMonth(int month, int year) {
-                //String text = "month: " + month + " year: " + year;
-                //Toast.makeText(rootView.getContext(), text,
-                //Toast.LENGTH_SHORT).show();
+                String monthOfYear = ((month > 9) ? month : "0" + month) + "-" + year;
+
+                DBHandler dbh = new DBHandler(rootView.getContext());
+                final List<Event> events = dbh.getEventsFromMonthOfYear(monthOfYear);
+
+                String dayWithEventString;
+                Date dayWithEvent;
+
+                for (Event e: events) {
+                    dayWithEventString = e.getEVENT_DATUM();
+
+                    DateFormat format = new SimpleDateFormat("dd-MM-yyyy", Locale.GERMANY);
+                    ParsePosition pos = new ParsePosition(0);
+                    dayWithEvent = format.parse(dayWithEventString, pos);
+
+                    Calendar c1 = GregorianCalendar.getInstance();
+                    c1.setTime(dayWithEvent);
+                    Date greenDate = c1.getTime();
+                    ColorDrawable green = new ColorDrawable(Color.GREEN);
+
+                    caldroidFragment.setBackgroundDrawableForDate(green, greenDate);
+                }
+                caldroidFragment.refreshView();
             }
 
             @Override
@@ -116,15 +108,10 @@ public class MonthView extends Fragment {
                 //"Caldroid view is created",
                 //Toast.LENGTH_SHORT).show();
             }
-
         };
 
         caldroidFragment.setCaldroidListener(listener);
 
         return rootView;
     }
-
-
-    ;
-
 }
