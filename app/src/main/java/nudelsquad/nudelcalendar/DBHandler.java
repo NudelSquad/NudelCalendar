@@ -358,4 +358,11 @@ public class DBHandler extends SQLiteOpenHelper {
                 new String[] { String.valueOf(task.getTASK_ID()) });
         db.close();
     }
+
+    public void resetDatabase() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_EVENTS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_TASKS);
+        onCreate(db);
+    }
 }
