@@ -19,5 +19,13 @@
     <string name="editText">Text</string>
     <string name="editText2">Select color</string>
     <string name="title_activity_audio_record_test">AudioRecordTest</string>
+    <string name="event_added">Event Added</string>
+    <string name="saved">Saved</string>
+    <string name="yes">Yes</string>
+    <string name="save_event_question">Save Event?</string>
+    <string name="missing_data_alert">Missing required data!</string>
+    <string name="ok">OK</string>
+    <string name="choose_color">Choose Color</string>
+    <string name="no">No</string>
 
 </resources>
