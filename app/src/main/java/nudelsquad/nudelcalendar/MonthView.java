@@ -20,11 +20,16 @@ import android.widget.Toast;
 import com.roomorama.caldroid.CaldroidFragment;
 import com.roomorama.caldroid.CaldroidListener;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Sathearo on 27.04.2016.
@@ -50,10 +55,28 @@ public class MonthView extends Fragment {
         int currentMonth = cal.get(Calendar.MONTH) + 1;
         int currentYear = cal.get(Calendar.YEAR);
         String monthOfYear = ((currentMonth > 9) ? currentMonth : "0" + currentMonth) + "-" + currentYear;
-        Log.d("Year = " + currentYear + " Month = " + currentMonth, " String = " + monthOfYear);
 
         DBHandler dbh = new DBHandler(rootView.getContext());
         final List<Event> events = dbh.getEventsFromMonthOfYear(monthOfYear);
+
+        String dayWithEventString;
+        Date dayWithEvent;
+
+        for (Event e: events) {
+            dayWithEventString = e.getEVENT_DATUM();
+
+            DateFormat format = new SimpleDateFormat("dd-MM-yyyy", Locale.GERMANY);
+            ParsePosition pos = new ParsePosition(0);
+            dayWithEvent = format.parse(dayWithEventString, pos);
+
+            Calendar c1 = GregorianCalendar.getInstance();
+            c1.setTime(dayWithEvent);
+            Date greenDate = c1.getTime();
+            ColorDrawable green = new ColorDrawable(Color.GREEN);
+
+            caldroidFragment.setBackgroundDrawableForDate(green, greenDate);
+        }
+
 
         caldroidFragment.refreshView();
 
