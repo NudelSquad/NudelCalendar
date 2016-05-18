@@ -24,38 +24,47 @@ public class SettingsViewTest extends ActivityInstrumentationTestCase2<MainActiv
         super.setUp();
         solo = new Solo(getInstrumentation(), getActivity());
         openNavigationDrawer();
-
-
-
-    }
-
-
-    public void testOpenAndCloseNavigationDrawer() {
-
-
-        boolean b = solo.searchText("Settings");
-        assertEquals(b, true);
         solo.clickOnText("Settings");
-        
-
-
-        solo.sleep(2000);
+        solo.sleep(500);
 
     }
 
-    public void testFindTitle() {
+
+    public void testSwitcher() {
+        View swLS = getActivity().findViewById(R.id.swLS);
+        View swRem = getActivity().findViewById(R.id.swRem);
+        solo.clickOnView(swLS);
+        solo.clickOnView(swRem);
+    }
+
+    public void testComboBox() {
+        View view = getActivity().findViewById(R.id.spMuteFor);
+        solo.clickOnView(view);
         boolean b;
-        b = solo.searchText("NudelCalendar");
-        assertEquals(b, true);
-        b = solo.searchText("Home");
-        assertEquals(b, true);
-        b = solo.searchText("Day");
-        assertEquals(b, true);
-        b = solo.searchText("Week");
-        assertEquals(b, true);
-//        solo.searchText("NudelCalendar");
+
+        b = solo.searchText("15");
+        assertTrue(b);
+        b = solo.searchText("30");
+        assertTrue(b);
+        b = solo.searchText("45");
+        assertTrue(b);
+        b = solo.searchText("60");
+        assertTrue(b);
+        b = solo.searchText("75");
+        assertTrue(b);
+
+        solo.clickInList(2);
+        solo.sleep(500);
+
+
     }
 
+    public void testButton() {
+        solo.clickOnButton("Save");
+        solo.sleep(500);
+        boolean saved = solo.searchText("Saved");
+        assertTrue(saved);
+    }
 
 
     public void openNavigationDrawer() {
@@ -70,15 +79,6 @@ public class SettingsViewTest extends ActivityInstrumentationTestCase2<MainActiv
         int toY = fromY;
 
         solo.drag(fromX, toX, fromY, toY, 1);
-    }
-
-    public void closeNavigationDrawer() {
-        Point deviceSize = new Point();
-        getActivity().getWindowManager().getDefaultDisplay().getSize(deviceSize);
-
-
-
-        solo.clickOnScreen(deviceSize.x-100, deviceSize.y-100);
     }
 
 
