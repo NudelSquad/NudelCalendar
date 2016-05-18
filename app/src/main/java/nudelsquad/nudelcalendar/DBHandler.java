@@ -176,6 +176,31 @@ public class DBHandler extends SQLiteOpenHelper {
         return eventList;
     }
 
+    public List<Event> getEventsFromMonthOfYear(String monthOfYear) {               //like 05-2016
+        List<Event> eventList = new ArrayList<Event>();
+        // Select All Query
+        String selectQuery = "SELECT * FROM " + TABLE_EVENTS + " where " + KEY_EVENT_DATUM
+                + " LIKE '%" + monthOfYear + "'";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                Event event = new Event(cursor.getInt(0),
+                        cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4),
+                        cursor.getString(5), cursor.getString(6), cursor.getInt(7));
+
+                // Adding events to list
+                eventList.add(event);
+            } while (cursor.moveToNext());
+        }
+
+        // return ecents list (Debug only)
+        return eventList;
+    }
+
     // Getting events Count
     public int getEventsCount() {
         String countQuery = "SELECT * FROM " + TABLE_EVENTS;
@@ -355,5 +380,12 @@ public class DBHandler extends SQLiteOpenHelper {
         db.delete(TABLE_TASKS, KEY_TASK_ID + " = ?",
                 new String[] { String.valueOf(task.getTASK_ID()) });
         db.close();
+    }
+
+    public void resetDatabase() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_EVENTS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_TASKS);
+        onCreate(db);
     }
 }

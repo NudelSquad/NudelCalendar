@@ -75,6 +75,7 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
     private Button discardButton;
     private static boolean mStartRecording = true;
     private static boolean mStartPlaying = true;
+    private DBHandler dbHandler;
 
 
     //private Spinner days;
@@ -91,6 +92,7 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
         setBeginTimeField();
         setEndTimeField();
         setColorField();
+        dbHandler=new DBHandler(getContext());
 
 
         mFileName = Environment.getExternalStorageDirectory().getAbsolutePath();
@@ -126,42 +128,39 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
                         eventName.getText().toString().isEmpty() ||
                         edtTextEventDate.getText().toString().isEmpty() ||
                         edtTextEnd.getText().toString().isEmpty() ||
-                        eventType.getText().toString().isEmpty()) {
+                        eventType.getText().toString().isEmpty() ||
+                        colorText.getText().toString().isEmpty()) {
 
                     AlertDialog.Builder alert1 = new AlertDialog.Builder(rootView.getContext());
-                    alert1.setMessage("Missing required data!")
+                    alert1.setMessage(R.string.missing_data_alert)
                             .setCancelable(false)
-                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     dialog.cancel();
                                 }
                             });
-                    AlertDialog alert2 = alert1.create();
-                    alert2.setTitle("ALERT");
-                    alert2.show();
                 } else {
                     AlertDialog.Builder alert1 = new AlertDialog.Builder(rootView.getContext());
 
-                    alert1.setMessage("Save Event??!")
+                    alert1.setMessage(R.string.save_event_question)
                             .setCancelable(false)
-                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     saveEvent();
-                                    Toast.makeText(rootView.getContext(),"Saved", Toast.LENGTH_SHORT).show();
-                                    // Add function to save into Database
+                                    Toast.makeText(rootView.getContext(), R.string.saved, Toast.LENGTH_SHORT).show();
                                 }
                             })
 
-                            .setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                            .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     dialog.cancel();
                                 }
                             });
                     AlertDialog alert3 = alert1.create();
-                    alert3.setTitle("ADD EVENT");
+                    alert3.setTitle(getString(R.string.event_added));
                     alert3.show();
 
 
@@ -188,11 +187,6 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
                 }
 
                 onRecord(mStartRecording);
-                if (mStartRecording) {
-                    eventName.setText("Stop recording");
-                } else {
-                    eventName.setText("Start recording");
-                }
                 mStartRecording = !mStartRecording;
             }
         });
@@ -201,11 +195,6 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
             @Override
             public void onClick(View v) {
                 onPlay(mStartPlaying);
-                if (mStartPlaying) {
-                    eventName.setText("Stop playing");
-                } else {
-                    eventName.setText("Start playing");
-                }
                 mStartPlaying = !mStartPlaying;
             }
         });
@@ -302,7 +291,7 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
         colPicker = new ColorPickerDialog(rootView.getContext(), color);
         colPicker.setAlphaSliderVisible(true);
         colPicker.setHexValueEnabled(true);
-        colPicker.setTitle("Farbe auswählen");
+        colPicker.setTitle(R.string.choose_color);
         colPicker.setOnColorChangedListener(new ColorPickerDialog.OnColorChangedListener() {
             @Override
             public void onColorChanged(int i) {
@@ -337,13 +326,12 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
 
         Event e = new Event(Name, Start, End, Datum, Type, Loc, c);
 
-        DBHandler dbh = new DBHandler(rootView.getContext());
-        dbh.addEvent(e);
+        dbHandler.addEvent(e);
 
-        int evid = dbh.getEventsCount();
+        int evid = dbHandler.getEventsCount();
         for(int i = 0; i < tasks.size(); i++){
             tasks.get(i).setTASK_EVENTID(evid);
-            dbh.addTask(tasks.get(i));
+            dbHandler.addTask(tasks.get(i));
         }
 
         Task.getOpenTasks().clear();

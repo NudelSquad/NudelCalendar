@@ -3,14 +3,21 @@ package nudelsquad.nudelcalendar.uitest;
 import android.graphics.Point;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.PerformanceTestCase;
+import android.util.Log;
 import android.view.View;
 
 import com.robotium.solo.Solo;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
+import nudelsquad.nudelcalendar.DBHandler;
+import nudelsquad.nudelcalendar.Event;
 import nudelsquad.nudelcalendar.MainActivity;
 import nudelsquad.nudelcalendar.R;
+import nudelsquad.nudelcalendar.Task;
 
 /**
  * Created by emanuel on 20/04/16.
@@ -18,6 +25,7 @@ import nudelsquad.nudelcalendar.R;
 public class WeekViewTest extends ActivityInstrumentationTestCase2<MainActivity> {
 
     private Solo solo;
+    private DBHandler dbHandler;
 
     public WeekViewTest() {
         super(MainActivity.class);
@@ -26,26 +34,29 @@ public class WeekViewTest extends ActivityInstrumentationTestCase2<MainActivity>
     public void setUp() throws Exception {
         super.setUp();
         solo = new Solo(getInstrumentation(), getActivity());
-        openNavigationDrawer();
-        solo.clickOnText("Week");
+        View viewById = getActivity().findViewById(R.id.btn_week);
+        solo.clickOnView(viewById);
+        setupDB();
         solo.sleep(500);
 
-    }
-
-
-    public void testWeekGrid(){
-        int i = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
-        boolean b;
-        b = solo.searchText(Integer.toString(i));
-        assertTrue(b);
-        b = solo.searchText(Integer.toString(++i));
-        assertTrue(b);
-
-
 
     }
 
+    private void setupDB() {
+        dbHandler = new DBHandler(getActivity().getBaseContext());
+        dbHandler.resetDatabase();
+        Date time = Calendar.getInstance().getTime();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.YYYY");
+        String today = formatter.format(time);
+//        public Event(String EVENT_NAME, String EVENT_START, String EVENT_END, String EVENT_DATUM, String EVENT_TYPE,  String EVENT_LOCATION, int EVENT_COLOR) {
 
+
+    }
+
+
+    public void testWeekGrid() {
+
+    }
 
 
     public void openNavigationDrawer() {
@@ -65,9 +76,6 @@ public class WeekViewTest extends ActivityInstrumentationTestCase2<MainActivity>
     public void tearDown() throws Exception {
         super.tearDown();
     }
-
-
-
 
 
 }
