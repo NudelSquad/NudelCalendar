@@ -13,13 +13,13 @@ public class Task {
     private String TASK_TEXT;
     private int TASK_COLOR;
     private int TASK_EVENTID;
-    private String TASK_CHECKED;
+    private boolean TASK_CHECKED;
 
     private static ArrayList<Task> openTasks = new ArrayList<Task>();
 
     public Task(){}
 
-    public Task(int TASK_ID, String TASK_NAME, String TASK_DATUM, String TASK_TEXT, int TASK_COLOR, int TASK_EVENTID, String TASK_CHECKED) {
+    public Task(int TASK_ID, String TASK_NAME, String TASK_DATUM, String TASK_TEXT, int TASK_COLOR, int TASK_EVENTID, boolean TASK_CHECKED) {
         this.TASK_ID = TASK_ID;
         this.TASK_NAME = TASK_NAME;
         this.TASK_DATUM = TASK_DATUM;
@@ -29,7 +29,7 @@ public class Task {
         this.TASK_CHECKED = TASK_CHECKED;
     }
 
-    public Task(String TASK_NAME, String TASK_DATUM, String TASK_TEXT, int TASK_COLOR, int TASK_EVENTID, String TASK_CHECKED) {
+    public Task(String TASK_NAME, String TASK_DATUM, String TASK_TEXT, int TASK_COLOR, int TASK_EVENTID, boolean TASK_CHECKED) {
         this.TASK_NAME = TASK_NAME;
         this.TASK_DATUM = TASK_DATUM;
         this.TASK_TEXT = TASK_TEXT;
@@ -86,11 +86,11 @@ public class Task {
         this.TASK_EVENTID = TASK_EVENTID;
     }
 
-    public String getTASK_CHECKED() {
+    public boolean getTASK_CHECKED() {
         return TASK_CHECKED;
     }
 
-    public void setTASK_CHECKED(String TASK_CHECKED) {
+    public void setTASK_CHECKED(boolean TASK_CHECKED) {
         this.TASK_CHECKED = TASK_CHECKED;
     }
 

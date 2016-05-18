@@ -147,7 +147,7 @@ public class CreateTaskView extends Fragment {
         String Col = color2.getText().toString();
         int c = Color.parseColor(Col);
 
-        Task t = new Task(name, datum, text, c, -1, "false");
+        Task t = new Task(name, datum, text, c, -1, false);
         if(fromEvent == -1){
             DBHandler dbh = new DBHandler(rootView.getContext());
             dbh.addTask(t);

@@ -259,6 +259,7 @@ public class DBHandler extends SQLiteOpenHelper {
         values.put(KEY_TASK_EVENTID, task.getTASK_EVENTID());
         values.put(KEY_TASK_CHECKED, task.getTASK_CHECKED());
 
+
         /**
          * Inserting values into Db
          */
@@ -282,7 +283,7 @@ public class DBHandler extends SQLiteOpenHelper {
             cursor.moveToFirst();
 
         Task single_task = new Task(cursor.getInt(0), cursor.getString(1), cursor.getString(2),
-                cursor.getString(3), cursor.getInt(4), cursor.getInt(5), cursor.getString(6));
+                cursor.getString(3), cursor.getInt(4), cursor.getInt(6), cursor.getInt(5)>0);
         return single_task;
     }
 
@@ -312,8 +313,8 @@ public class DBHandler extends SQLiteOpenHelper {
                 task.setTASK_DATUM(cursor.getString(2));
                 task.setTASK_TEXT(cursor.getString(3));
                 task.setTASK_COLOR(cursor.getInt(4));
-                task.setTASK_EVENTID(cursor.getInt(5));
-                task.setTASK_CHECKED(cursor.getString(6));
+                task.setTASK_CHECKED(cursor.getInt(5)>0);
+                task.setTASK_EVENTID(cursor.getInt(6));
 
                 taskList.add(task);
             } while (cursor.moveToNext());
@@ -336,8 +337,9 @@ public class DBHandler extends SQLiteOpenHelper {
                 task.setTASK_DATUM(cursor.getString(2));
                 task.setTASK_TEXT(cursor.getString(3));
                 task.setTASK_COLOR(cursor.getInt(4));
-                task.setTASK_EVENTID(cursor.getInt(5));
-                task.setTASK_CHECKED(cursor.getString(6));
+                task.setTASK_CHECKED(cursor.getInt(5)>0);
+                task.setTASK_EVENTID(cursor.getInt(6));
+
 
                 taskList.add(task);
             } while (cursor.moveToNext());
