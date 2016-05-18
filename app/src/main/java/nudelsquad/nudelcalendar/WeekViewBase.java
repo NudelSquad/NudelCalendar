@@ -118,7 +118,7 @@ public class WeekViewBase extends Fragment implements WeekView.EventClickListene
         public void onEventClick(WeekViewEvent event, RectF eventRect) {                //go to Event
 
             final FragmentTransaction ft = getFragmentManager().beginTransaction();
-            ft.replace(R.id.main_frame, new ShowEventView(1), "NewFragmentTag");
+            ft.replace(R.id.main_frame, new ShowEventView((int) event.getId()), "NewFragmentTag");
             ft.commit();
         }
 
@@ -140,30 +140,30 @@ public class WeekViewBase extends Fragment implements WeekView.EventClickListene
     public List<? extends WeekViewEvent> onMonthChange(int newYear, int newMonth) {
         List<WeekViewEvent> events = new ArrayList<WeekViewEvent>();
 
-        Calendar startTime = Calendar.getInstance();
-        startTime.set(Calendar.HOUR_OF_DAY, 3);
-        startTime.set(Calendar.MINUTE, 0);
-        startTime.set(Calendar.MONTH, newMonth - 1);
-        startTime.set(Calendar.YEAR, newYear);
-        Calendar endTime = (Calendar) startTime.clone();
-        endTime.add(Calendar.HOUR, 1);
-        endTime.set(Calendar.MONTH, newMonth - 1);
-        WeekViewEvent event = new WeekViewEvent(1, getEventTitle(startTime), startTime, endTime);
-        event.setColor(Color.RED);
-        events.add(event);
+        DBHandler dbh = new DBHandler(rootView.getContext());
 
-        startTime = Calendar.getInstance();
-        startTime.set(Calendar.HOUR_OF_DAY, 3);
-        startTime.set(Calendar.MINUTE, 30);
-        startTime.set(Calendar.MONTH, newMonth-1);
-        startTime.set(Calendar.YEAR, newYear);
-        endTime = (Calendar) startTime.clone();
-        endTime.set(Calendar.HOUR_OF_DAY, 4);
-        endTime.set(Calendar.MINUTE, 30);
-        endTime.set(Calendar.MONTH, newMonth-1);
-        event = new WeekViewEvent(10, getEventTitle(startTime), startTime, endTime);
-        event.setColor(Color.BLUE);
-        events.add(event);
+        List<Event> items= dbh.getEventsFromMonthOfYear(newMonth + "-" + newYear);
+
+        for (Event e:items) {
+            Calendar startTime = Calendar.getInstance();
+            String[] st = e.getEVENT_START().split(":");
+            String[] dat = e.getEVENT_DATUM().split("-");
+            startTime.set(Calendar.HOUR_OF_DAY, Integer.parseInt(st[0]));
+            startTime.set(Calendar.MINUTE, Integer.parseInt(st[1]));
+            startTime.set(Calendar.DAY_OF_MONTH, Integer.parseInt(dat[0]));
+            startTime.set(Calendar.MONTH, newMonth - 1);
+            startTime.set(Calendar.YEAR, newYear);
+
+            String[] end = e.getEVENT_END().split(":");
+            Calendar endTime = (Calendar) startTime.clone();
+            endTime.add(Calendar.HOUR, Integer.parseInt(end[0]) - Integer.parseInt(st[0]));
+            endTime.add(Calendar.MINUTE, Integer.parseInt(st[1]));
+            endTime.set(Calendar.MONTH, newMonth - 1);
+            endTime.set(Calendar.DAY_OF_MONTH, Integer.parseInt(dat[0]));
+            WeekViewEvent event = new WeekViewEvent(e.getEVENT_ID(), e.getEVENT_NAME(), startTime, endTime);
+            event.setColor(e.getEVENT_COLOR());
+            events.add(event);
+        }
 
         return events;
     }
