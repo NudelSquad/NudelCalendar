@@ -42,6 +42,7 @@ public class MonthView extends Fragment {
         args.putInt(CaldroidFragment.YEAR, cal.get(Calendar.YEAR));
         caldroidFragment.setArguments(args);
 
+
         final FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.replace(R.id.calendarFragment, caldroidFragment, "NewFragmentTag");
         ft.commit();

@@ -1,5 +1,6 @@
 package nudelsquad.nudelcalendar.uitest;
 
+import android.graphics.Color;
 import android.graphics.Point;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.PerformanceTestCase;
@@ -11,6 +12,7 @@ import com.robotium.solo.Solo;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 
 import nudelsquad.nudelcalendar.DBHandler;
@@ -34,28 +36,36 @@ public class WeekViewTest extends ActivityInstrumentationTestCase2<MainActivity>
     public void setUp() throws Exception {
         super.setUp();
         solo = new Solo(getInstrumentation(), getActivity());
+        dbHandler = new DBHandler(getActivity().getBaseContext());
+        dbHandler.resetDatabase();
+        setupDB();
         View viewById = getActivity().findViewById(R.id.btn_week);
         solo.clickOnView(viewById);
-        setupDB();
         solo.sleep(500);
 
 
     }
 
     private void setupDB() {
-        dbHandler = new DBHandler(getActivity().getBaseContext());
-        dbHandler.resetDatabase();
         Date time = Calendar.getInstance().getTime();
-        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.YYYY");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         String today = formatter.format(time);
-//        public Event(String EVENT_NAME, String EVENT_START, String EVENT_END, String EVENT_DATUM, String EVENT_TYPE,  String EVENT_LOCATION, int EVENT_COLOR) {
+
+
+//        dbHandler.addEvent(new Event("Event 1", "9:00 AM", "12:00 AM", today, "party", "home", Color.GREEN));
+//        dbHandler.addEvent(new Event("Event 2", "07:00 AM", "9:00 AM", today, "lecture", "uni", Color.BLUE));
+
+//        public Event(String EVENT_NAME, String EVENT_START, String EVENT_END, String EVENT_DATUM, String EVENT_TYPE,  String EVENT_LOCATION, int EVENT_COLOR)
+
 
 
     }
 
 
     public void testWeekGrid() {
-
+        boolean b = solo.searchText("Event 1");
+        solo.sleep(1000);
+        assertTrue(b);
     }
 
 
@@ -74,6 +84,7 @@ public class WeekViewTest extends ActivityInstrumentationTestCase2<MainActivity>
     }
 
     public void tearDown() throws Exception {
+        dbHandler.resetDatabase();
         super.tearDown();
     }
 
