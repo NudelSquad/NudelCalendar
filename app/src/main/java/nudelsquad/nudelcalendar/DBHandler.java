@@ -240,10 +240,10 @@ public class DBHandler extends SQLiteOpenHelper {
     }
 
     // Deleting a event
-    public void deleteEvent(Event event) {
+    public void deleteEvent(int EventID) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_EVENTS, KEY_EVENT_ID + " = ?",
-                new String[] { String.valueOf(event.getEVENT_ID()) });
+                new String[] { String.valueOf(EventID) });
         db.close();
     }
 
@@ -270,7 +270,6 @@ public class DBHandler extends SQLiteOpenHelper {
          */
         db.insert(TABLE_TASKS, null, values);
         db.close(); // Closing database connection
-        Log.e("Task insert ", values.toString());
     }
 
 
@@ -288,13 +287,6 @@ public class DBHandler extends SQLiteOpenHelper {
         if (cursor != null)
             cursor.moveToFirst();
 
-        /**
-         * 0 = ID
-         * 1 = NAME
-         * 2 = DUE DATE
-         * 3 = NOTES
-         * 4 = BOOL if checked
-         */
         Task single_task = new Task(cursor.getInt(0), cursor.getString(1), cursor.getString(2),
                 cursor.getString(3), cursor.getInt(4), cursor.getInt(5), cursor.getString(6));
         return single_task;
@@ -307,7 +299,14 @@ public class DBHandler extends SQLiteOpenHelper {
      */
     public List<Task> getAllTasks() {
         List<Task> taskList = new ArrayList<Task>();
-        String dbQuery = "SELECT * FROM " + TABLE_TASKS;
+        String dbQuery = "SELECT " + KEY_TASK_ID +
+                " ," + KEY_TASK_NAME +
+                " ," + KEY_TASK_DATUM +
+                " ," + KEY_TASK_TEXT +
+                " ," + KEY_TASK_COLOR +
+                " ," + KEY_TASK_EVENTID +
+                " ," + KEY_TASK_CHECKED +
+                " FROM " + TABLE_TASKS;
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(dbQuery, null);
 
@@ -361,9 +360,10 @@ public class DBHandler extends SQLiteOpenHelper {
         String countQuery = "SELECT * FROM " + TABLE_TASKS;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(countQuery, null);
+        int count = cursor.getCount();
         cursor.close();
 
-        return cursor.getCount();
+        return count;
     }
 
     /**
@@ -391,10 +391,10 @@ public class DBHandler extends SQLiteOpenHelper {
      * Deletes a task
      * @param task
      */
-    public void deleteTask(Task task) {
+    public void deleteTask(int taskID) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_TASKS, KEY_TASK_ID + " = ?",
-                new String[] { String.valueOf(task.getTASK_ID()) });
+                new String[] { String.valueOf(taskID) });
         db.close();
     }
 

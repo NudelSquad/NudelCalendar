@@ -98,4 +98,16 @@ public class Task {
         return openTasks;
     }
 
+    @Override
+    public String toString() {
+        return "Task{" +
+                "TASK_ID=" + TASK_ID +
+                ", TASK_NAME='" + TASK_NAME + '\'' +
+                ", TASK_DATUM='" + TASK_DATUM + '\'' +
+                ", TASK_TEXT='" + TASK_TEXT + '\'' +
+                ", TASK_COLOR=" + TASK_COLOR +
+                ", TASK_EVENTID=" + TASK_EVENTID +
+                ", TASK_CHECKED='" + TASK_CHECKED + '\'' +
+                '}';
+    }
 }
