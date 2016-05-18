@@ -7,7 +7,7 @@ import android.util.Log;
 
 import java.util.List;
 
-import nudelsquad.nudelcalendar.DBHandlerEvent;
+import nudelsquad.nudelcalendar.DBHandler;
 import nudelsquad.nudelcalendar.Event;
 
 /**
@@ -15,13 +15,13 @@ import nudelsquad.nudelcalendar.Event;
  */
 public class DBHandlerEventTest extends AndroidTestCase {
     Event testEvent = new Event("TestEvent", "17:00", "18:00", "18.05.2016", "TestType", "TestLocation", -1);
-    DBHandlerEvent dbh;
+    DBHandler dbh;
 
     @Override
     public void setUp() throws Exception {
         super.setUp();
         RenamingDelegatingContext context = new RenamingDelegatingContext(getContext(), "test_");
-        dbh = new DBHandlerEvent(context);
+        dbh = new DBHandler(context);
     }
 
     public void testAddEvent(){

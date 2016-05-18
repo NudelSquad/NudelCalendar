@@ -28,7 +28,6 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.ImageButton;
 
 import android.widget.TimePicker;
@@ -338,14 +337,13 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
 
         Event e = new Event(Name, Start, End, Datum, Type, Loc, c);
 
-        DBHandlerEvent dbh = new DBHandlerEvent(rootView.getContext());
+        DBHandler dbh = new DBHandler(rootView.getContext());
         dbh.addEvent(e);
 
         int evid = dbh.getEventsCount();
-        DBHandlerTask dbht = new DBHandlerTask(rootView.getContext());
         for(int i = 0; i < tasks.size(); i++){
             tasks.get(i).setTASK_EVENTID(evid);
-            dbht.addTask(tasks.get(i));
+            dbh.addTask(tasks.get(i));
         }
 
         Task.getOpenTasks().clear();
