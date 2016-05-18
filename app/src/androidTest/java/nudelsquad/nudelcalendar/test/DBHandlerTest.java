@@ -12,7 +12,7 @@ import nudelsquad.nudelcalendar.Task;
  * Created by Marco on 18.05.2016.
  */
 public class DBHandlerTest extends AndroidTestCase {
-    Event testEvent = new Event("TestEvent", "17:00", "18:00", "18.05.2016", "TestType", "TestLocation", -1);
+    Event testEvent = new Event("TestEvent", "17:00", "18:00", "18-05-2016", "TestType", "TestLocation", -1);
     Task testTask = new Task("TestTask", "18.05.2016", "blabla", -1, -1, "false");
     DBHandler dbh;
 
@@ -41,6 +41,20 @@ public class DBHandlerTest extends AndroidTestCase {
         }
     }
 
+    public void testGetEventsFromMonthOfYear(){
+        List<Event> events = dbh.getEventsFromMonthOfYear("05-2016");
+        for (Event e:events) {
+            if (e.getEVENT_COLOR() == -1){
+                assertEquals(e.getEVENT_NAME(), testEvent.getEVENT_NAME());
+                assertEquals(e.getEVENT_START(), testEvent.getEVENT_START());
+                assertEquals(e.getEVENT_END(), testEvent.getEVENT_END());
+                assertEquals(e.getEVENT_DATUM(), testEvent.getEVENT_DATUM());
+                assertEquals(e.getEVENT_TYPE(), testEvent.getEVENT_TYPE());
+                assertEquals(e.getEVENT_LOCATION(), testEvent.getEVENT_LOCATION());
+            }
+        }
+    }
+
     public void testAddTask(){
         dbh.addTask(testTask);
     }
@@ -57,5 +71,6 @@ public class DBHandlerTest extends AndroidTestCase {
             }
         }
     }
+
 
 }
