@@ -1,6 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<<<<<<< HEAD
 <merger version="3"><dataSet config="main"><source path="C:\Users\waser2\Desktop\git-noudl\NudelCalendar\app\libs\ColorPickerPreference\src\main\jniLibs"/></dataSet><dataSet config="release"><source path="C:\Users\waser2\Desktop\git-noudl\NudelCalendar\app\libs\ColorPickerPreference\src\release\jniLibs"/></dataSet></merger>
-=======
-<merger version="3"><dataSet config="main"><source path="C:\Users\Clemens\Documents\NudelCalendar\app\libs\ColorPickerPreference\src\main\jniLibs"/></dataSet><dataSet config="release"><source path="C:\Users\Clemens\Documents\NudelCalendar\app\libs\ColorPickerPreference\src\release\jniLibs"/></dataSet></merger>
->>>>>>> develop

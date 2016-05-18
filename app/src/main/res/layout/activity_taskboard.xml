@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Upcoming Tasks"
-            android:id="@+id/txTasks"
+            android:id="@+id/tv_taskboardheader"
             android:layout_marginBottom="5dp"
             android:layout_gravity="center" />
 
