@@ -70,8 +70,7 @@ public class MonthView extends Fragment {
                 String year = (String) android.text.format.DateFormat.format("yyyy", date);
                 String day = (String) android.text.format.DateFormat.format("dd", date);
                 String selectedDate = day + "-" + month + "-" + year;
-                Log.d("Selected Date: ", selectedDate);
-                MainActivity.myBundle.putString("id_User", String.valueOf(selectedDate));
+                MainActivity.myBundle.putString("selectedDate", String.valueOf(selectedDate));
 
                 final FragmentTransaction ft = getFragmentManager().beginTransaction();
                 ft.replace(R.id.main_frame, new DayList(), "NewFragmentTag");
