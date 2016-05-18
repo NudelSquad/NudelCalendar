@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 int drawable ic_stop_black_24dp 0x7f020000
 int id color_picker_view 0x7f050000
 int id hex_val 0x7f050002
@@ -7,3 +8,14 @@ int id text_hex_wrapper 0x7f050001
 int layout dialog_color_picker 0x7f030000
 int string dialog_color_picker 0x7f040000
 int string press_color_to_apply 0x7f040001
+=======
+int drawable ic_stop_black_24dp 0x7f020000
+int id color_picker_view 0x7f050000
+int id hex_val 0x7f050002
+int id new_color_panel 0x7f050004
+int id old_color_panel 0x7f050003
+int id text_hex_wrapper 0x7f050001
+int layout dialog_color_picker 0x7f030000
+int string dialog_color_picker 0x7f040000
+int string press_color_to_apply 0x7f040001
+>>>>>>> develop
