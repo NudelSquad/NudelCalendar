@@ -93,9 +93,9 @@ public class ShowEventView extends Fragment implements View.OnClickListener {
         } else if (v.getId() == R.id.btn_event_delete) {
             dbh.deleteEvent(EventID);
             Toast.makeText(rootView.getContext(), R.string.event_delete, Toast.LENGTH_SHORT).show();
-            final FragmentTransaction ft = getFragmentManager().beginTransaction();
-            ft.replace(R.id.day_eventlist, getParentFragment());
-            ft.commit();
+//            final FragmentTransaction ft = getFragmentManager().beginTransaction();
+//            ft.replace(R.id.nav_home, getParentFragment());
+//            ft.commit();
         }
     }
 }

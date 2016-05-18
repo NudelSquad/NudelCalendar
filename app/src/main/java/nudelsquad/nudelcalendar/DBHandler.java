@@ -48,7 +48,7 @@ public class DBHandler extends SQLiteOpenHelper {
     //---------------------------------TASKS--------------------------------
     private static final String TABLE_TASKS = "tasks";
 
-     //Columns of Table
+    //Columns of Table
     private static final String KEY_TASK_ID = "id";
     private static final String KEY_TASK_NAME = "name";
     private static final String KEY_TASK_DATUM = "datum";
@@ -77,11 +77,11 @@ public class DBHandler extends SQLiteOpenHelper {
     }
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        
+
         // Drop older table if existed
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_EVENTS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_TASKS);
-        
+
         // Creating tables again
         onCreate(db);
     }
@@ -92,8 +92,8 @@ public class DBHandler extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_TASKS);
         onCreate(db);
     }
-    
-    
+
+
     // Adding new event
     public void addEvent(Event event) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -137,13 +137,13 @@ public class DBHandler extends SQLiteOpenHelper {
     // Getting All Events
     public List<Event> getAllEvents() {
         List<Event> eventList = new ArrayList<Event>();
-    // Select All Query
+        // Select All Query
         String selectQuery = "SELECT * FROM " + TABLE_EVENTS;
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
 
-    // looping through all rows and adding to list
+        // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
                 Event event = new Event(cursor.getInt(0),
@@ -164,6 +164,31 @@ public class DBHandler extends SQLiteOpenHelper {
         // Select All Query
         String selectQuery = "SELECT * FROM " + TABLE_EVENTS + " where " + KEY_EVENT_DATUM
                 + " = '" + day + "'";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                Event event = new Event(cursor.getInt(0),
+                        cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4),
+                        cursor.getString(5), cursor.getString(6), cursor.getInt(7));
+
+                // Adding events to list
+                eventList.add(event);
+            } while (cursor.moveToNext());
+        }
+
+        // return ecents list (Debug only)
+        return eventList;
+    }
+
+    public List<Event> getEventsFromMonthOfYear(String monthOfYear) {               //like 05-2016
+        List<Event> eventList = new ArrayList<Event>();
+        // Select All Query
+        String selectQuery = "SELECT * FROM " + TABLE_EVENTS + " where " + KEY_EVENT_DATUM
+                + " LIKE '%" + monthOfYear + "'";
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -221,11 +246,11 @@ public class DBHandler extends SQLiteOpenHelper {
                 new String[] { String.valueOf(event.getEVENT_ID()) });
         db.close();
     }
-    // Deleting a event
-    public void deleteEvent(int id) {
+
+    public void deleteEvent(int event) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_EVENTS, KEY_EVENT_ID + " = ?",
-                new String[] { String.valueOf(id) });
+                new String[] { String.valueOf(event) });
         db.close();
     }
 
