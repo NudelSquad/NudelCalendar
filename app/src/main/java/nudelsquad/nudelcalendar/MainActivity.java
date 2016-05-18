@@ -107,6 +107,7 @@ public class MainActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
+
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         // ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -164,28 +165,28 @@ public class MainActivity extends AppCompatActivity
             Fragment fragment = new StartScreenFrame();
             FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction transaction = fm.beginTransaction();
-            transaction.replace(R.id.main_frame, fragment);
+            transaction.replace(R.id.main_frame, fragment, "home");
             transaction.commit();
 
         } else if (id == R.id.nav_day) {
             Fragment fragment = new DayList();
             FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction transaction = fm.beginTransaction();
-            transaction.replace(R.id.main_frame, fragment);
+            transaction.replace(R.id.main_frame, fragment, "day");
             transaction.commit();
 
         } else if (id == R.id.nav_week) {
             Fragment fragment = new WeekViewBase();
             FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction transaction = fm.beginTransaction();
-            transaction.replace(R.id.main_frame, fragment);
+            transaction.replace(R.id.main_frame, fragment, "week");
             transaction.commit();
 
         } else if (id == R.id.nav_month) {
-            Fragment fragment = new MonthView();
+            Fragment fragment = new Speech();
             FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction transaction = fm.beginTransaction();
-            transaction.replace(R.id.main_frame, fragment);
+            transaction.replace(R.id.main_frame, fragment, "month");
             transaction.commit();
 
         }
@@ -194,20 +195,17 @@ public class MainActivity extends AppCompatActivity
             Fragment fragment = new TaskBoard();
             FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction transaction = fm.beginTransaction();
-            transaction.replace(R.id.main_frame, fragment);
+            transaction.replace(R.id.main_frame, fragment, "taskboard");
             transaction.commit();
 
         } else if (id == R.id.nav_settings) {
             Fragment fragment = new SettingsView();
             FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction transaction = fm.beginTransaction();
-            transaction.replace(R.id.main_frame, fragment);
+            transaction.replace(R.id.main_frame, fragment, "settings");
             transaction.commit();
         }
-        else if (id == R.id.nav_settings)
-        {
 
-        }
 
 
 
