@@ -143,6 +143,7 @@ public class WeekViewBase extends Fragment implements WeekView.EventClickListene
         DBHandler dbh = new DBHandler(rootView.getContext());
 
         List<Event> items= dbh.getEventsFromMonthOfYear(newMonth + "-" + newYear);
+
         for (Event e:items) {
             Calendar startTime = Calendar.getInstance();
             String[] st = e.getEVENT_START().split(":");

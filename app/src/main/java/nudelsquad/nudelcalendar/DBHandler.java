@@ -85,6 +85,13 @@ public class DBHandler extends SQLiteOpenHelper {
         // Creating tables again
         onCreate(db);
     }
+
+    public void resetDatabase() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_EVENTS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_TASKS);
+        onCreate(db);
+    }
     
     
     // Adding new event
@@ -116,15 +123,16 @@ public class DBHandler extends SQLiteOpenHelper {
                         KEY_EVENT_NAME, KEY_EVENT_START, KEY_EVENT_STOP, KEY_EVENT_DATUM, KEY_EVENT_TYPE,
                         KEY_EVENT_LOCATION, KEY_EVENT_COLOR}, KEY_EVENT_ID + "=?",
                 new String[]{String.valueOf(id)}, null, null, null, null);
-        if (cursor != null)
-            cursor.moveToFirst();
+        if (cursor != null && cursor.moveToFirst()) {
 
-        Event single_event = new Event(cursor.getInt(0),
-                cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4),
-                cursor.getString(5), cursor.getString(6), cursor.getInt(7));
 
-        // return event object
-        return single_event;
+            Event single_event = new Event(cursor.getInt(0),
+                    cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4),
+                    cursor.getString(5), cursor.getString(6), cursor.getInt(7));
+
+            return single_event;
+        }
+        return null;
     }
     // Getting All Events
     public List<Event> getAllEvents() {
@@ -218,9 +226,10 @@ public class DBHandler extends SQLiteOpenHelper {
 
         ContentValues values = new ContentValues();
         values.put(KEY_EVENT_ID, event.getEVENT_ID());
-        values.put(KEY_EVENT_NAME, event.getEVENT_NAME()); // Event Name
+        values.put(KEY_EVENT_NAME, event.getEVENT_NAME());
         values.put(KEY_EVENT_START, event.getEVENT_START());
         values.put(KEY_EVENT_STOP, event.getEVENT_END());
+        values.put(KEY_EVENT_DATUM, event.getEVENT_DATUM());
         values.put(KEY_EVENT_TYPE, event.getEVENT_TYPE());
         values.put(KEY_EVENT_LOCATION, event.getEVENT_LOCATION());
         values.put(KEY_EVENT_COLOR, event.getEVENT_COLOR());
@@ -231,10 +240,10 @@ public class DBHandler extends SQLiteOpenHelper {
     }
 
     // Deleting a event
-    public void deleteEvent(Event event) {
+    public void deleteEvent(int EventID) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_EVENTS, KEY_EVENT_ID + " = ?",
-                new String[] { String.valueOf(event.getEVENT_ID()) });
+                new String[] { String.valueOf(EventID) });
         db.close();
     }
 
@@ -254,7 +263,6 @@ public class DBHandler extends SQLiteOpenHelper {
          */
         db.insert(TABLE_TASKS, null, values);
         db.close(); // Closing database connection
-        Log.e("Task insert ", values.toString());
     }
 
 
@@ -272,13 +280,6 @@ public class DBHandler extends SQLiteOpenHelper {
         if (cursor != null)
             cursor.moveToFirst();
 
-        /**
-         * 0 = ID
-         * 1 = NAME
-         * 2 = DUE DATE
-         * 3 = NOTES
-         * 4 = BOOL if checked
-         */
         Task single_task = new Task(cursor.getInt(0), cursor.getString(1), cursor.getString(2),
                 cursor.getString(3), cursor.getInt(4), cursor.getInt(5), cursor.getString(6));
         return single_task;
@@ -291,7 +292,14 @@ public class DBHandler extends SQLiteOpenHelper {
      */
     public List<Task> getAllTasks() {
         List<Task> taskList = new ArrayList<Task>();
-        String dbQuery = "SELECT * FROM " + TABLE_TASKS;
+        String dbQuery = "SELECT " + KEY_TASK_ID +
+                " ," + KEY_TASK_NAME +
+                " ," + KEY_TASK_DATUM +
+                " ," + KEY_TASK_TEXT +
+                " ," + KEY_TASK_COLOR +
+                " ," + KEY_TASK_EVENTID +
+                " ," + KEY_TASK_CHECKED +
+                " FROM " + TABLE_TASKS;
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(dbQuery, null);
 
@@ -345,9 +353,10 @@ public class DBHandler extends SQLiteOpenHelper {
         String countQuery = "SELECT * FROM " + TABLE_TASKS;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(countQuery, null);
+        int count = cursor.getCount();
         cursor.close();
 
-        return cursor.getCount();
+        return count;
     }
 
     /**
@@ -375,17 +384,12 @@ public class DBHandler extends SQLiteOpenHelper {
      * Deletes a task
      * @param task
      */
-    public void deleteTask(Task task) {
+    public void deleteTask(int taskID) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_TASKS, KEY_TASK_ID + " = ?",
-                new String[] { String.valueOf(task.getTASK_ID()) });
+                new String[] { String.valueOf(taskID) });
         db.close();
     }
 
-    public void resetDatabase() {
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_EVENTS);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_TASKS);
-        onCreate(db);
-    }
+
 }
