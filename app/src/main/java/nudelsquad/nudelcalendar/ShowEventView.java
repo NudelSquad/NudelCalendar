@@ -3,6 +3,7 @@ package nudelsquad.nudelcalendar;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +24,7 @@ import java.util.List;
 public class ShowEventView extends Fragment implements View.OnClickListener {
     private View rootView;
     private int EventID = -1;
+    private DBHandler dbh;
 
     @Nullable
     @Override
@@ -36,15 +38,16 @@ public class ShowEventView extends Fragment implements View.OnClickListener {
         EventID = eventID;
     }
 
-    public void initGUI(){
+    public void initGUI() {
         ListView ls_tasks = (ListView) rootView.findViewById(R.id.list_event_tasks);
 
-        DBHandler dbh = new DBHandler(rootView.getContext());
+
+        dbh = new DBHandler(rootView.getContext());
         final List<Task> list = dbh.getTasksFromEvent(EventID);
         String items[] = new String[list.size()];
-        for(int i = 0; i < list.size(); i++)
+        for (int i = 0; i < list.size(); i++)
             items[i] = list.get(i).getTASK_NAME();
-        
+
         ArrayAdapter adp = new ArrayAdapter(rootView.getContext(), android.R.layout.simple_list_item_1, items);
         ls_tasks.setAdapter(adp);
         ls_tasks.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -56,7 +59,7 @@ public class ShowEventView extends Fragment implements View.OnClickListener {
                 ft.commit();
             }
         });
-        if(EventID != -1){
+        if (EventID != -1) {
             Event e = dbh.getEvent(EventID);
             FrameLayout color = (FrameLayout) rootView.findViewById(R.id.event_color);
             color.setBackgroundColor(e.getEVENT_COLOR());
@@ -84,11 +87,15 @@ public class ShowEventView extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        if(v.getId() == R.id.btn_event_edit) {
+        if (v.getId() == R.id.btn_event_edit) {
             Toast.makeText(rootView.getContext(), "Clicked on Edit", Toast.LENGTH_SHORT).show();
-        }
-        else if (v.getId() == R.id.btn_event_delete){
-            Toast.makeText(rootView.getContext(), "Clicked on Delete", Toast.LENGTH_SHORT).show();
+
+        } else if (v.getId() == R.id.btn_event_delete) {
+            dbh.deleteEvent(EventID);
+            Toast.makeText(rootView.getContext(), R.string.event_delete, Toast.LENGTH_SHORT).show();
+            final FragmentTransaction ft = getFragmentManager().beginTransaction();
+            ft.replace(R.id.day_eventlist, getParentFragment());
+            ft.commit();
         }
     }
 }

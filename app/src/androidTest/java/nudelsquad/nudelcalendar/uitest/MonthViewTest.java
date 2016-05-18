@@ -33,51 +33,98 @@ public class MonthViewTest extends ActivityInstrumentationTestCase2<MainActivity
 
     public void setUp() throws Exception {
         super.setUp();
-        setupDB();
         solo = new Solo(getInstrumentation(), getActivity());
+        setupDB();
         View viewById = getActivity().findViewById(R.id.btn_month);
         solo.clickOnView(viewById);
         solo.sleep(500);
     }
 
     private void setupDB() {
-        dbHandler=new DBHandler(getActivity().getBaseContext());
+        dbHandler = new DBHandler(getActivity().getBaseContext());
         Date time = Calendar.getInstance().getTime();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         String today = formatter.format(time);
         dbHandler.addEvent(new Event("Event 1", "9:00 AM", "12:00 AM", today, "party", "home", Color.GREEN));
         dbHandler.addEvent(new Event("Event 2", "07:00 AM", "9:00 AM", today, "lecture", "uni", Color.BLUE));
+
+        time.setDate(Calendar.getInstance().get(Calendar.DAY_OF_MONTH)+1);
+        today=formatter.format(time);
+        dbHandler.addEvent(new Event("Event 3", "07:00 AM", "9:00 AM", today, "lecture", "uni", Color.BLUE));
+        dbHandler.addEvent(new Event("Event 4", "10:00 AM", "11:00 AM", today, "bla", "uni", Color.BLUE));
     }
 
-    public void test(){
-        String day = String.valueOf(Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
+    public void testFindEventToday(){
+        int day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
         boolean b;
-        b = solo.searchText(day);
+        b = solo.searchText(String.valueOf(day));
         assertTrue(b);
-        TextView text = solo.getText(day);
-        int[] xy = new int[2];
-        text.getLocationOnScreen(xy);
-        solo.clickOnScreen(xy[0],xy[1]);
-        final int viewWidth = text.getWidth();
-        final int viewHeight = text.getHeight();
-        final float x = xy[0] + (viewWidth / 2.0f);
-        final float y = xy[1] + (viewHeight / 2.0f);
-
-//        solo.clickOnScreen(x,y);
-//        solo.clickOnScreen(x,y);
-
-        solo.clickInList(3,2);
 
 
+        solo.clickInList(day, 2);
+        solo.sleep(200);
 
-        solo.sleep(5000);
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        String today = formatter.format(Calendar.getInstance().getTime());
 
+        b=solo.searchText(today);
+        assertTrue(b);
+
+        b=solo.searchText("Event 1");
+        assertTrue(b);
+
+        b=solo.searchText("Event 2");
+        assertTrue(b);
+
+        solo.sleep(1000);
 
     }
 
 
+    public void testClickOnToday() {
+        int day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+        boolean b;
+        b = solo.searchText(String.valueOf(day));
+        assertTrue(b);
 
 
+        solo.clickInList(day, 2);
+        solo.sleep(200);
+
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        String today = formatter.format(Calendar.getInstance().getTime());
+
+        b=solo.searchText(today);
+
+        assertTrue(b);
+    }
+
+    public void testFindEventTomorrow(){
+        Calendar calendar= Calendar.getInstance();
+        calendar.add(Calendar.DAY_OF_MONTH,1);
+        boolean b;
+        b = solo.searchText(String.valueOf(calendar.get(Calendar.DAY_OF_MONTH)));
+        assertTrue(b);
+
+
+        solo.clickInList(calendar.get(Calendar.DAY_OF_MONTH), 2);
+        solo.sleep(200);
+
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        String today = formatter.format(calendar.getTime());
+
+        b=solo.searchText(today);
+        assertTrue(b);
+
+        b=solo.searchText("Event 3");
+        assertTrue(b);
+
+        b=solo.searchText("Event 4");
+        assertTrue(b);
+
+        solo.sleep(1000);
+
+    }
 
 
     public void openNavigationDrawer() {
