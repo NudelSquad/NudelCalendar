@@ -31,6 +31,7 @@ public class DayViewTest extends ActivityInstrumentationTestCase2<MainActivity> 
     public void setUp() throws Exception {
         super.setUp();
         solo = new Solo(getInstrumentation(), getActivity());
+        setupDB();
         View viewById = getActivity().findViewById(R.id.btn_day);
         solo.clickOnView(viewById);
         solo.sleep(500);
@@ -39,8 +40,9 @@ public class DayViewTest extends ActivityInstrumentationTestCase2<MainActivity> 
 
     private void setupDB() {
         dbHandler = new DBHandler(getActivity().getBaseContext());
+        dbHandler.resetDatabase();
         Date time = Calendar.getInstance().getTime();
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
         String today = formatter.format(time);
         dbHandler.addEvent(new Event("Event 1", "9:00 AM", "12:00 AM", today, "party", "home", Color.GREEN));
         dbHandler.addEvent(new Event("Event 2", "07:00 AM", "9:00 AM", today, "lecture", "uni", Color.BLUE));

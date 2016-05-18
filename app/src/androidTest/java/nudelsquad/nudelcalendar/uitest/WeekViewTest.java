@@ -36,8 +36,6 @@ public class WeekViewTest extends ActivityInstrumentationTestCase2<MainActivity>
     public void setUp() throws Exception {
         super.setUp();
         solo = new Solo(getInstrumentation(), getActivity());
-        dbHandler = new DBHandler(getActivity().getBaseContext());
-        dbHandler.resetDatabase();
         setupDB();
         View viewById = getActivity().findViewById(R.id.btn_week);
         solo.clickOnView(viewById);
@@ -47,45 +45,34 @@ public class WeekViewTest extends ActivityInstrumentationTestCase2<MainActivity>
     }
 
     private void setupDB() {
-        Date time = Calendar.getInstance().getTime();
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        String today = formatter.format(time);
+        dbHandler = new DBHandler(getActivity().getBaseContext());
+        dbHandler.resetDatabase();
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        String today = formatter.format(calendar.getTime());
+        dbHandler.addEvent(new Event("Event 2", "7:00 AM", "9:00 AM", today, "lecture", "uni", Color.BLUE));
+        dbHandler.addEvent(new Event("Event 1", "9:00 AM", "11:59 AM", today, "party", "home", Color.GREEN));
 
-
-//        dbHandler.addEvent(new Event("Event 1", "9:00 AM", "12:00 AM", today, "party", "home", Color.GREEN));
-//        dbHandler.addEvent(new Event("Event 2", "07:00 AM", "9:00 AM", today, "lecture", "uni", Color.BLUE));
-
-//        public Event(String EVENT_NAME, String EVENT_START, String EVENT_END, String EVENT_DATUM, String EVENT_TYPE,  String EVENT_LOCATION, int EVENT_COLOR)
-
-
+        calendar.add(Calendar.DAY_OF_MONTH, 2);
+        today=formatter.format(calendar.getTime());
+        dbHandler.addEvent(new Event("Event 3", "7:00 AM", "9:00 AM", today, "lecture", "uni", Color.BLUE));
+        dbHandler.addEvent(new Event("Event 4", "10:00 AM", "11:00 AM", today, "bla", "uni", Color.YELLOW));
 
     }
 
 
-    public void testWeekGrid() {
-        boolean b = solo.searchText("Event 1");
-        solo.sleep(1000);
+    public void testFindEvent() {
+        boolean b = solo.searchText("Event 2");
         assertTrue(b);
+        
+        solo.sleep(5000);
     }
 
 
-    public void openNavigationDrawer() {
-        Point deviceSize = new Point();
-        getActivity().getWindowManager().getDefaultDisplay().getSize(deviceSize);
-
-        int screenWidth = deviceSize.x;
-        int screenHeight = deviceSize.y;
-        int fromX = 0;
-        int toX = screenWidth / 2;
-        int fromY = screenHeight / 2;
-        int toY = fromY;
-
-        solo.drag(fromX, toX, fromY, toY, 1);
-    }
 
     public void tearDown() throws Exception {
-        dbHandler.resetDatabase();
         super.tearDown();
+        dbHandler.resetDatabase();
     }
 
 

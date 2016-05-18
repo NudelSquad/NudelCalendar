@@ -247,12 +247,6 @@ public class DBHandler extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void deleteEvent(int event) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_EVENTS, KEY_EVENT_ID + " = ?",
-                new String[] { String.valueOf(event) });
-        db.close();
-    }
 
     public void addTask(Task task) {
         SQLiteDatabase db = this.getWritableDatabase();

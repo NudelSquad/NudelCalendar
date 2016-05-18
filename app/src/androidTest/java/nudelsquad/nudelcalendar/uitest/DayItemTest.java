@@ -34,7 +34,8 @@ public class DayItemTest extends ActivityInstrumentationTestCase2<MainActivity> 
         solo = new Solo(getInstrumentation(), getActivity());
         View viewById = getActivity().findViewById(R.id.btn_day);
         solo.clickOnView(viewById);
-        solo.sleep(500);
+        solo.clickInList(1);
+        solo.sleep(100);
 
     }
 
@@ -42,14 +43,12 @@ public class DayItemTest extends ActivityInstrumentationTestCase2<MainActivity> 
         dbHandler = new DBHandler(getActivity().getBaseContext());
         dbHandler.resetDatabase();
         Date time = Calendar.getInstance().getTime();
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
         String today = formatter.format(time);
         dbHandler.addEvent(new Event("Event 1", "9:00 AM", "12:00 AM", today, "party", "home", Color.GREEN));
     }
 
     public void testClickInList() {
-        solo.clickInList(1);
-        solo.sleep(100);
         boolean b;
         b = solo.searchText("Event 1");
         assertTrue(b);
@@ -61,6 +60,25 @@ public class DayItemTest extends ActivityInstrumentationTestCase2<MainActivity> 
         assertTrue(b);
         b = solo.searchText("home");
         assertTrue(b);
+    }
+
+    public void testDeleteButton(){
+        solo.clickOnButton("Delete");
+        solo.sleep(100);
+        solo.searchText(getActivity().getResources().getString(R.string.event_delete));
+        solo.sleep(100);
+        openNavigationDrawer();
+        solo.clickOnText("Day");
+
+        boolean b = solo.searchText("Event 1");
+        assertFalse(b);
+
+    }
+
+
+    public void testDeleteEdit(){
+        solo.clickOnButton("Delete");
+
     }
 
 

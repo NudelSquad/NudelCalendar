@@ -17,11 +17,15 @@ import android.widget.Toast;
 import com.alamkanak.weekview.*;
 import com.alamkanak.weekview.WeekView;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Marco on 27.04.2016.
@@ -145,18 +149,35 @@ public class WeekViewBase extends Fragment implements WeekView.EventClickListene
         List<Event> items= dbh.getEventsFromMonthOfYear(newMonth + "-" + newYear);
         for (Event e:items) {
             Calendar startTime = Calendar.getInstance();
-            String[] st = e.getEVENT_START().split(":");
+            DateFormat timeFormat = new SimpleDateFormat("hh:mm");
+
+            Date start = null;
+            Date end=null;
+            try {
+                start = timeFormat.parse(e.getEVENT_START());
+                end = timeFormat.parse(e.getEVENT_END());
+            } catch (ParseException e1) {
+                e1.printStackTrace();
+            }
+
             String[] dat = e.getEVENT_DATUM().split("-");
-            startTime.set(Calendar.HOUR_OF_DAY, Integer.parseInt(st[0]));
-            startTime.set(Calendar.MINUTE, Integer.parseInt(st[1]));
+            startTime.set(Calendar.HOUR_OF_DAY, start.getHours());
+            startTime.set(Calendar.MINUTE, start.getMinutes());
             startTime.set(Calendar.DAY_OF_MONTH, Integer.parseInt(dat[0]));
             startTime.set(Calendar.MONTH, newMonth - 1);
             startTime.set(Calendar.YEAR, newYear);
 
-            String[] end = e.getEVENT_END().split(":");
+
+
+            long milliseconds = getDateDiff(start, end, TimeUnit.MILLISECONDS);
+            int minutes = (int) ((milliseconds / (1000*60)) % 60);
+            int hours   = (int) ((milliseconds / (1000*60*60)) % 24);
+
+
+
             Calendar endTime = (Calendar) startTime.clone();
-            endTime.add(Calendar.HOUR, Integer.parseInt(end[0]) - Integer.parseInt(st[0]));
-            endTime.add(Calendar.MINUTE, Integer.parseInt(st[1]));
+            endTime.add(Calendar.HOUR, hours);
+            endTime.add(Calendar.MINUTE, minutes);
             endTime.set(Calendar.MONTH, newMonth - 1);
             endTime.set(Calendar.DAY_OF_MONTH, Integer.parseInt(dat[0]));
             WeekViewEvent event = new WeekViewEvent(e.getEVENT_ID(), e.getEVENT_NAME(), startTime, endTime);
@@ -166,4 +187,17 @@ public class WeekViewBase extends Fragment implements WeekView.EventClickListene
 
         return events;
     }
+
+    /**
+     * Get a diff between two dates
+     * @param date1 the oldest date
+     * @param date2 the newest date
+     * @param timeUnit the unit in which you want the diff
+     * @return the diff value, in the provided unit
+     */
+    public static long getDateDiff(Date date1, Date date2, TimeUnit timeUnit) {
+        long diffInMillies = date2.getTime() - date1.getTime();
+        return timeUnit.convert(diffInMillies, TimeUnit.MILLISECONDS);
+    }
+
 }
