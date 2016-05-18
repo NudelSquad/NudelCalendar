@@ -48,6 +48,8 @@ public class MainActivity extends AppCompatActivity
      */
     private GoogleApiClient client;
 
+    public static Bundle myBundle = new Bundle();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

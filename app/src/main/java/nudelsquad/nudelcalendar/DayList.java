@@ -4,6 +4,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,11 +29,24 @@ public class DayList extends Fragment {
         View rootView = inflater.inflate(R.layout.activity_day_list, container, false);
         Bundle args = getArguments();
         daylist = (ListView)rootView.findViewById(R.id.day_eventlist);
+        String not = "n";
+
+        String selectedDate = MainActivity.myBundle.getString("id_User");
+
+        if(selectedDate == not) {
+            Log.d("No date selected ", "take current one");
+        }
+        else {
+            Log.d("IN DAY, Selected Date: ", selectedDate);
+            MainActivity.myBundle.putString("id_User", String.valueOf(not));
+        }
+        
         Calendar c = Calendar.getInstance();
         int month = c.get(Calendar.MONTH)+1;
         int day = c.get(Calendar.DAY_OF_MONTH);
         int year = c.get(Calendar.YEAR);
         String currentDate =  day + "-" + ((month > 9) ? month : "0" + month) + "-" + year;
+
 
         TextView txDate = (TextView) rootView.findViewById(R.id.txDay);
         txDate.setText(c.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.GERMAN) + " | " + currentDate);
