@@ -25,6 +25,8 @@ public class DayList extends Fragment {
 
     DayListAdapter daylist_adapter;
 
+
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

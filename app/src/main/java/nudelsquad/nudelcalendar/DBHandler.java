@@ -85,6 +85,13 @@ public class DBHandler extends SQLiteOpenHelper {
         // Creating tables again
         onCreate(db);
     }
+
+    public void resetDatabase() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_EVENTS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_TASKS);
+        onCreate(db);
+    }
     
     
     // Adding new event
@@ -116,15 +123,16 @@ public class DBHandler extends SQLiteOpenHelper {
                         KEY_EVENT_NAME, KEY_EVENT_START, KEY_EVENT_STOP, KEY_EVENT_DATUM, KEY_EVENT_TYPE,
                         KEY_EVENT_LOCATION, KEY_EVENT_COLOR}, KEY_EVENT_ID + "=?",
                 new String[]{String.valueOf(id)}, null, null, null, null);
-        if (cursor != null)
-            cursor.moveToFirst();
+        if (cursor != null && cursor.moveToFirst()) {
 
-        Event single_event = new Event(cursor.getInt(0),
-                cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4),
-                cursor.getString(5), cursor.getString(6), cursor.getInt(7));
 
-        // return event object
-        return single_event;
+            Event single_event = new Event(cursor.getInt(0),
+                    cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4),
+                    cursor.getString(5), cursor.getString(6), cursor.getInt(7));
+
+            return single_event;
+        }
+        return null;
     }
     // Getting All Events
     public List<Event> getAllEvents() {
@@ -193,9 +201,10 @@ public class DBHandler extends SQLiteOpenHelper {
 
         ContentValues values = new ContentValues();
         values.put(KEY_EVENT_ID, event.getEVENT_ID());
-        values.put(KEY_EVENT_NAME, event.getEVENT_NAME()); // Event Name
+        values.put(KEY_EVENT_NAME, event.getEVENT_NAME());
         values.put(KEY_EVENT_START, event.getEVENT_START());
         values.put(KEY_EVENT_STOP, event.getEVENT_END());
+        values.put(KEY_EVENT_DATUM, event.getEVENT_DATUM());
         values.put(KEY_EVENT_TYPE, event.getEVENT_TYPE());
         values.put(KEY_EVENT_LOCATION, event.getEVENT_LOCATION());
         values.put(KEY_EVENT_COLOR, event.getEVENT_COLOR());
@@ -364,10 +373,5 @@ public class DBHandler extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void resetDatabase() {
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_EVENTS);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_TASKS);
-        onCreate(db);
-    }
+
 }
