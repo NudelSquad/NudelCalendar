@@ -47,26 +47,18 @@ public class MonthView extends Fragment {
         ft.replace(R.id.calendarFragment, caldroidFragment, "NewFragmentTag");
         ft.commit();
 
-        Calendar c1 = GregorianCalendar.getInstance();
-        c1.set(2016, Calendar.MAY, 15);
-        Date greenDate = c1.getTime();
-        ColorDrawable green = new ColorDrawable(Color.GREEN);
-
-        caldroidFragment.setBackgroundDrawableForDate(green, greenDate);
-
-        c1.set(2016, Calendar.MAY, 16);
-        Date blueDate = c1.getTime();
-        ColorDrawable blue = new ColorDrawable(Color.BLUE);
-
-        caldroidFragment.setBackgroundDrawableForDate(blue, blueDate);
-
-
         caldroidFragment.refreshView();
 
         final CaldroidListener listener = new CaldroidListener() {
 
             @Override
             public void onSelectDate(Date date, View view) {
+                String month = (String) android.text.format.DateFormat.format("MM", date);
+                String year = (String) android.text.format.DateFormat.format("yyyy", date);
+                String day = (String) android.text.format.DateFormat.format("dd", date);
+                String selectedDate = day + "-" + month + "-" + year;
+                MainActivity.myBundle.putString("selectedDate", String.valueOf(selectedDate));
+
                 final FragmentTransaction ft = getFragmentManager().beginTransaction();
                 ft.replace(R.id.main_frame, new DayList(), "NewFragmentTag");
                 ft.commit();
