@@ -24,6 +24,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by Sathearo on 27.04.2016.
@@ -45,6 +46,14 @@ public class MonthView extends Fragment {
         final FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.replace(R.id.calendarFragment, caldroidFragment, "NewFragmentTag");
         ft.commit();
+
+        int currentMonth = cal.get(Calendar.MONTH) + 1;
+        int currentYear = cal.get(Calendar.YEAR);
+        String monthOfYear = ((currentMonth > 9) ? currentMonth : "0" + currentMonth) + "-" + currentYear;
+        Log.d("Year = " + currentYear + " Month = " + currentMonth, " String = " + monthOfYear);
+
+        DBHandler dbh = new DBHandler(rootView.getContext());
+        final List<Event> events = dbh.getEventsFromMonthOfYear(monthOfYear);
 
         caldroidFragment.refreshView();
 
