@@ -1,5 +1,6 @@
 package nudelsquad.nudelcalendar.uitest;
 
+import android.graphics.Color;
 import android.graphics.Point;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.View;
@@ -7,10 +8,15 @@ import android.widget.ListView;
 
 import com.robotium.solo.Solo;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
+import nudelsquad.nudelcalendar.DBHandler;
 import nudelsquad.nudelcalendar.MainActivity;
 import nudelsquad.nudelcalendar.R;
+import nudelsquad.nudelcalendar.Task;
 
 /**
  * Created by waser2 on 18.05.2016.
@@ -18,7 +24,7 @@ import nudelsquad.nudelcalendar.R;
 public class TaskBoardViewTest extends ActivityInstrumentationTestCase2<MainActivity> {
 
     private Solo solo;
-
+    private DBHandler dbh;
 
     public TaskBoardViewTest() {
         super(MainActivity.class);
@@ -27,9 +33,29 @@ public class TaskBoardViewTest extends ActivityInstrumentationTestCase2<MainActi
     public void setUp() throws Exception {
         super.setUp();
         solo = new Solo(getInstrumentation(), getActivity());
+        dbh = new DBHandler(getActivity().getBaseContext());
+        setUpDatabase();
+
         openNavigationDrawer();
         solo.clickOnText("Task Board");
         solo.sleep(500);
+
+    }
+
+    public void setUpDatabase()
+    {
+        dbh.resetDatabase();
+
+        Date time = Calendar.getInstance().getTime();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String today = formatter.format(time);
+
+        dbh.addTask(new Task("Fußballspiel",today,"Dies ist ein testtext und nicht sehr aussagekräftig",Color.BLUE,1,true));
+        dbh.addTask(new Task("Programmieren",today,"Dies ist ein testtext und nicht sehr aussagekräftig",Color.RED,2,false));
+        dbh.addTask(new Task("Radfahren",today,"Heute werde ich noch ordentlich anradeln",Color.GREEN,3,true));
+        dbh.addTask(new Task("Fußballspiel",today,"Dies ist ein testtext und nicht sehr aussagekräftig",Color.BLUE,2,false));
+        dbh.addTask(new Task("Fußballspiel",today,"Dies ist ein testtext und nicht sehr aussagekräftig",Color.BLUE,5,false));
+        dbh.addTask(new Task("Fußballspiel",today,"Dies ist ein testtext und nicht sehr aussagekräftig",Color.BLUE,6,true));
 
     }
 
@@ -43,8 +69,15 @@ public class TaskBoardViewTest extends ActivityInstrumentationTestCase2<MainActi
     public void testClickOnHeader()
     {
         View taskboardheader = getActivity().findViewById(R.id.tv_taskboardheader);
-       solo.clickOnView(taskboardheader);
+        solo.clickOnView(taskboardheader);
         solo.sleep(500);
+    }
+
+    public void testFindTaskAttributesInList()
+    {
+        boolean b;
+        b = solo.searchText("Fußball");
+        assertFalse(b);
     }
 
 
@@ -53,11 +86,13 @@ public class TaskBoardViewTest extends ActivityInstrumentationTestCase2<MainActi
         View taskboardlist = getActivity().findViewById(R.id.taskboard_list);
         solo.clickOnView(taskboardlist);
 
+
     }
 
     public void testClickAtListItem() {
         View taskboardlist = getActivity().findViewById(R.id.taskboard_list);
-        solo.clickInList(2);
+        solo.clickInList(1);
+
     }
 
 

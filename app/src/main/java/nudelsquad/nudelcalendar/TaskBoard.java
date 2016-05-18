@@ -43,19 +43,20 @@ public class TaskBoard extends Fragment {
 
         taskboardview = (ListView) rootView.findViewById(R.id.taskboard_list);
         DBHandler dbh = new DBHandler(rootView.getContext());
+
         List<Task> tasklist = dbh.getAllTasks();
+
         TaskBoardAdapter adapter = new TaskBoardAdapter(rootView.getContext(), tasklist);
 
-        final ListView listView = (ListView) rootView.findViewById(R.id.taskboard_list);
-        listView.setAdapter(adapter);
-        listView.setClickable(true);
+        taskboardview.setAdapter(adapter);
+        taskboardview.setClickable(true);
 
 
-        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        taskboardview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                Object item = listView.getAdapter().getItem(position);
-                TextView description = (TextView) view.findViewById(R.id.txt_descpriton);
+                Object item = taskboardview.getAdapter().getItem(position);
+                TextView description = (TextView) view.findViewById(R.id.txt_description);
 
 
                 int visibility = description.getVisibility();
@@ -68,7 +69,7 @@ public class TaskBoard extends Fragment {
             }
         });
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        taskboardview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(getContext(), "Link click", Toast.LENGTH_LONG).show();
