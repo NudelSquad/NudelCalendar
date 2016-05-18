@@ -21,8 +21,6 @@ public class DBHandler extends SQLiteOpenHelper {
     // Database Name
     private static final String DATABASE_NAME = "NudelCal_Data";
 
-
-
     //-----------------------------------EVENTS-------------------
 
     // Events table name
