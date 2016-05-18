@@ -97,4 +97,18 @@ public class Event {
     public void setEVENT_COLOR(int EVENT_COLOR) {
         this.EVENT_COLOR = EVENT_COLOR;
     }
+
+    @Override
+    public String toString() {
+        return "Event{" +
+                "EVENT_ID=" + EVENT_ID +
+                ", EVENT_START='" + EVENT_START + '\'' +
+                ", EVENT_END='" + EVENT_END + '\'' +
+                ", EVENT_DATUM='" + EVENT_DATUM + '\'' +
+                ", EVENT_NAME='" + EVENT_NAME + '\'' +
+                ", EVENT_TYPE='" + EVENT_TYPE + '\'' +
+                ", EVENT_LOCATION='" + EVENT_LOCATION + '\'' +
+                ", EVENT_COLOR=" + EVENT_COLOR +
+                '}';
+    }
 }

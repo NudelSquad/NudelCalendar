@@ -62,22 +62,8 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-/*
-                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                builder.setTitle("What do you want to create?")
-                        .setItems(new String[]{"Event", "Task"}, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                if (which == 1){
-                                    Fragment fragment = new CreateEventView();
-                                    FragmentManager fm = getSupportFragmentManager();
-                                    FragmentTransaction transaction = fm.beginTransaction();
-                                    transaction.replace(R.id.main_frame, fragment);
-                                    transaction.commit();
-                                }
-                            }
-                        });
-                builder.create();
-*/
+
+
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 builder.setTitle("What do you want to create?");
                 builder.setItems(new String[]{"Event", "Task"}, new DialogInterface.OnClickListener() {
@@ -122,14 +108,6 @@ public class MainActivity extends AppCompatActivity
         FragmentTransaction transaction = fm.beginTransaction();
         transaction.replace(R.id.main_frame, fragment);
         transaction.commit();
-        /*
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
-        */
     }
 
     @Override
@@ -153,7 +131,6 @@ public class MainActivity extends AppCompatActivity
 
         return super.onOptionsItemSelected(item);
     }
-
 
     //Switch between Frames throw menu
     @Override
@@ -205,10 +182,6 @@ public class MainActivity extends AppCompatActivity
             transaction.replace(R.id.main_frame, fragment, "settings");
             transaction.commit();
         }
-
-
-
-
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
