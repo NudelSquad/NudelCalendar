@@ -16,7 +16,7 @@ import java.util.List;
 public class DBHandler extends SQLiteOpenHelper {
 
     // Database Version
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 5;
 
     // Database Name
     private static final String DATABASE_NAME = "NudelCal_Data";
@@ -35,20 +35,22 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String KEY_EVENT_TYPE = "type";
     private static final String KEY_EVENT_LOCATION = "location";
     private static final String KEY_EVENT_COLOR = "color";
+    private static final String KEY_EVENT_AUUDIOPATH = "audiopath";
 
     private static final String CREATE_TABLE_EVENTS = "CREATE TABLE " + TABLE_EVENTS + "("
             + KEY_EVENT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + KEY_EVENT_NAME + " TEXT,"
             + KEY_EVENT_START + " TIME, " + KEY_EVENT_STOP + " TIME,"
             + KEY_EVENT_DATUM + " DATE, "
             + KEY_EVENT_TYPE + " TEXT, " + KEY_EVENT_LOCATION + " TEXT, "
-            + KEY_EVENT_COLOR + " INTEGER" + ")";
+            + KEY_EVENT_COLOR + " INTEGER, "
+            + KEY_EVENT_AUUDIOPATH + " TEXT " + ")";
 
     //----------------------------------------------------------------------
 
     //---------------------------------TASKS--------------------------------
     private static final String TABLE_TASKS = "tasks";
 
-     //Columns of Table
+    //Columns of Table
     private static final String KEY_TASK_ID = "id";
     private static final String KEY_TASK_NAME = "name";
     private static final String KEY_TASK_DATUM = "datum";
@@ -61,7 +63,7 @@ public class DBHandler extends SQLiteOpenHelper {
             + KEY_TASK_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + KEY_TASK_NAME + " TEXT,"
             + KEY_TASK_DATUM + " DATE, " + KEY_TASK_TEXT + " TEXT, "
             + KEY_TASK_COLOR + " INTEGER, " + KEY_TASK_CHECKED + " BOOLEAN, "
-            + KEY_TASK_EVENTID + " INTEGER" + ")";
+            + KEY_TASK_EVENTID + " TEXT " + ")";
 
 
     //---------------------------------------------------------------------
@@ -77,11 +79,11 @@ public class DBHandler extends SQLiteOpenHelper {
     }
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        
+
         // Drop older table if existed
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_EVENTS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_TASKS);
-        
+
         // Creating tables again
         onCreate(db);
     }
@@ -92,8 +94,8 @@ public class DBHandler extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_TASKS);
         onCreate(db);
     }
-    
-    
+
+
     // Adding new event
     public void addEvent(Event event) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -107,6 +109,7 @@ public class DBHandler extends SQLiteOpenHelper {
         values.put(KEY_EVENT_DATUM, event.getEVENT_DATUM());
         values.put(KEY_EVENT_LOCATION, event.getEVENT_LOCATION());
         values.put(KEY_EVENT_COLOR, event.getEVENT_COLOR());
+        values.put(KEY_EVENT_AUUDIOPATH, event.getEVENT_AUDIOPATH());
 
         //TODO Implement Reminder logic
         //values.put(KEY_EVENT_REMINDER, event.getEVENT_REMINDER());
@@ -121,14 +124,14 @@ public class DBHandler extends SQLiteOpenHelper {
 
         Cursor cursor = db.query(TABLE_EVENTS, new String[]{KEY_EVENT_ID,
                         KEY_EVENT_NAME, KEY_EVENT_START, KEY_EVENT_STOP, KEY_EVENT_DATUM, KEY_EVENT_TYPE,
-                        KEY_EVENT_LOCATION, KEY_EVENT_COLOR}, KEY_EVENT_ID + "=?",
+                        KEY_EVENT_LOCATION, KEY_EVENT_COLOR, KEY_EVENT_AUUDIOPATH}, KEY_EVENT_ID + "=?",
                 new String[]{String.valueOf(id)}, null, null, null, null);
         if (cursor != null && cursor.moveToFirst()) {
 
 
             Event single_event = new Event(cursor.getInt(0),
                     cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4),
-                    cursor.getString(5), cursor.getString(6), cursor.getInt(7));
+                    cursor.getString(5), cursor.getString(6), cursor.getInt(7), cursor.getString(8));
 
             return single_event;
         }
@@ -137,18 +140,18 @@ public class DBHandler extends SQLiteOpenHelper {
     // Getting All Events
     public List<Event> getAllEvents() {
         List<Event> eventList = new ArrayList<Event>();
-    // Select All Query
+        // Select All Query
         String selectQuery = "SELECT * FROM " + TABLE_EVENTS;
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
 
-    // looping through all rows and adding to list
+        // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
                 Event event = new Event(cursor.getInt(0),
                         cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4),
-                        cursor.getString(5), cursor.getString(6), cursor.getInt(7));
+                        cursor.getString(5), cursor.getString(6), cursor.getInt(7), cursor.getString(8));
 
                 // Adding events to list
                 eventList.add(event);
@@ -173,7 +176,7 @@ public class DBHandler extends SQLiteOpenHelper {
             do {
                 Event event = new Event(cursor.getInt(0),
                         cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4),
-                        cursor.getString(5), cursor.getString(6), cursor.getInt(7));
+                        cursor.getString(5), cursor.getString(6), cursor.getInt(7), cursor.getString(8));
 
                 // Adding events to list
                 eventList.add(event);
@@ -198,7 +201,7 @@ public class DBHandler extends SQLiteOpenHelper {
             do {
                 Event event = new Event(cursor.getInt(0),
                         cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4),
-                        cursor.getString(5), cursor.getString(6), cursor.getInt(7));
+                        cursor.getString(5), cursor.getString(6), cursor.getInt(7), cursor.getString(8));
 
                 // Adding events to list
                 eventList.add(event);
@@ -233,6 +236,7 @@ public class DBHandler extends SQLiteOpenHelper {
         values.put(KEY_EVENT_TYPE, event.getEVENT_TYPE());
         values.put(KEY_EVENT_LOCATION, event.getEVENT_LOCATION());
         values.put(KEY_EVENT_COLOR, event.getEVENT_COLOR());
+        values.put(KEY_EVENT_AUUDIOPATH, event.getEVENT_AUDIOPATH());
 
         // updating row
         return db.update(TABLE_EVENTS, values, KEY_EVENT_ID + " = ?",
@@ -246,6 +250,7 @@ public class DBHandler extends SQLiteOpenHelper {
                 new String[] { String.valueOf(EventID) });
         db.close();
     }
+
 
     public void addTask(Task task) {
         SQLiteDatabase db = this.getWritableDatabase();

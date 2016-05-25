@@ -27,5 +27,6 @@
     <string name="ok">OK</string>
     <string name="choose_color">Choose Color</string>
     <string name="no">No</string>
+    <string name="event_delete">Event Deleted</string>
 
 </resources>

@@ -1,5 +1,6 @@
 package nudelsquad.nudelcalendar.uitest;
 
+import android.graphics.Color;
 import android.graphics.Point;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.PerformanceTestCase;
@@ -11,6 +12,7 @@ import com.robotium.solo.Solo;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 
 import nudelsquad.nudelcalendar.DBHandler;
@@ -34,9 +36,9 @@ public class WeekViewTest extends ActivityInstrumentationTestCase2<MainActivity>
     public void setUp() throws Exception {
         super.setUp();
         solo = new Solo(getInstrumentation(), getActivity());
+        setupDB();
         View viewById = getActivity().findViewById(R.id.btn_week);
         solo.clickOnView(viewById);
-        setupDB();
         solo.sleep(500);
 
 
@@ -45,36 +47,32 @@ public class WeekViewTest extends ActivityInstrumentationTestCase2<MainActivity>
     private void setupDB() {
         dbHandler = new DBHandler(getActivity().getBaseContext());
         dbHandler.resetDatabase();
-        Date time = Calendar.getInstance().getTime();
-        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.YYYY");
-        String today = formatter.format(time);
-//        public Event(String EVENT_NAME, String EVENT_START, String EVENT_END, String EVENT_DATUM, String EVENT_TYPE,  String EVENT_LOCATION, int EVENT_COLOR) {
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        String today = formatter.format(calendar.getTime());
+        dbHandler.addEvent(new Event("Event 2", "7:00 AM", "9:00 AM", today, "lecture", "uni", Color.BLUE));
+        dbHandler.addEvent(new Event("Event 1", "9:00 AM", "11:59 AM", today, "party", "home", Color.GREEN));
 
+        calendar.add(Calendar.DAY_OF_MONTH, 2);
+        today=formatter.format(calendar.getTime());
+        dbHandler.addEvent(new Event("Event 3", "7:00 AM", "9:00 AM", today, "lecture", "uni", Color.BLUE));
+        dbHandler.addEvent(new Event("Event 4", "10:00 AM", "11:00 AM", today, "bla", "uni", Color.YELLOW));
 
     }
 
 
-    public void testWeekGrid() {
-
+    public void testFindEvent() {
+        boolean b = solo.searchText("Event 2");
+        assertTrue(true);
+        solo.clickInList(1);
+        solo.sleep(5000);
     }
 
 
-    public void openNavigationDrawer() {
-        Point deviceSize = new Point();
-        getActivity().getWindowManager().getDefaultDisplay().getSize(deviceSize);
-
-        int screenWidth = deviceSize.x;
-        int screenHeight = deviceSize.y;
-        int fromX = 0;
-        int toX = screenWidth / 2;
-        int fromY = screenHeight / 2;
-        int toY = fromY;
-
-        solo.drag(fromX, toX, fromY, toY, 1);
-    }
 
     public void tearDown() throws Exception {
         super.tearDown();
+        dbHandler.resetDatabase();
     }
 
 
