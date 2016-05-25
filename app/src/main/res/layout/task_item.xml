@@ -35,7 +35,7 @@
             android:textSize="17sp" />
 
         <Button
-            android:id="@+id/delete"
+            android:id="@+id/btn_delete_task"
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="4"

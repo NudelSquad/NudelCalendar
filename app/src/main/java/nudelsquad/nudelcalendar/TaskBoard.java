@@ -34,6 +34,13 @@ import java.util.zip.Inflater;
 public class TaskBoard extends Fragment {
     ListView taskboardview;
     private View rootView;
+    TaskBoardAdapter adapter;
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        adapter.swapItems();
+    }
 
 
     @Nullable
@@ -49,7 +56,7 @@ public class TaskBoard extends Fragment {
 
         final List<Task> tasklist = dbh.getAllTasks();
 
-        TaskBoardAdapter adapter = new TaskBoardAdapter(rootView.getContext(), tasklist);
+        adapter = new TaskBoardAdapter(rootView.getContext(), tasklist);
 
         taskboardview.setAdapter(adapter);
         taskboardview.setClickable(true);

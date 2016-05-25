@@ -1,12 +1,12 @@
 package nudelsquad.nudelcalendar;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -14,8 +14,6 @@ import android.widget.Toast;
 
 import com.daimajia.swipe.SwipeLayout;
 
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 public class TaskBoardAdapter extends BaseAdapter {
@@ -31,6 +29,11 @@ public class TaskBoardAdapter extends BaseAdapter {
         this.layout_context_ = context;
         this.inflater = LayoutInflater.from(context);
         this.dbh = new DBHandler(context);
+    }
+
+    public void resetAndLoadList() {
+        task_list=null;
+        task_list=dbh.getAllTasks();
     }
 
 
@@ -50,7 +53,7 @@ public class TaskBoardAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, final ViewGroup parent) {
 
         ViewHolder holder;
 
@@ -62,6 +65,7 @@ public class TaskBoardAdapter extends BaseAdapter {
             holder.tv_date = (TextView) convertView.findViewById(R.id.tv_duedate);
             holder.checktask = (CheckBox) convertView.findViewById(R.id.chk_task);
             holder.tv_description = (TextView) convertView.findViewById(R.id.txt_description);
+            holder.position = position;
             convertView.setTag(holder);
         }
         else
@@ -73,33 +77,48 @@ public class TaskBoardAdapter extends BaseAdapter {
 
         setSwipe(convertView, parent);
 
+        Button button = (Button) convertView.findViewById(R.id.btn_delete_task);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                ViewHolder viewHolder= (ViewHolder) v.getTag();
+                int id = viewHolder.id;
+                dbh.deleteTask(id);
+                swapItems();
+
+            }
+        });
+
 
         holder.tv_name.setText(taskitem.getTASK_NAME());
         holder.tv_date.setText(taskitem.getTASK_DATUM());
         holder.checktask.setChecked(taskitem.getTASK_CHECKED());
         holder.grid_colortask.setBackgroundColor(taskitem.getTASK_COLOR());
         holder.tv_description.setText(taskitem.getTASK_TEXT());
+        holder.position=position;
+        holder.id=taskitem.getTASK_ID();
 
         CheckBox checkBox = (CheckBox) convertView.findViewById(R.id.chk_task);
-        checkBox.setTag(taskitem.getTASK_ID());
-
+        checkBox.setTag(holder);
 
 
         checkBox.setOnClickListener(new View.OnClickListener() {
+            public static final String TAG = "CHECKCKLICED";
+
             public void onClick(View v) {
 
+                ViewHolder viewHolder = (ViewHolder) v.getTag();
 
-                Task task=null;
-                Toast.makeText(v.getContext(), String.valueOf(task.getTASK_ID()), Toast.LENGTH_SHORT).show();
+                Task task = task_list.get(viewHolder.position);
 
-                if (task.getTASK_CHECKED()) {
-                    task.setTASK_CHECKED(true);
-                }
-                else {
-                    task.setTASK_CHECKED(false);
+                if(task.getTASK_ID()!=viewHolder.id)
+                    Toast.makeText(v.getContext(), viewHolder.id, Toast.LENGTH_SHORT);
 
-                }
+                task.setTASK_CHECKED((((CheckBox) v).isChecked()));
+
                 dbh.updateTask(task);
+                Log.i(TAG, dbh.getTask(task.getTASK_ID()).toString());
             }
         });
 
@@ -148,10 +167,17 @@ public class TaskBoardAdapter extends BaseAdapter {
 
     }
 
+    public void swapItems() {
+        task_list = dbh.getAllTasks();
+        notifyDataSetChanged();
+    }
+
     private class ViewHolder {
         LinearLayout grid_colortask;
         TextView tv_name, tv_date, tv_description;
+        int position;
         CheckBox checktask;
+        int id;
     }
 
 
