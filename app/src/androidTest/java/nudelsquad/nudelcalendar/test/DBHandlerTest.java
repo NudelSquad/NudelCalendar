@@ -15,8 +15,8 @@ import nudelsquad.nudelcalendar.Task;
  */
 public class DBHandlerTest extends AndroidTestCase {
 
-    Event testEvent = new Event("TestEvent", "17:00", "18:00", "18-05-2016", "TestType", "TestLocation", 123);
-    Event testEventUpdate = new Event(1, "TestEvent1", "17:01", "18:01", "19-05-2016", "TestType1", "TestLocation1", 124);
+    Event testEvent = new Event("TestEvent", "17:00", "18:00", "18-05-2016", "TestType", "TestLocation", 123, "");
+    Event testEventUpdate = new Event(1, "TestEvent1", "17:01", "18:01", "19-05-2016", "TestType1", "TestLocation1", 124, "");
     Task testTask = new Task("TestTask", "18.05.2016", "blabla", 123, 1, false);
     Task testTaskUpdate = new Task(1, "TestTask1", "19.05.2016", "blabla1", 124, 2, true);
 
