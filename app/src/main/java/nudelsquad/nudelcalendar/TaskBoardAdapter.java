@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.daimajia.swipe.SwipeLayout;
 
+import java.util.Comparator;
 import java.util.List;
 
 public class TaskBoardAdapter extends BaseAdapter {
@@ -22,6 +23,8 @@ public class TaskBoardAdapter extends BaseAdapter {
     private Context layout_context_;
     LayoutInflater inflater;
     private DBHandler dbh;
+    public static final String TAG = "TASKBOARD";
+
 
     public TaskBoardAdapter(Context context, List<Task> objects) {
         //super(context, resource, objects);
@@ -77,18 +80,6 @@ public class TaskBoardAdapter extends BaseAdapter {
 
         setSwipe(convertView, parent);
 
-        Button button = (Button) convertView.findViewById(R.id.btn_delete_task);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                ViewHolder viewHolder= (ViewHolder) v.getTag();
-                int id = viewHolder.id;
-                dbh.deleteTask(id);
-                swapItems();
-
-            }
-        });
 
 
         holder.tv_name.setText(taskitem.getTASK_NAME());
@@ -102,9 +93,22 @@ public class TaskBoardAdapter extends BaseAdapter {
         CheckBox checkBox = (CheckBox) convertView.findViewById(R.id.chk_task);
         checkBox.setTag(holder);
 
+        Button button = (Button) convertView.findViewById(R.id.btn_delete_task);
+        button.setTag(holder);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i(TAG, "delte");
+                ViewHolder viewHolder= (ViewHolder) v.getTag();
+                int id = viewHolder.id;
+                dbh.deleteTask(id);
+                swapItems();
+
+            }
+        });
+
 
         checkBox.setOnClickListener(new View.OnClickListener() {
-            public static final String TAG = "CHECKCKLICED";
 
             public void onClick(View v) {
 
@@ -119,6 +123,7 @@ public class TaskBoardAdapter extends BaseAdapter {
 
                 dbh.updateTask(task);
                 Log.i(TAG, dbh.getTask(task.getTASK_ID()).toString());
+                swapItems();
             }
         });
 
@@ -179,6 +184,19 @@ public class TaskBoardAdapter extends BaseAdapter {
         CheckBox checktask;
         int id;
     }
+
+//
+//    static final Comparator<Task> TASK_COMPARATOR =
+//            new Comparator<Task>() {
+//                public int compare(Task t1, Task t2) {
+//                    int dateCmp = t2.().compareTo(t1.hireDate());
+//                    if (dateCmp != 0)
+//                        return dateCmp;
+//
+//                    return (t1.number() < t2.number() ? -1 :
+//                            (t1.number() == t2.number() ? 0 : 1));
+//                }
+//            };
 
 
 }
