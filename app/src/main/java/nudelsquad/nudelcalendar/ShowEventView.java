@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +26,7 @@ public class ShowEventView extends Fragment implements View.OnClickListener {
     private View rootView;
     private int EventID = -1;
     private DBHandler dbh;
+    private final static String TAG = "SHOWEVENT";
 
     @Nullable
     @Override
@@ -75,6 +77,8 @@ public class ShowEventView extends Fragment implements View.OnClickListener {
             tx.setText(e.getEVENT_LOCATION());
             tx = (TextView) rootView.findViewById(R.id.txt_event_type);
             tx.setText(e.getEVENT_TYPE());
+
+            Log.i(TAG, e.getEVENT_AUDIOPATH());
 
         }
         Button btn = (Button) rootView.findViewById(R.id.btn_event_delete);

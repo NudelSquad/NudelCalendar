@@ -35,6 +35,7 @@ import android.widget.Toast;
 
 import net.margaritov.preference.colorpicker.ColorPickerDialog;
 
+import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -95,8 +96,22 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
         dbHandler=new DBHandler(getContext());
 
 
-        mFileName = Environment.getExternalStorageDirectory().getAbsolutePath();
-        mFileName += "/audiorecordtest.3gp";
+
+        mFileName = Environment.getExternalStorageDirectory().toString() + "/data/com.nudelsquad.Nudelcalendar/";
+        File file = new File(mFileName);
+        try{
+            file.mkdir();
+        }
+        catch(SecurityException se){
+            //handle it
+        }
+
+        mFileName += System.currentTimeMillis() + ".3gp";
+
+
+
+
+        Log.i(LOG_TAG, mFileName);
 
         Button addTaskButton = (Button) rootView.findViewById(R.id.addTaskAct);
         addTaskButton.setOnClickListener(new View.OnClickListener() {
@@ -324,7 +339,7 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
         String Col = colorText.getText().toString();
         int c = Color.parseColor(Col);
 
-        Event e = new Event(Name, Start, End, Datum, Type, Loc, c);
+        Event e = new Event(Name, Start, End, Datum, Type, Loc, c, mFileName);
 
         dbHandler.addEvent(e);
 
