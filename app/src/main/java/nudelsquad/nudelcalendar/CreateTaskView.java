@@ -28,12 +28,13 @@ import java.util.Locale;
  * Created by Marco on 04.05.2016.
  */
 public class CreateTaskView extends Fragment {
+
     private View rootView;
     private EditText taskName;
     private EditText taskDate;
-    private EditText color2;
-    private EditText tasktext;
-    private CheckBox remind;
+    private EditText taskColor;
+    private EditText taskText;
+    private CheckBox taskReminder;
     private DatePickerDialog  eventDatePickerDialog;
     private DateFormat dateFormater;
     private ColorPickerDialog colPicker;
@@ -52,7 +53,7 @@ public class CreateTaskView extends Fragment {
         findViewsById();
         dateFormater = new SimpleDateFormat("dd-MM-yyyy", Locale.GERMAN);
 
-        color2.setOnClickListener(new View.OnClickListener() {
+        taskColor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 colPicker = new ColorPickerDialog(rootView.getContext(), color);
@@ -63,8 +64,8 @@ public class CreateTaskView extends Fragment {
                     @Override
                     public void onColorChanged(int i) {
                         color = i;
-                        color2.setText("#" + Integer.toHexString(i));
-                        color2.setBackgroundColor(i);
+                        taskColor.setText("#" + Integer.toHexString(i));
+                        taskColor.setBackgroundColor(i);
                     }
                 });
                 colPicker.show();
@@ -87,11 +88,11 @@ public class CreateTaskView extends Fragment {
             }
         });
 
-        Button addTaskButton = (Button) rootView.findViewById(R.id.addTaskBtn);
-        addTaskButton.setOnClickListener(new View.OnClickListener() {
+        Button saveTaskButton = (Button) rootView.findViewById(R.id.saveTaskBtn);
+        saveTaskButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(taskName.toString().isEmpty() || taskDate.toString().isEmpty()){
+                if(taskName.toString().isEmpty() || taskDate.toString().isEmpty() || taskColor.toString().isEmpty()){
                     AlertDialog.Builder alert1 = new AlertDialog.Builder(rootView.getContext());
                     alert1.setMessage("Missing required data!")
                             .setCancelable(false)
@@ -108,7 +109,7 @@ public class CreateTaskView extends Fragment {
                     AlertDialog.Builder alert1 = new AlertDialog.Builder(rootView.getContext());
                     alert1.setMessage("Save Task??!")
                             .setCancelable(false)
-                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            .setPositiveButton("YES", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     saveTask();
@@ -121,14 +122,16 @@ public class CreateTaskView extends Fragment {
                                 }
                             });
                     AlertDialog alert3 = alert1.create();
-                    alert3.setTitle("ADD TASK");
+                    alert3.setTitle("Add Task");
                     alert3.show();
                 }
             }
         });
 
-        Button discard = (Button) rootView.findViewById(R.id.discardBtn);
-        discard.setOnClickListener(new View.OnClickListener() {
+
+        // brings you back to previous screen. it can be taskwall or CreateEvent
+        Button discardTaskButton = (Button) rootView.findViewById(R.id.discardTaskBtn);
+        discardTaskButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final FragmentTransaction ft = getFragmentManager().beginTransaction();
@@ -143,8 +146,8 @@ public class CreateTaskView extends Fragment {
     private void saveTask() {
         String name = taskName.getText().toString();
         String datum = taskDate.getText().toString();
-        String text = tasktext.getText().toString();
-        String Col = color2.getText().toString();
+        String text = taskText.getText().toString();
+        String Col = taskColor.getText().toString();
         int c = Color.parseColor(Col);
 
         Task t = new Task(name, datum, text, c, -1, false);
@@ -170,11 +173,11 @@ public class CreateTaskView extends Fragment {
         taskDate.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.drawable.calendar), null);
         taskDate.setInputType(InputType.TYPE_NULL);
         taskDate.requestFocus();
-        color2 = (EditText) rootView.findViewById(R.id.txColor);
-        color2.setInputType(InputType.TYPE_NULL);
-        color2.requestFocus();
-        tasktext = (EditText) rootView.findViewById(R.id.txText);
-        remind = (CheckBox) rootView.findViewById(R.id.reminder);
+        taskColor = (EditText) rootView.findViewById(R.id.taskColor);
+        taskColor.setInputType(InputType.TYPE_NULL);
+        taskColor.requestFocus();
+        taskText = (EditText) rootView.findViewById(R.id.taskText);
+        taskReminder = (CheckBox) rootView.findViewById(R.id.taskReminder);
     }
 
 }

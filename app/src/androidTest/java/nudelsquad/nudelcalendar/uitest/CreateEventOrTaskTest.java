@@ -45,81 +45,149 @@ public class CreateEventOrTaskTest  extends ActivityInstrumentationTestCase2<Mai
     }
 
 
-    public void testClickOnEventandCreateIt()
+    public void testButtonDiscardTask()
     {
-        boolean b = false;
+        boolean b;
+        solo.clickOnText("Task");
+        solo.sleep(100);
+
+        solo.enterText(0,"Lernen-Task");
+        solo.enterText(1,"12-05-2010");
+        solo.clickOnImageButton(1);  // press OK on Date Selector
+        solo.clickOnCheckBox(0); // activate Reminder Checkbox
+        solo.enterText(2,"Trallalala dies ist Testtext");
+        solo.sleep(100);
+        solo.enterText(3,"#45454545");
+        solo.clickOnImageButton(1);
+        solo.sleep(500);
+
+        b = solo.searchText("Lernen-Task");
+        assertTrue(b);
+        b = solo.searchText("12-05-2010");
+        assertTrue(b);
+        b = solo.searchText("Trallalala dies ist Testtext");
+        assertTrue(b);
+        b = solo.searchText("#45454545");
+        assertTrue(b);
+
+        solo.clickOnButton("DISCARD");
+        solo.sleep(100);
+    }
+
+
+
+    public void testButtonCreateTask()
+    {
+        boolean b;
+        solo.clickOnText("Task");
+        solo.sleep(100);
+
+        solo.enterText(0,"Lernen-Task");
+        solo.enterText(1,"12-05-2010");
+        solo.clickOnImageButton(1);  // press OK on Date Selector
+        solo.clickOnCheckBox(0); // activate Reminder Checkbox
+        solo.enterText(2,"Trallalala dies ist Testtext");
+        solo.sleep(100);
+        solo.enterText(3,"#45454545");
+        solo.clickOnImageButton(1);
+        solo.sleep(500);
+
+        b = solo.searchText("Lernen-Task");
+        assertTrue(b);
+        b = solo.searchText("12-05-2010");
+        assertTrue(b);
+        b = solo.searchText("Trallalala dies ist Testtext");
+        assertTrue(b);
+        b = solo.searchText("#45454545");
+        assertTrue(b);
+
+
+        b = solo.searchText("SAVE");
+        assertTrue(b);
+        solo.clickOnButton("SAVE");
+        solo.sleep(100);
+
+        b = solo.searchText("YES");
+        assertTrue(b);
+        solo.clickOnButton("YES");
+        solo.sleep(100);
+    }
+
+
+    public void testButtonCreateEvent()
+    {
         solo.clickOnText("Event");
         solo.sleep(500);
 
-        //testbtnDiscard();
-
-
-
-        // First Edittext-field
-        solo.clickOnEditText(0);
-        solo.sleep(500);
-        solo.enterText(0,"Fallschirmspringen");
-        boolean test = solo.searchText("Fallschirmspringen");
-        assertTrue(test);
-
-        // SecondEditTextfield - Date Selector in Format "12-05-2010"
-        solo.clickOnEditText(1);
-        solo.clickOnEditText(1);
-        solo.sleep(500);
-
-        solo.clickOnButton(1); // Press OK
-        solo.sleep(1000);
-
-        // Third Edittext-field - Begin of Event in Format "11:20 AM"
-        solo.enterText(2,"12:12 PM");
-
-        solo.sleep(500);
-        // testClockWidget(); //Detailed Clock Widget Select don't work actually
-
-
-        // Fourth Edittext-field - End of Event in Format "11:20 AM"
-        solo.enterText(2,"08:08 AM");
-        solo.sleep(500);
-        // testClockWidget(); //Detailed Clock Widget Select don't work actually
-
-
-        // Fifth EditText-field - Place
-        solo.enterText(4,"Austria-Graz");
-        b = solo.searchText("Austria-Graz");
-        assertTrue(b);
-        solo.sleep(500);
-
-        // Sixt EditText-field - Type
-        solo.enterText(5,"Sport Event");
-        b = solo.searchText("Austria-Graz");
-        assertTrue(b);
-        solo.sleep(500);
-
-
-        solo.clickOnButton("SAVE");
-
-
-        // test Button Discard
-
-    }
-
-    void testbtnDiscard()
-    {
-        boolean b = false;
+        boolean b;
         solo.enterText(0,"Fallschirmspringen");
         solo.enterText(1,"12-05-2010");
-        solo.sleep(1000);
-        solo.clickOnImageButton(0);
+        solo.sleep(100);
+        solo.clickOnImageButton(0); // Chancel to close window
+        solo.sleep(100);
         solo.enterText(2,"12:12 PM");
+        solo.sleep(100);
         solo.clickOnImageButton(0);
+        solo.sleep(100);
         solo.enterText(3,"08:08 AM");
+        solo.sleep(100);
         solo.clickOnImageButton(0);
+        solo.sleep(100);
         solo.enterText(4,"Austria-Graz");
         solo.enterText(5,"Sport Event");
         solo.enterText(6,"#23434343");
-        solo.clickOnImage(1);
+        solo.sleep(100);
+        solo.clickOnImageButton(0);
+        solo.sleep(100);
 
-        solo.sleep(1000);
+        // Test Inputs
+        b = solo.searchText("Fallschirmspringen");
+        assertTrue(b);
+        b = solo.searchText("12-05-2010");
+        assertTrue(b);
+        b = solo.searchText("12:12 PM");
+        assertTrue(b);
+        b = solo.searchText("08:08 AM");
+        assertTrue(b);
+        b = solo.searchText("Austria-Graz");
+        assertTrue(b);
+        b = solo.searchText("Sport Event");
+        assertTrue(b);
+        b = solo.searchText("#23434343");
+        assertTrue(b);
+        
+
+        solo.clickOnButton("SAVE");
+        solo.sleep(100);
+        solo.clickOnButton("Yes");
+        solo.sleep(100);
+    }
+
+    public void testButtonDiscardEvent()
+    {
+        solo.clickOnText("Event");
+        solo.sleep(500);
+
+        boolean b;
+        solo.enterText(0,"Fallschirmspringen");
+        solo.enterText(1,"12-05-2010");
+        solo.sleep(100);
+        solo.clickOnImageButton(0); // Chancel to close window
+        solo.sleep(100);
+        solo.enterText(2,"12:12 PM");
+        solo.sleep(100);
+        solo.clickOnImageButton(0);
+        solo.sleep(100);
+        solo.enterText(3,"08:08 AM");
+        solo.sleep(100);
+        solo.clickOnImageButton(0);
+        solo.sleep(100);
+        solo.enterText(4,"Austria-Graz");
+        solo.enterText(5,"Sport Event");
+        solo.enterText(6,"#23434343");
+        solo.clickOnImageButton(0);
+
+        solo.sleep(100);
         solo.clickOnButton("DISCARD");
 
         b = solo.searchText("Fallschirmspringen");
@@ -136,13 +204,31 @@ public class CreateEventOrTaskTest  extends ActivityInstrumentationTestCase2<Mai
         assertFalse(b);
         b = solo.searchText("#23434343");
         assertFalse(b);
+    }
+
+    public void testDateWidget()
+    {
+        solo.clickOnText("Event");
+        solo.sleep(200);
+        solo.clickOnEditText(1);
+        solo.sleep(100);
+        solo.clickOnEditText(1);
+        solo.sleep(200);
+
+        solo.clickOnImageButton(15);
+        solo.sleep(200);
+
+        solo.clickOnButton("OK");
+        solo.sleep(2000);
+
 
     }
+
 
     public void testClockWidget()
     {
 
-        // solo.clickOnEditText(2);
+         solo.clickOnEditText(2);
         //solo.clickOnEditText(2);
         //solo.sleep(500);
         //solo.clickOnText("11");
