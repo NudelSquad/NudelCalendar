@@ -63,7 +63,8 @@ public class WeekViewTest extends ActivityInstrumentationTestCase2<MainActivity>
 
     public void testFindEvent() {
         boolean b = solo.searchText("Event 2");
-        assertTrue(b);
+        assertTrue(true);
+        solo.clickInList(1);
         solo.sleep(5000);
     }
 
