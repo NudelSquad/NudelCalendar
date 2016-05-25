@@ -120,7 +120,6 @@ public class DBHandlerTest extends AndroidTestCase {
         List<Task> tasks = dbh.getAllTasks();
         for (Task t:tasks) {
             if (t.getTASK_ID() == 1){
-                Log.e("Task", t.toString());
                 assertEquals(t.getTASK_NAME(), testTask.getTASK_NAME());
                 assertEquals(t.getTASK_DATUM(), testTask.getTASK_DATUM());
                 assertEquals(t.getTASK_TEXT(), testTask.getTASK_TEXT());
@@ -151,6 +150,7 @@ public class DBHandlerTest extends AndroidTestCase {
     public void testUpdateTask(){
         dbh.updateTask(testTaskUpdate);
         Task t = dbh.getTask(1);
+        Log.e("UPDATE", t.toString());
         assertEquals(t.getTASK_NAME(), testTaskUpdate.getTASK_NAME());
         assertEquals(t.getTASK_DATUM(), testTaskUpdate.getTASK_DATUM());
         assertEquals(t.getTASK_TEXT(), testTaskUpdate.getTASK_TEXT());
