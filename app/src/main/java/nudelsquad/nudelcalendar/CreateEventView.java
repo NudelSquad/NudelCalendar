@@ -82,6 +82,7 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
     //private Spinner days;
     int color = Color.parseColor("#33b5e5");
     private String mFileName;
+    private boolean hasRecorded=false;
 
     @Nullable
     @Override
@@ -337,9 +338,13 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
         String Type = eventType.getText().toString();
         String Loc = eventPlace.getText().toString();
         String Col = colorText.getText().toString();
+        String path ="";
         int c = Color.parseColor(Col);
 
-        Event e = new Event(Name, Start, End, Datum, Type, Loc, c, mFileName);
+        if(hasRecorded)
+            path=mFileName;
+
+        Event e = new Event(Name, Start, End, Datum, Type, Loc, c, path);
 
         dbHandler.addEvent(e);
 
@@ -355,7 +360,7 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
 
     private void onRecord(boolean start) {
 
-
+        hasRecorded=true;
         if (start) {
             startRecording();
         } else {

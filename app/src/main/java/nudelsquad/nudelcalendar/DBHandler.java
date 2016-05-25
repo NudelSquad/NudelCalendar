@@ -16,7 +16,7 @@ import java.util.List;
 public class DBHandler extends SQLiteOpenHelper {
 
     // Database Version
-    private static final int DATABASE_VERSION = 4;
+    private static final int DATABASE_VERSION = 5;
 
     // Database Name
     private static final String DATABASE_NAME = "NudelCal_Data";
@@ -42,7 +42,7 @@ public class DBHandler extends SQLiteOpenHelper {
             + KEY_EVENT_START + " TIME, " + KEY_EVENT_STOP + " TIME,"
             + KEY_EVENT_DATUM + " DATE, "
             + KEY_EVENT_TYPE + " TEXT, " + KEY_EVENT_LOCATION + " TEXT, "
-            + KEY_EVENT_COLOR + " INTEGER"
+            + KEY_EVENT_COLOR + " INTEGER, "
             + KEY_EVENT_AUUDIOPATH + " TEXT " + ")";
 
     //----------------------------------------------------------------------
