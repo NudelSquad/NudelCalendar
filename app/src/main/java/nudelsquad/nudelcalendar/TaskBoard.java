@@ -18,6 +18,8 @@ import android.widget.TextView;
 import android.support.v4.app.Fragment;
 import android.widget.Toast;
 
+import com.daimajia.swipe.SwipeLayout;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -78,6 +80,8 @@ public class TaskBoard extends Fragment {
                 ft.commit();
             }
         });
+
+
 
         return rootView;
 

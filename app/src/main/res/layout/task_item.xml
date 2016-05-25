@@ -1,84 +1,139 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8" ?>
+<com.daimajia.swipe.SwipeLayout
+    xmlns:swipe="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/swipe"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:descendantFocusability="blocksDescendants"
-    android:orientation="vertical">
+    android:layout_height="wrap_content"
+    swipe:leftEdgeSwipeOffset="0dp"
+    swipe:rightEdgeSwipeOffset="0dp">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    //under
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:descendantFocusability="blocksDescendants"
-        android:orientation="horizontal">
+        android:layout_height="80dp"
+        android:background="#FF5534"
+        android:gravity="center"
+        android:tag="Bottom3"
+        android:paddingEnd="20dp"
+        android:paddingRight="20dp"
+        android:weightSum="10">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <ImageView
+            android:id="@+id/trash"
+            android:layout_width="27dp"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:src="@drawable/trash" />
+
+        <TextView
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:orientation="horizontal"
-            android:weightSum="10"
-            >
+            android:layout_weight="5"
+            android:text="Delete Item?"
+            android:textColor="#fff"
+            android:textSize="17sp" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:id="@+id/task_color"
-                android:background="@color/colorAccent"
-                android:minWidth="10dp"
-                android:layout_marginTop="3dp"
-                android:layout_marginBottom="3dp"
-                android:orientation="horizontal"
-                android:layout_weight="1"
-                />
-
-            <TextView
-                android:id="@+id/tv_taskname"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="5"
-                android:maxLines="1"
-                android:ellipsize="end"
-
-                android:text="Name of Task:"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-
-                android:maxWidth="1dp" />
-
-            <TextView
-                android:id="@+id/tv_duedate"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="Date"
-                android:layout_weight="3"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:maxWidth="1dp" />
-
-            <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/chk_task"
-                android:checked="false"
-                android:layout_weight="1"
-                android:clickable="true"
-                android:maxWidth="1dp"/>
-
-        </LinearLayout>
-
-
+        <Button
+            android:id="@+id/delete"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="4"
+            android:background="@drawable/white"
+            android:text="Yes,Delete"
+            android:textColor="#FF5534" />
     </LinearLayout>
 
 
-    <TextView
-        android:id="@+id/txt_description"
+    //over
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_marginLeft="20dp"
-        android:text="alkdlkaöfsdkfdalsjkladfskjlfd"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:visibility="gone" />
+        android:layout_height="match_parent"
+        android:background="@color/caldroid_white">
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:descendantFocusability="blocksDescendants"
+            android:orientation="vertical">
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:descendantFocusability="blocksDescendants"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:weightSum="10"
+                    >
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:id="@+id/task_color"
+                        android:background="@color/colorAccent"
+                        android:minWidth="10dp"
+                        android:layout_marginTop="3dp"
+                        android:layout_marginBottom="3dp"
+                        android:orientation="horizontal"
+                        android:layout_weight="1"
+                        />
+
+                    <TextView
+                        android:id="@+id/tv_taskname"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="5"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+
+                        android:text="Name of Task:"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+
+                        android:maxWidth="1dp" />
+
+                    <TextView
+                        android:id="@+id/tv_duedate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="Date"
+                        android:layout_weight="3"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:maxWidth="1dp" />
+
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/chk_task"
+                        android:checked="false"
+                        android:layout_weight="1"
+                        android:clickable="true"
+                        android:maxWidth="1dp"/>
+
+                </LinearLayout>
 
 
-</LinearLayout>
+            </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/txt_description"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_marginLeft="20dp"
+                android:text="alkdlkaöfsdkfdalsjkladfskjlfd"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:visibility="gone" />
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+</com.daimajia.swipe.SwipeLayout>
