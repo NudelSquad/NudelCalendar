@@ -52,10 +52,10 @@ public class TaskBoardViewTest extends ActivityInstrumentationTestCase2<MainActi
 
         dbh.addTask(new Task("Fußballspiel",today,"Dies ist ein testtext und nicht sehr aussagekräftig",Color.BLUE,1,true));
         dbh.addTask(new Task("Programmieren",today,"Dies ist ein testtext und nicht sehr aussagekräftig",Color.RED,2,false));
-        dbh.addTask(new Task("Radfahren",today,"Heute werde ich noch ordentlich anradeln",Color.GREEN,3,true));
-        dbh.addTask(new Task("Fußballspiel",today,"Dies ist ein testtext und nicht sehr aussagekräftig",Color.BLUE,2,false));
-        dbh.addTask(new Task("Fußballspiel",today,"Dies ist ein testtext und nicht sehr aussagekräftig",Color.BLUE,5,false));
-        dbh.addTask(new Task("Fußballspiel",today,"Dies ist ein testtext und nicht sehr aussagekräftig",Color.BLUE,6,true));
+        dbh.addTask(new Task("Radfahrenlalalalso ist dieser TEsT",today,"Heute werde ich noch ordentlich anradeln",Color.GREEN,3,true));
+        dbh.addTask(new Task("Fußballspiel",today,"Dies ist ein testtext und nicht sehr aussagekräftig",Color.YELLOW,4,true));
+        dbh.addTask(new Task("Essen kochen",today,"Dies ist ein testtext und nicht sehr aussagekräftig",Color.BLACK,5,false));
+        dbh.addTask(new Task("ANDROID pro werden",today,"Dies ist eine Feststellung und nicht sehr aussagekräftig",Color.GRAY,6,true));
 
     }
 
@@ -76,17 +76,27 @@ public class TaskBoardViewTest extends ActivityInstrumentationTestCase2<MainActi
     public void testFindTaskAttributesInList()
     {
         boolean b;
-        b = solo.searchText("Fußball");
-        assertFalse(b);
+        b = solo.searchText("Radfahrenlalalalso");
+        assertTrue(b);
+    }
+
+    public void testClickItemLongAndSeeText()
+    {
+        boolean b;
+        solo.clickLongInList(1);
+        solo.sleep(500);
+        b = solo.searchText("Dies ist ein testtext und nicht sehr aussagekräftig");
+        assertTrue(b);
     }
 
 
 
+
     public void testClickOnList() {
-        View taskboardlist = getActivity().findViewById(R.id.taskboard_list);
-        solo.clickOnView(taskboardlist);
 
-
+        solo.clickInList(1);
+        boolean fußballspiel = solo.searchText("Fußballspiel");
+        assertTrue(fußballspiel);
     }
 
     public void testClickAtListItem() {
@@ -94,8 +104,6 @@ public class TaskBoardViewTest extends ActivityInstrumentationTestCase2<MainActi
         solo.clickInList(1);
 
     }
-
-
 
 
     public void openNavigationDrawer() {
