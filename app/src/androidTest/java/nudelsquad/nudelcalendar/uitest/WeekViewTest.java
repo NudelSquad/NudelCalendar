@@ -50,13 +50,13 @@ public class WeekViewTest extends ActivityInstrumentationTestCase2<MainActivity>
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
         String today = formatter.format(calendar.getTime());
-        dbHandler.addEvent(new Event("Event 2", "7:00 AM", "9:00 AM", today, "lecture", "uni", Color.BLUE));
-        dbHandler.addEvent(new Event("Event 1", "9:00 AM", "11:59 AM", today, "party", "home", Color.GREEN));
+        dbHandler.addEvent(new Event("Event 2", "7:00 AM", "9:00 AM", today, "lecture", "uni", Color.BLUE,""));
+        dbHandler.addEvent(new Event("Event 1", "9:00 AM", "11:59 AM", today, "party", "home", Color.GREEN,""));
 
         calendar.add(Calendar.DAY_OF_MONTH, 2);
         today=formatter.format(calendar.getTime());
-        dbHandler.addEvent(new Event("Event 3", "7:00 AM", "9:00 AM", today, "lecture", "uni", Color.BLUE));
-        dbHandler.addEvent(new Event("Event 4", "10:00 AM", "11:00 AM", today, "bla", "uni", Color.YELLOW));
+        dbHandler.addEvent(new Event("Event 3", "7:00 AM", "9:00 AM", today, "lecture", "uni", Color.BLUE,""));
+        dbHandler.addEvent(new Event("Event 4", "10:00 AM", "11:00 AM", today, "bla", "uni", Color.YELLOW,""));
 
     }
 
