@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,7 +45,7 @@ public class TaskBoard extends Fragment {
         taskboardview = (ListView) rootView.findViewById(R.id.taskboard_list);
         DBHandler dbh = new DBHandler(rootView.getContext());
 
-        List<Task> tasklist = dbh.getAllTasks();
+        final List<Task> tasklist = dbh.getAllTasks();
 
         TaskBoardAdapter adapter = new TaskBoardAdapter(rootView.getContext(), tasklist);
 
@@ -72,7 +73,9 @@ public class TaskBoard extends Fragment {
         taskboardview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getContext(), "Link click", Toast.LENGTH_LONG).show();
+                final FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.replace(R.id.main_frame, new TaskLookView(tasklist.get(position).getTASK_ID()), "NewFragmentTag");
+                ft.commit();
             }
         });
 
