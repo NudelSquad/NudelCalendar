@@ -80,15 +80,16 @@ public class TaskBoardAdapter extends BaseAdapter {
         holder.grid_colortask.setBackgroundColor(taskitem.getTASK_COLOR());
         holder.tv_description.setText(taskitem.getTASK_TEXT());
 
-        final CheckBox checkBox = (CheckBox) convertView.findViewById(R.id.chk_task);
+        CheckBox checkBox = (CheckBox) convertView.findViewById(R.id.chk_task);
         checkBox.setTag(taskitem.getTASK_ID());
 
 
 
         checkBox.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Task task = dbh.getTask(taskitem.getTASK_ID());
-                v.getTag();
+
+
+                Task task=null;
                 Toast.makeText(v.getContext(), String.valueOf(task.getTASK_ID()), Toast.LENGTH_SHORT).show();
 
                 if (task.getTASK_CHECKED()) {
