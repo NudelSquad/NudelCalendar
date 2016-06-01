@@ -58,9 +58,9 @@ public class TaskLookView extends Fragment {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder alert1 = new AlertDialog.Builder(rootView.getContext());
-                alert1.setMessage("Delete Task??!")
+                alert1.setMessage(R.string.delete_Task_question)
                         .setCancelable(false)
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 dbh.deleteTask(taskID);
@@ -69,14 +69,14 @@ public class TaskLookView extends Fragment {
                                 ft.commit();
                             }
                         })
-                        .setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                        .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.cancel();
                             }
                         });
                 AlertDialog alert3 = alert1.create();
-                alert3.setTitle("DELETE TASK");
+                alert3.setTitle(R.string.delete_Task);
                 alert3.show();
             }
         });

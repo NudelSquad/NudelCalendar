@@ -53,5 +53,7 @@
     <string name="creaet_task_question">What do you want to create?</string>
     <string name="event">Event</string>
     <string name="task">Task</string>
+  <string name="delete_Task_question">Delete Task?</string>
+  <string name="delete_Task">Delete Task</string>
 
 </resources>
