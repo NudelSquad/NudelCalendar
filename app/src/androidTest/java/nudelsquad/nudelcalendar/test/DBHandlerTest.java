@@ -107,6 +107,10 @@ public class DBHandlerTest extends AndroidTestCase {
         assertEquals(dbh.getEventsCount(), 0);
     }
 
+    public void testDeleteAllEvents(){
+
+    }
+
     public void testGetTask(){
         Task t = dbh.getTask(1);
         assertEquals(t.getTASK_NAME(), testTask.getTASK_NAME());
@@ -120,7 +124,6 @@ public class DBHandlerTest extends AndroidTestCase {
         List<Task> tasks = dbh.getAllTasks();
         for (Task t:tasks) {
             if (t.getTASK_ID() == 1){
-                Log.e("Task", t.toString());
                 assertEquals(t.getTASK_NAME(), testTask.getTASK_NAME());
                 assertEquals(t.getTASK_DATUM(), testTask.getTASK_DATUM());
                 assertEquals(t.getTASK_TEXT(), testTask.getTASK_TEXT());
@@ -151,6 +154,7 @@ public class DBHandlerTest extends AndroidTestCase {
     public void testUpdateTask(){
         dbh.updateTask(testTaskUpdate);
         Task t = dbh.getTask(1);
+        Log.e("UPDATE", t.toString());
         assertEquals(t.getTASK_NAME(), testTaskUpdate.getTASK_NAME());
         assertEquals(t.getTASK_DATUM(), testTaskUpdate.getTASK_DATUM());
         assertEquals(t.getTASK_TEXT(), testTaskUpdate.getTASK_TEXT());
@@ -163,5 +167,13 @@ public class DBHandlerTest extends AndroidTestCase {
         assertEquals(dbh.getTasksCount(),0);
     }
 
+    public void testDeleteAllTasks(){
+        dbh.addTask(testTask);
+        int count = dbh.getTasksCount();
+        assertEquals(count, 2);
+        dbh.deleteAllTasks();
+        count = dbh.getTasksCount();
+        assertEquals(count,0);
+    }
 
 }

@@ -16,7 +16,7 @@ import java.util.List;
 public class DBHandler extends SQLiteOpenHelper {
 
     // Database Version
-    private static final int DATABASE_VERSION = 5;
+    private static final int DATABASE_VERSION = 6;
 
     // Database Name
     private static final String DATABASE_NAME = "NudelCal_Data";
@@ -62,8 +62,8 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String CREATE_TABLE_TASKS = "CREATE TABLE " + TABLE_TASKS + "("
             + KEY_TASK_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + KEY_TASK_NAME + " TEXT,"
             + KEY_TASK_DATUM + " DATE, " + KEY_TASK_TEXT + " TEXT, "
-            + KEY_TASK_COLOR + " INTEGER, " + KEY_TASK_CHECKED + " BOOLEAN, "
-            + KEY_TASK_EVENTID + " TEXT " + ")";
+            + KEY_TASK_COLOR + " INTEGER, " + KEY_TASK_EVENTID + " INTEGER, "
+            + KEY_TASK_CHECKED + " BOOLEAN)";
 
 
     //---------------------------------------------------------------------
@@ -227,6 +227,8 @@ public class DBHandler extends SQLiteOpenHelper {
     public int updateEvent(Event event) {
         SQLiteDatabase db = this.getWritableDatabase();
 
+
+
         ContentValues values = new ContentValues();
         values.put(KEY_EVENT_ID, event.getEVENT_ID());
         values.put(KEY_EVENT_NAME, event.getEVENT_NAME());
@@ -249,6 +251,12 @@ public class DBHandler extends SQLiteOpenHelper {
         db.delete(TABLE_EVENTS, KEY_EVENT_ID + " = ?",
                 new String[] { String.valueOf(EventID) });
         db.close();
+    }
+
+    public void deleteAllEvents(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_EVENTS);
+        db.execSQL(CREATE_TABLE_EVENTS);
     }
 
 
@@ -287,7 +295,7 @@ public class DBHandler extends SQLiteOpenHelper {
             cursor.moveToFirst();
 
         Task single_task = new Task(cursor.getInt(0), cursor.getString(1), cursor.getString(2),
-                cursor.getString(3), cursor.getInt(4), cursor.getInt(6), cursor.getInt(5)>0);
+                cursor.getString(3), cursor.getInt(4), cursor.getInt(5), cursor.getInt(6)>0);
         return single_task;
     }
 
@@ -317,8 +325,8 @@ public class DBHandler extends SQLiteOpenHelper {
                 task.setTASK_DATUM(cursor.getString(2));
                 task.setTASK_TEXT(cursor.getString(3));
                 task.setTASK_COLOR(cursor.getInt(4));
-                task.setTASK_CHECKED(cursor.getInt(5)>0);
-                task.setTASK_EVENTID(cursor.getInt(6));
+                task.setTASK_EVENTID(cursor.getInt(5));
+                task.setTASK_CHECKED(cursor.getInt(6)>0);
 
                 taskList.add(task);
             } while (cursor.moveToNext());
@@ -341,9 +349,8 @@ public class DBHandler extends SQLiteOpenHelper {
                 task.setTASK_DATUM(cursor.getString(2));
                 task.setTASK_TEXT(cursor.getString(3));
                 task.setTASK_COLOR(cursor.getInt(4));
-                task.setTASK_CHECKED(cursor.getInt(5)>0);
-                task.setTASK_EVENTID(cursor.getInt(6));
-
+                task.setTASK_EVENTID(cursor.getInt(5));
+                task.setTASK_CHECKED(cursor.getInt(6)>0);
 
                 taskList.add(task);
             } while (cursor.moveToNext());
@@ -373,7 +380,7 @@ public class DBHandler extends SQLiteOpenHelper {
      */
     public int updateTask(Task task) {
         SQLiteDatabase db = this.getWritableDatabase();
-
+        Log.e("UPDATE", task.toString());
         ContentValues values = new ContentValues();
         values.put(KEY_TASK_ID, task.getTASK_ID());
         values.put(KEY_TASK_NAME, task.getTASK_NAME());
@@ -396,6 +403,12 @@ public class DBHandler extends SQLiteOpenHelper {
         db.delete(TABLE_TASKS, KEY_TASK_ID + " = ?",
                 new String[] { String.valueOf(taskID) });
         db.close();
+    }
+
+    public void deleteAllTasks() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_TASKS);
+        db.execSQL(CREATE_TABLE_TASKS);
     }
 
 
