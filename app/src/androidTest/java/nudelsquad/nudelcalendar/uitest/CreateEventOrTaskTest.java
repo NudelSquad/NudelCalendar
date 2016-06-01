@@ -1,5 +1,6 @@
 package nudelsquad.nudelcalendar.uitest;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.test.ActivityInstrumentationTestCase2;
@@ -21,6 +22,7 @@ import nudelsquad.nudelcalendar.Task;
 public class CreateEventOrTaskTest  extends ActivityInstrumentationTestCase2<MainActivity> {
 
     private Solo solo;
+    private Context context;
 
     public CreateEventOrTaskTest() {
         super(MainActivity.class);
@@ -29,6 +31,7 @@ public class CreateEventOrTaskTest  extends ActivityInstrumentationTestCase2<Mai
     public void setUp() throws Exception {
         super.setUp();
         solo = new Solo(getInstrumentation(), getActivity());
+        context = getActivity().getApplicationContext();
 
         View addEventOrTask = getActivity().findViewById(R.id.add_btn);
         solo.clickOnView(addEventOrTask);
@@ -38,9 +41,9 @@ public class CreateEventOrTaskTest  extends ActivityInstrumentationTestCase2<Mai
 
     public void testSearchTextTaskOrEvent()
     {
-        boolean event = solo.searchText("Event");
+        boolean event = solo.searchText(context.getString(R.string.event));
         assertTrue(event);
-        boolean task = solo.searchText("Task");
+        boolean task = solo.searchText(context.getString(R.string.task));
         assertTrue(task);
     }
 
@@ -48,7 +51,7 @@ public class CreateEventOrTaskTest  extends ActivityInstrumentationTestCase2<Mai
     public void testButtonDiscardTask()
     {
         boolean b;
-        solo.clickOnText("Task");
+        solo.clickOnText(context.getString(R.string.task));
         solo.sleep(100);
 
         solo.enterText(0,"Lernen-Task");
@@ -70,7 +73,7 @@ public class CreateEventOrTaskTest  extends ActivityInstrumentationTestCase2<Mai
         b = solo.searchText("#45454545");
         assertTrue(b);
 
-        solo.clickOnButton("DISCARD");
+        solo.clickOnButton(context.getString(R.string.cancel));
         solo.sleep(100);
     }
 
@@ -79,7 +82,7 @@ public class CreateEventOrTaskTest  extends ActivityInstrumentationTestCase2<Mai
     public void testButtonCreateTask()
     {
         boolean b;
-        solo.clickOnText("Task");
+        solo.clickOnText(context.getString(R.string.task));
         solo.sleep(100);
 
         solo.enterText(0,"Lernen-Task");
@@ -102,21 +105,21 @@ public class CreateEventOrTaskTest  extends ActivityInstrumentationTestCase2<Mai
         assertTrue(b);
 
 
-        b = solo.searchText("SAVE");
+        b = solo.searchText(context.getString(R.string.save));
         assertTrue(b);
-        solo.clickOnButton("SAVE");
+        solo.clickOnButton(context.getString(R.string.save));
         solo.sleep(100);
 
-        b = solo.searchText("YES");
+        b = solo.searchText(context.getString(R.string.yes));
         assertTrue(b);
-        solo.clickOnButton("YES");
+        solo.clickOnButton(context.getString(R.string.yes));
         solo.sleep(100);
     }
 
 
     public void testButtonCreateEvent()
     {
-        solo.clickOnText("Event");
+        solo.clickOnText(context.getString(R.string.event));
         solo.sleep(500);
 
         boolean b;
@@ -157,15 +160,15 @@ public class CreateEventOrTaskTest  extends ActivityInstrumentationTestCase2<Mai
         assertTrue(b);
         
 
-        solo.clickOnButton("SAVE");
+        solo.clickOnButton(context.getString(R.string.save));
         solo.sleep(100);
-        solo.clickOnButton("Yes");
+        solo.clickOnButton(context.getString(R.string.yes));
         solo.sleep(100);
     }
 
     public void testButtonDiscardEvent()
     {
-        solo.clickOnText("Event");
+        solo.clickOnText(context.getString(R.string.event));
         solo.sleep(500);
 
         boolean b;
@@ -188,7 +191,7 @@ public class CreateEventOrTaskTest  extends ActivityInstrumentationTestCase2<Mai
         solo.clickOnImageButton(0);
 
         solo.sleep(100);
-        solo.clickOnButton("DISCARD");
+        solo.clickOnButton(context.getString(R.string.cancel));
 
         b = solo.searchText("Fallschirmspringen");
         assertFalse(b);
@@ -209,7 +212,7 @@ public class CreateEventOrTaskTest  extends ActivityInstrumentationTestCase2<Mai
     public void testDateWidget()
     {
         // Widget does not relly work
-        solo.clickOnText("Event");
+        solo.clickOnText(context.getString(R.string.event));
         solo.sleep(200);
         solo.clickOnEditText(1);
         solo.sleep(100);
@@ -225,7 +228,7 @@ public class CreateEventOrTaskTest  extends ActivityInstrumentationTestCase2<Mai
     public void testClockWidget()
     {
 
-        solo.clickOnText("Event");
+        solo.clickOnText(context.getString(R.string.event));
         solo.sleep(200);
         solo.clickOnEditText(2);
         solo.sleep(100);

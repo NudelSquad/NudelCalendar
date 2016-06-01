@@ -24,7 +24,7 @@ public class SettingsViewTest extends ActivityInstrumentationTestCase2<MainActiv
         super.setUp();
         solo = new Solo(getInstrumentation(), getActivity());
         openNavigationDrawer();
-        solo.clickOnText("Settings");
+        solo.clickOnText(getActivity().getResources().getString(R.string.drawer_settings));
         solo.sleep(1000);
 
     }
@@ -60,9 +60,9 @@ public class SettingsViewTest extends ActivityInstrumentationTestCase2<MainActiv
     }
 
     public void testButton() {
-        solo.clickOnButton("Save");
+        solo.clickOnButton(getActivity().getResources().getString(R.string.save));
         solo.sleep(500);
-        boolean saved = solo.searchText("Saved");
+        boolean saved = solo.searchText(getActivity().getResources().getString(R.string.saved));
         assertTrue(saved);
     }
 
