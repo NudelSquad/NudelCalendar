@@ -354,6 +354,8 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
 
         dbHandler.addEvent(e);
 
+        AlarmHandler.getInstance().addEvent(e);
+
         int evid = dbHandler.getEventsCount();
         for(int i = 0; i < tasks.size(); i++){
             tasks.get(i).setTASK_EVENTID(evid);
