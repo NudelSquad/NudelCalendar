@@ -253,6 +253,12 @@ public class DBHandler extends SQLiteOpenHelper {
         db.close();
     }
 
+    public void deleteAllEvents(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_EVENTS);
+        db.execSQL(CREATE_TABLE_EVENTS);
+    }
+
 
     public void addTask(Task task) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -397,6 +403,12 @@ public class DBHandler extends SQLiteOpenHelper {
         db.delete(TABLE_TASKS, KEY_TASK_ID + " = ?",
                 new String[] { String.valueOf(taskID) });
         db.close();
+    }
+
+    public void deleteAllTasks() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_TASKS);
+        db.execSQL(CREATE_TABLE_TASKS);
     }
 
 
