@@ -54,22 +54,8 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Save Settings"
+            android:text="Save"
             android:id="@+id/btnSave"
-            android:layout_marginTop="10dp" />
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Delete all Events"
-            android:id="@+id/btnDelEvents"
-            android:layout_marginTop="10dp" />
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Delete all Tasks"
-            android:id="@+id/btnDelTask"
             android:layout_marginTop="10dp" />
 
     </LinearLayout>
