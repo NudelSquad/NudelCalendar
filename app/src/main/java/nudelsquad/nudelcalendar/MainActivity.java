@@ -2,6 +2,8 @@ package nudelsquad.nudelcalendar;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -47,6 +49,10 @@ public class MainActivity extends AppCompatActivity
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
     private GoogleApiClient client;
+    SharedPreferences sharedPrefs = null;                       //to Save Settings
+    private static final String PrefName = "SettingPreferences";
+    private static final String Pref_KEY_LANDSC = "LANDSCAPEMODE";
+
 
     public static Bundle myBundle = new Bundle();
 
@@ -58,6 +64,15 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         myBundle.putString("selectedDate", String.valueOf("n"));
+
+        //Get Settings
+        sharedPrefs = getSharedPreferences(PrefName, 0);
+        if(sharedPrefs.getBoolean(Pref_KEY_LANDSC, false)){
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        }
+        else
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
 
         //OPEN ADD FRAME
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.add_btn);
@@ -262,7 +277,6 @@ public class MainActivity extends AppCompatActivity
 
         @Override
         public void onClick(View v) {
-
             switch (v.getId()){
                 case R.id.btn_day:
                     Fragment fragment = new DayList();
