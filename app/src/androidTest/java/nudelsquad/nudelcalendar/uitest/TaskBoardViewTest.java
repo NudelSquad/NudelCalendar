@@ -76,6 +76,7 @@ public class TaskBoardViewTest extends ActivityInstrumentationTestCase2<MainActi
     public void testFindTaskAttributesInList()
     {
         boolean b;
+        solo.sleep(500);
         b = solo.searchText("Radfahrenlalalalso");
         assertTrue(b);
     }
