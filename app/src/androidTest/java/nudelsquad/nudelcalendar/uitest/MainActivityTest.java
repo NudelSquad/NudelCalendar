@@ -1,7 +1,10 @@
 package nudelsquad.nudelcalendar.uitest;
 
 import android.graphics.Point;
+import android.support.v4.widget.DrawerLayout;
 import android.test.ActivityInstrumentationTestCase2;
+import android.view.View;
+import android.widget.ListView;
 
 import com.robotium.solo.Solo;
 
@@ -47,21 +50,37 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
     public void testOpenHome(){
         openNavigationDrawer();
         solo.clickOnText(getActivity().getApplicationContext().getString(R.string.drawer_home));
+        solo.sleep(500);
     }
 
     public void testOpenDay(){
         openNavigationDrawer();
         solo.clickOnText(getActivity().getApplicationContext().getString(R.string.drawer_day));
+        solo.sleep(500);
     }
 
     public void testOpenWeek(){
         openNavigationDrawer();
-        solo.clickOnText(getActivity().getApplicationContext().getString(R.string.drawer_week));
+        solo.clickOnText("Week", 2);
+        solo.sleep(500);
     }
 
     public void testOpenMonth(){
         openNavigationDrawer();
         solo.clickOnText(getActivity().getApplicationContext().getString(R.string.drawer_month));
+        solo.sleep(500);
+    }
+
+    public void testOpenTaskBoard(){
+        openNavigationDrawer();
+        solo.clickOnText(getActivity().getApplicationContext().getString(R.string.drawer_month));
+        solo.sleep(500);
+    }
+
+    public void testOpenSettings(){
+        openNavigationDrawer();
+        solo.clickOnText(getActivity().getApplicationContext().getString(R.string.drawer_settings));
+        solo.sleep(500);
     }
 
     public void testClickBackButton(){
