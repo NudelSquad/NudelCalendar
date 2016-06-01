@@ -11,14 +11,14 @@
         <Switch
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Reminder"
+            android:text="@string/reminder"
             android:id="@+id/swRem"
             android:layout_marginTop="10dp" />
 
         <Switch
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Landscape Mode"
+            android:text="@string/landscape_mode"
             android:id="@+id/swLS"
             android:layout_marginTop="10dp" />
 
@@ -32,7 +32,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="set mute for"
+                android:text="@string/set_mute_for"
                 android:id="@+id/textView"
                 android:layout_gravity="center_vertical" />
 
@@ -45,7 +45,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="minutes"
+                android:text="@string/minutes"
                 android:id="@+id/textView1"
                 android:layout_gravity="center_vertical" />
 
@@ -54,7 +54,7 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Save"
+            android:text="@string/save"
             android:id="@+id/btnSave"
             android:layout_marginTop="10dp" />
 

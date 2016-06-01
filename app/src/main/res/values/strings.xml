@@ -15,7 +15,7 @@
     <string name="colorEditText">Color</string>
     <string name="taskName">Task name</string>
     <string name="taskDate">Task date</string>
-    <string name="reminder">Set reminder</string>
+    <string name="set_reminder">Set reminder</string>
     <string name="editText">Text</string>
     <string name="editText2">Select color</string>
     <string name="title_activity_audio_record_test">AudioRecordTest</string>
@@ -32,5 +32,26 @@
     <string name="save_task">Save Task?</string>
     <string name="add_task">Add Task</string>
     <string name="todo">TODO</string>
+    <string name="title">Title</string>
+    <string name="cancel">Cancel</string>
+    <string name="save">Save</string>
+    <string name="placeholder">placeholder</string>
+    <string name="notes">Notes:</string>
+    <string name="set_reminder">set reminder</string>
+    <string name="upcoming_tasks">Upcoming Tasks</string>
+    <string name="name">Name</string>
+    <string name="date">Date</string>
+    <string name="finished">finished</string>
+    <string name="nudelcalendar">NudelCalendar</string>
+    <string name="reminder">Reminder</string>
+    <string name="landscape_mode">Landscape Mode</string>
+    <string name="set_mute_for">set mute for</string>
+    <string name="minutes">minutes</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="todo_list">Todo List:</string>
+    <string name="creaet_task_question">What do you want to create?</string>
+    <string name="event">Event</string>
+    <string name="task">Task</string>
 
 </resources>

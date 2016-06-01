@@ -22,7 +22,7 @@
     <CheckBox
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/reminder"
+        android:hint="@string/set_reminder"
         android:textSize="25dp"
         android:id="@+id/reminder"
         android:layout_below="@+id/taskDate"/>
@@ -30,7 +30,7 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:id="@+id/txText"
-        android:hint="@string/editText"
+        android:hint="@string/placeholder"
         android:lines="5"
         android:gravity="top|left"
         android:background="#f0efef"
@@ -51,12 +51,12 @@
             android:layout_width="150dp"
             android:layout_height="60dp"
             android:id="@+id/addTaskBtn"
-            android:text="SAVE" />
+            android:text="@string/save" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="DISCARD"
+            android:text="@string/cancel"
             android:id="@+id/discardBtn"
             android:layout_alignBottom="@+id/addTaskBtn"
             android:layout_alignTop="@+id/addTaskBtn" />
