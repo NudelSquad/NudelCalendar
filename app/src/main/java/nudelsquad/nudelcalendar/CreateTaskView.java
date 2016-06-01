@@ -122,7 +122,7 @@ public class CreateTaskView extends Fragment {
                                 }
                             });
                     AlertDialog alert3 = alert1.create();
-                    alert3.setTitle(.getString(R.string.add_task));
+                    alert3.setTitle(R.string.add_task);
                     alert3.show();
                 }
             }
