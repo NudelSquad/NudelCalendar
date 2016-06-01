@@ -107,6 +107,10 @@ public class DBHandlerTest extends AndroidTestCase {
         assertEquals(dbh.getEventsCount(), 0);
     }
 
+    public void testDeleteAllEvents(){
+
+    }
+
     public void testGetTask(){
         Task t = dbh.getTask(1);
         assertEquals(t.getTASK_NAME(), testTask.getTASK_NAME());
@@ -163,5 +167,13 @@ public class DBHandlerTest extends AndroidTestCase {
         assertEquals(dbh.getTasksCount(),0);
     }
 
+    public void testDeleteAllTasks(){
+        dbh.addTask(testTask);
+        int count = dbh.getTasksCount();
+        assertEquals(count, 2);
+        dbh.deleteAllTasks();
+        count = dbh.getTasksCount();
+        assertEquals(count,0);
+    }
 
 }

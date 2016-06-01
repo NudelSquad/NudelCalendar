@@ -29,6 +29,10 @@ public class SettingsView extends Fragment implements View.OnClickListener{
     public void initGUI(){
         Button btn_save = (Button) rootView.findViewById(R.id.btnSave);
         btn_save.setOnClickListener(this);
+        btn_save = (Button) rootView.findViewById(R.id.btnDelEvents);
+        btn_save.setOnClickListener(this);
+        btn_save = (Button) rootView.findViewById(R.id.btnDelTask);
+        btn_save.setOnClickListener(this);
         Spinner spin = (Spinner) rootView.findViewById(R.id.spMuteFor);
         String items[] = {"15", "30", "45", "60", "75"};
         ArrayAdapter adp = new ArrayAdapter(rootView.getContext(), R.layout.support_simple_spinner_dropdown_item, items);
@@ -37,8 +41,17 @@ public class SettingsView extends Fragment implements View.OnClickListener{
 
     @Override
     public void onClick(View v) {
+        DBHandler dbh = new DBHandler(rootView.getContext());
         if (v.getId() == R.id.btnSave){
             Toast.makeText(rootView.getContext(), "Saved", Toast.LENGTH_LONG).show();
+        }
+        if (v.getId() == R.id.btnDelTask){
+            Toast.makeText(rootView.getContext(), "Deleted all Tasks", Toast.LENGTH_LONG).show();
+            dbh.deleteAllTasks();
+        }
+        if(v.getId() == R.id.btnDelEvents){
+            Toast.makeText(rootView.getContext(), "Deleted all Events", Toast.LENGTH_LONG).show();
+            dbh.deleteAllEvents();
         }
     }
 }
