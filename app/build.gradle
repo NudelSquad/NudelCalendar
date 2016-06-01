@@ -28,5 +28,6 @@ dependencies {
     compile 'com.google.android.gms:play-services-appindexing:8.1.0'
     compile 'com.github.alamkanak:android-week-view:1.2.6'
     compile 'com.roomorama:caldroid:3.0.1'
+    compile "com.daimajia.swipelayout:library:1.2.0@aar"
     compile project(":ColorPickerPreference")
 }
