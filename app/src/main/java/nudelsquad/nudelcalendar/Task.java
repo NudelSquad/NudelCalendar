@@ -1,6 +1,10 @@
 package nudelsquad.nudelcalendar;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by emanuel on 27/04/16.
@@ -56,6 +60,17 @@ public class Task {
 
     public String getTASK_DATUM() {
         return TASK_DATUM;
+    }
+
+    public Date getTASK_DATUMAsDate() {
+        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+
+        try {
+            return format.parse(TASK_DATUM);
+        } catch (ParseException e) {
+
+            return Calendar.getInstance().getTime();
+        }
     }
 
     public void setTASK_DATUM(String TASK_DATUM) {

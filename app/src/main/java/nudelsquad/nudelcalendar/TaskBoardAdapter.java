@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.daimajia.swipe.SwipeLayout;
 
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -29,14 +30,16 @@ public class TaskBoardAdapter extends BaseAdapter {
     public TaskBoardAdapter(Context context, List<Task> objects) {
         //super(context, resource, objects);
         this.task_list = objects;
+        Collections.sort(task_list, new TaskDateComparator());
+        Collections.sort(task_list, new TaskCheckedComperator());
         this.layout_context_ = context;
         this.inflater = LayoutInflater.from(context);
         this.dbh = new DBHandler(context);
     }
 
     public void resetAndLoadList() {
-        task_list=null;
-        task_list=dbh.getAllTasks();
+        task_list = null;
+        task_list = dbh.getAllTasks();
     }
 
 
@@ -70,16 +73,13 @@ public class TaskBoardAdapter extends BaseAdapter {
             holder.tv_description = (TextView) convertView.findViewById(R.id.txt_description);
             holder.position = position;
             convertView.setTag(holder);
-        }
-        else
-        {
+        } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        Task taskitem =  task_list.get(position);
+        Task taskitem = task_list.get(position);
 
         setSwipe(convertView, parent);
-
 
 
         holder.tv_name.setText(taskitem.getTASK_NAME());
@@ -87,8 +87,8 @@ public class TaskBoardAdapter extends BaseAdapter {
         holder.checktask.setChecked(taskitem.getTASK_CHECKED());
         holder.grid_colortask.setBackgroundColor(taskitem.getTASK_COLOR());
         holder.tv_description.setText(taskitem.getTASK_TEXT());
-        holder.position=position;
-        holder.id=taskitem.getTASK_ID();
+        holder.position = position;
+        holder.id = taskitem.getTASK_ID();
 
         CheckBox checkBox = (CheckBox) convertView.findViewById(R.id.chk_task);
         checkBox.setTag(holder);
@@ -99,7 +99,7 @@ public class TaskBoardAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 Log.i(TAG, "delte");
-                ViewHolder viewHolder= (ViewHolder) v.getTag();
+                ViewHolder viewHolder = (ViewHolder) v.getTag();
                 int id = viewHolder.id;
                 dbh.deleteTask(id);
                 swapItems();
@@ -116,7 +116,7 @@ public class TaskBoardAdapter extends BaseAdapter {
 
                 Task task = task_list.get(viewHolder.position);
 
-                if(task.getTASK_ID()!=viewHolder.id)
+                if (task.getTASK_ID() != viewHolder.id)
                     Toast.makeText(v.getContext(), viewHolder.id, Toast.LENGTH_SHORT);
 
                 task.setTASK_CHECKED((((CheckBox) v).isChecked()));
@@ -173,7 +173,9 @@ public class TaskBoardAdapter extends BaseAdapter {
     }
 
     public void swapItems() {
-        task_list = dbh.getAllTasks();
+        task_list=dbh.getAllTasks();
+        Collections.sort(task_list, new TaskDateComparator());
+        Collections.sort(task_list, new TaskCheckedComperator());
         notifyDataSetChanged();
     }
 
@@ -185,18 +187,28 @@ public class TaskBoardAdapter extends BaseAdapter {
         int id;
     }
 
-//
-//    static final Comparator<Task> TASK_COMPARATOR =
-//            new Comparator<Task>() {
-//                public int compare(Task t1, Task t2) {
-//                    int dateCmp = t2.().compareTo(t1.hireDate());
-//                    if (dateCmp != 0)
-//                        return dateCmp;
-//
-//                    return (t1.number() < t2.number() ? -1 :
-//                            (t1.number() == t2.number() ? 0 : 1));
-//                }
-//            };
+    public class TaskDateComparator implements Comparator<Task> {
+        @Override
+        public int compare(Task o1, Task o2) {
+            return o1.getTASK_DATUMAsDate().compareTo(o2.getTASK_DATUMAsDate());
+        }
+    }
+
+    public class TaskCheckedComperator implements Comparator<Task> {
+        @Override
+        public int compare(Task o1, Task o2) {
+            boolean b1 = o1.getTASK_CHECKED();
+            boolean b2 = o2.getTASK_CHECKED();
+
+            if (b1 == !b2){
+                return -1;
+            }
+            if (!b1 == b2){
+                return 1;
+            }
+            return 0;
+        }
+    }
 
 
 }
