@@ -1,6 +1,7 @@
 package nudelsquad.nudelcalendar;
 
 
+import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -14,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.support.v4.app.Fragment;
 import android.widget.Toast;
@@ -36,6 +38,8 @@ public class TaskBoard extends Fragment {
     private View rootView;
     TaskBoardAdapter adapter;
 
+    SearchView svtest;
+
     @Override
     public void onResume() {
         super.onResume();
@@ -52,7 +56,7 @@ public class TaskBoard extends Fragment {
         Bundle args = getArguments();
 
         taskboardview = (ListView) rootView.findViewById(R.id.taskboard_list);
-        DBHandler dbh = new DBHandler(rootView.getContext());
+        final DBHandler dbh = new DBHandler(rootView.getContext());
 
         final List<Task> tasklist = dbh.getAllTasks();
 
@@ -60,6 +64,53 @@ public class TaskBoard extends Fragment {
 
         taskboardview.setAdapter(adapter);
         taskboardview.setClickable(true);
+
+
+        ArrayList<String> searchlist=new ArrayList<String>();
+
+       for(int i = 0;i<dbh.getEventsCount();i++)
+       {
+           searchlist.add(dbh.getEvent(i).getEVENT_NAME()+"  "+dbh.getEvent(0).getEVENT_END()+"  "+dbh.getEvent(i).getEVENT_DATUM());
+       }
+        for (int i = 0; i < dbh.getTasksCount();i++)
+        {
+            searchlist.add(dbh.getTask(i).getTASK_NAME()+"  "+dbh.getTask(i).getTASK_DATUM());
+        }
+
+
+
+        svtest = (SearchView) rootView.findViewById(R.id.searchView);
+        svtest.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+
+
+                dbh.getAllEvents();
+
+             /*   Context context = getContext();
+                int duration = Toast.LENGTH_SHORT;
+                Toast toast = Toast.makeText(context, query, duration);
+                toast.show();
+                */
+
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+
+                  /*   Context context = getContext();
+                int duration = Toast.LENGTH_SHORT;
+                Toast toast = Toast.makeText(context, query, duration);
+                toast.show();
+                */
+
+                return false;
+            }
+        });
+        String a = svtest.getQuery().toString();
+
+
 
 
         taskboardview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
