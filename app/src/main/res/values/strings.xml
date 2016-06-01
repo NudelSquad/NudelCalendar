@@ -15,7 +15,6 @@
     <string name="colorEditText">Color</string>
     <string name="taskName">Task name</string>
     <string name="taskDate">Task date</string>
-    <string name="set_reminder">Set reminder</string>
     <string name="editText">Text</string>
     <string name="editText2">Select color</string>
     <string name="title_activity_audio_record_test">AudioRecordTest</string>
@@ -55,5 +54,11 @@
     <string name="task">Task</string>
   <string name="delete_Task_question">Delete Task?</string>
   <string name="delete_Task">Delete Task</string>
+    <string name="drawer_home">Home</string>
+    <string name="drawer_day">Day</string>
+    <string name="drawer_week">Week</string>
+    <string name="drawer_month">Month</string>
+    <string name="drawer_taskboard">Task Board</string>
+    <string name="drawer_settings">Settings</string>
 
 </resources>
