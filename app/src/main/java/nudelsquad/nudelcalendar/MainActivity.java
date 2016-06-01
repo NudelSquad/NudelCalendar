@@ -1,7 +1,12 @@
 package nudelsquad.nudelcalendar;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -49,6 +54,9 @@ public class MainActivity extends AppCompatActivity
     private GoogleApiClient client;
 
     public static Bundle myBundle = new Bundle();
+    PendingIntent pi;
+    BroadcastReceiver br;
+    AlarmManager am;
 
 
     @Override
@@ -58,6 +66,10 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         myBundle.putString("selectedDate", String.valueOf("n"));
+
+        setup();
+        AlarmHandler.getInstance().setAlarmManager(am);
+        AlarmHandler.getInstance().setMainActivity(this);
 
         //OPEN ADD FRAME
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.add_btn);
@@ -287,5 +299,21 @@ public class MainActivity extends AppCompatActivity
                     break;
             }
         }
+
+    }
+
+    private void setup() {
+
+        br = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context c, Intent i) {
+
+                int id = i.getExtras().getInt("id");
+                Log.d("MAIN", String.valueOf(id));
+            }
+        };
+        registerReceiver(br, new IntentFilter("com.nudelsquad.Nudelcalendar"));
+
+        am = (AlarmManager)(this.getSystemService( Context.ALARM_SERVICE ));
     }
 }
