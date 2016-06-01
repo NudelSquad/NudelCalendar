@@ -32,5 +32,7 @@ dependencies {
     compile 'com.github.alamkanak:android-week-view:1.2.6'
     compile 'com.roomorama:caldroid:3.0.1'
     compile "com.daimajia.swipelayout:library:1.2.0@aar"
+    compile group: 'joda-time', name: 'joda-time', version: '2.3'
+
     compile project(":ColorPickerPreference")
 }

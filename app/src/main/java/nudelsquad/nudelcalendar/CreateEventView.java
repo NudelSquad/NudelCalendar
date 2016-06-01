@@ -110,7 +110,8 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
 
 
 
-        mFileName = Environment.getExternalStorageDirectory().toString() + "/data/com.nudelsquad.Nudelcalendar/";
+
+        mFileName = Environment.getExternalStorageDirectory().toString() + getString(R.string.appid);
         File file = new File(mFileName);
         try{
             file.mkdir();
@@ -158,6 +159,7 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
                         edtTextEnd.getText().toString().isEmpty() ||
                         eventType.getText().toString().isEmpty() ||
                         colorText.getText().toString().isEmpty()) {
+                    AlarmHandler.getInstance().addEvent(null);
 
                     AlertDialog.Builder alert1 = new AlertDialog.Builder(rootView.getContext());
                     alert1.setMessage(R.string.missing_data_alert)
@@ -306,7 +308,9 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
                 newTime.set(Calendar.HOUR_OF_DAY, hourOfDay);
                 newTime.set(Calendar.MINUTE, minute);
                 String timeString = DateUtils.formatDateTime(rootView.getContext(), newTime.getTimeInMillis(), DateUtils.FORMAT_SHOW_TIME);
+                Log.d("Time", hourOfDay + " " + minute);
                 edtTextBegin.setText(timeString);
+                edtTextBegin.setTag(hourOfDay+":"+minute);
             }
         }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), android.text.format.DateFormat.is24HourFormat(rootView.getContext()));
     }
@@ -323,6 +327,7 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
                 newTime.set(Calendar.MINUTE, minute);
                 String timeString = DateUtils.formatDateTime(rootView.getContext(), newTime.getTimeInMillis(), DateUtils.FORMAT_SHOW_TIME);
                 edtTextEnd.setText(timeString);
+                edtTextEnd.setTag(hourOfDay+":"+minute);
             }
         }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), android.text.format.DateFormat.is24HourFormat(rootView.getContext()));
     }
@@ -356,8 +361,9 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
     }
 
     private void saveEvent() {
-        String Start = edtTextBegin.getText().toString();
-        String End = edtTextEnd.getText().toString();
+
+        String Start = String.valueOf(edtTextBegin.getTag());
+        String End = String.valueOf(edtTextEnd.getTag());
         String Datum = edtTextEventDate.getText().toString();
         String Name = eventName.getText().toString();
         String Type = eventType.getText().toString();

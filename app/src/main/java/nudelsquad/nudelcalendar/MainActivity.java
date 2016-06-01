@@ -1,9 +1,10 @@
 package nudelsquad.nudelcalendar;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
-import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -55,6 +56,9 @@ public class MainActivity extends AppCompatActivity
 
 
     public static Bundle myBundle = new Bundle();
+    PendingIntent pi;
+    BroadcastReceiver br;
+    AlarmManager am;
 
 
     @Override
@@ -64,15 +68,6 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         myBundle.putString("selectedDate", String.valueOf("n"));
-
-        //Get Settings
-        sharedPrefs = getSharedPreferences(PrefName, 0);
-        if(sharedPrefs.getBoolean(Pref_KEY_LANDSC, false)){
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        }
-        else
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-
 
         //OPEN ADD FRAME
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.add_btn);
@@ -301,5 +296,8 @@ public class MainActivity extends AppCompatActivity
                     break;
             }
         }
+
     }
+
+
 }
