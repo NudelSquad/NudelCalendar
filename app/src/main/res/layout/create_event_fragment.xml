@@ -12,7 +12,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="DISCARD"
+            android:text="@string/cancel"
             android:id="@+id/btn_discard"
             android:layout_alignBottom="@+id/progressBar"
             android:textSize="30dp"
@@ -21,7 +21,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="SAVE"
+            android:text="@string/save"
             android:id="@+id/btn_add_event"
             android:textSize="30dp"
             android:layout_alignTop="@+id/progressBar" />

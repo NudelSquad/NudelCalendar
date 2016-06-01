@@ -92,7 +92,7 @@ public class ShowEventView extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.btn_event_edit) {
-            Toast.makeText(rootView.getContext(), "Clicked on Edit", Toast.LENGTH_SHORT).show();
+            Toast.makeText(rootView.getContext(), R.string.todo, Toast.LENGTH_SHORT).show();
 
         } else if (v.getId() == R.id.btn_event_delete) {
             dbh.deleteEvent(EventID);

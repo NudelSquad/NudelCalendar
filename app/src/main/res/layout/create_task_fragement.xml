@@ -38,7 +38,7 @@
         android:layout_marginTop="8dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/reminder"
+        android:hint="@string/set_reminder"
         android:textSize="20dp"
         android:id="@+id/taskReminder"
         android:layout_below="@+id/taskDate"
@@ -49,7 +49,7 @@
         android:layout_height="150dp"
         android:id="@+id/taskText"
         android:padding="10dp"
-        android:hint="@string/editText"
+        android:hint="@string/placeholder"
         android:textSize="20dp"
         android:lines="5"
 
@@ -75,12 +75,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/saveTaskBtn"
-            android:text="SAVE" />
+            android:text="@string/save" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="DISCARD"
+            android:text="@string/cancel"
             android:id="@+id/discardTaskBtn"
             android:layout_alignBottom="@+id/saveTaskBtn"
             android:layout_alignTop="@+id/saveTaskBtn" />

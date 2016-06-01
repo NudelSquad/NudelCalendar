@@ -68,8 +68,8 @@ public class MainActivity extends AppCompatActivity
 
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                builder.setTitle("What do you want to create?");
-                builder.setItems(new String[]{"Event", "Task"}, new DialogInterface.OnClickListener() {
+                builder.setTitle(getString(R.string.creaet_task_question));
+                builder.setItems(new String[]{getString(R.string.event), getString(R.string.task)}, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         Fragment fragment = null;
                         if (which == 0){

@@ -38,7 +38,7 @@ public class SettingsView extends Fragment implements View.OnClickListener{
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.btnSave){
-            Toast.makeText(rootView.getContext(), "Saved", Toast.LENGTH_LONG).show();
+            Toast.makeText(rootView.getContext(), R.string.saved, Toast.LENGTH_LONG).show();
         }
     }
 }

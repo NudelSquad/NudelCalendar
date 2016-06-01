@@ -25,7 +25,7 @@ public class SettingsViewTest extends ActivityInstrumentationTestCase2<MainActiv
         solo = new Solo(getInstrumentation(), getActivity());
         openNavigationDrawer();
         solo.clickOnText("Settings");
-        solo.sleep(500);
+        solo.sleep(1000);
 
     }
 
