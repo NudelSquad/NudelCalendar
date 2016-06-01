@@ -200,11 +200,11 @@ public class TaskBoardAdapter extends BaseAdapter {
             boolean b1 = o1.getTASK_CHECKED();
             boolean b2 = o2.getTASK_CHECKED();
 
-            if (b1 == !b2){
-                return -1;
-            }
-            if (!b1 == b2){
+            if (b1 && !b2){
                 return 1;
+            }
+            if (!b1 && b2){
+                return -1;
             }
             return 0;
         }

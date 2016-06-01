@@ -58,7 +58,7 @@ public class CreateTaskView extends Fragment {
                 colPicker = new ColorPickerDialog(rootView.getContext(), color);
                 colPicker.setAlphaSliderVisible(true);
                 colPicker.setHexValueEnabled(true);
-                colPicker.setTitle("Farbe auswählen");
+                colPicker.setTitle(R.string.choose_color);
                 colPicker.setOnColorChangedListener(new ColorPickerDialog.OnColorChangedListener() {
                     @Override
                     public void onColorChanged(int i) {
@@ -91,11 +91,12 @@ public class CreateTaskView extends Fragment {
         addTaskButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(taskName.toString().isEmpty() || taskDate.toString().isEmpty()){
+                if(taskName.toString().isEmpty() || taskDate.toString().isEmpty() ||
+                        color2.getEditableText().toString().isEmpty() ){
                     AlertDialog.Builder alert1 = new AlertDialog.Builder(rootView.getContext());
-                    alert1.setMessage("Missing required data!")
+                    alert1.setMessage(R.string.missing_field)
                             .setCancelable(false)
-                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     dialog.cancel();
@@ -106,22 +107,22 @@ public class CreateTaskView extends Fragment {
                     alert2.show();
                 } else {
                     AlertDialog.Builder alert1 = new AlertDialog.Builder(rootView.getContext());
-                    alert1.setMessage("Save Task??!")
+                    alert1.setMessage(R.string.save_task)
                             .setCancelable(false)
-                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     saveTask();
                                 }
                             })
-                            .setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                            .setNegativeButton(R.string.ok, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     dialog.cancel();
                                 }
                             });
                     AlertDialog alert3 = alert1.create();
-                    alert3.setTitle("ADD TASK");
+                    alert3.setTitle(.getString(R.string.add_task));
                     alert3.show();
                 }
             }

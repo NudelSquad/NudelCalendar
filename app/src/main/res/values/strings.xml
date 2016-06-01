@@ -24,9 +24,12 @@
     <string name="yes">Yes</string>
     <string name="save_event_question">Save Event?</string>
     <string name="missing_data_alert">Missing required data!</string>
-    <string name="ok">OK</string>
+    <string name="ok">Ok</string>
     <string name="choose_color">Choose Color</string>
     <string name="no">No</string>
     <string name="event_delete">Event Deleted</string>
+    <string name="missing_field">Not all fields entered</string>
+    <string name="save_task">Save Task?</string>
+    <string name="add_task">Add Task</string>
 
 </resources>
