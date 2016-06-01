@@ -255,6 +255,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
     public void deleteAllEvents(){
         SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DELETE FROM " + TABLE_TASKS + " WHERE " + KEY_TASK_EVENTID + " >= 0");
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_EVENTS);
         db.execSQL(CREATE_TABLE_EVENTS);
     }
