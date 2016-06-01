@@ -32,5 +32,7 @@
     <string name="save_task">Save Task?</string>
     <string name="add_task">Add Task</string>
     <string name="todo">TODO</string>
+    <string name="delete_Task_question">Delete Task?</string>
+    <string name="delete_Task">Delete Task</string>
 
 </resources>
