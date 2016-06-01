@@ -131,7 +131,7 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
         addTaskButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 final FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ft.replace(R.id.main_frame, new CreateTaskView(0), "NewFragmentTag");
+                ft.replace(R.id.main_frame, new CreateTaskView(1), "NewFragmentTag");
                 ft.commit();
             }
         });

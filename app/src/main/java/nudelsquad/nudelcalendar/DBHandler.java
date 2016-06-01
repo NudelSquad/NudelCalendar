@@ -117,8 +117,11 @@ public class DBHandler extends SQLiteOpenHelper {
         //values.put(KEY_EVENT_REMINDER, event.getEVENT_REMINDER());
 
         // Inserting a Row
-        db.insert(TABLE_EVENTS, null, values);
+        int insert = (int) db.insert(TABLE_EVENTS, null, values);
         db.close(); // Closing database connection
+        event.setEVENT_ID(insert);
+
+        return;
     }
     // Getting one event
     public Event getEvent(int id) {

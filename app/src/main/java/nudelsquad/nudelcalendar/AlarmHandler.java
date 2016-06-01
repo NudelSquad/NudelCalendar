@@ -50,10 +50,16 @@ public class AlarmHandler {
 
 
     public void addEvent(Event event) {
+        Calendar cal = Calendar.getInstance();
+
+        cal.setTimeInMillis(System.currentTimeMillis());
+        cal.add(Calendar.SECOND, 2);
+
+
         Intent intent = new Intent("com.nudelsquad.Nudelcalendar");
-        intent.putExtra("id", requestCounter);
+        intent.putExtra("id", event.getEVENT_ID());
         pi = PendingIntent.getBroadcast( mainActivity, requestCounter,intent, 0 );
-        alarmManager.set( AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + 3000, pi );
+        alarmManager.set( AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), pi );
 
         requestCounter++;
     }
