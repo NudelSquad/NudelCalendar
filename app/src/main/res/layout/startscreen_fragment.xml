@@ -6,6 +6,9 @@
     android:orientation="vertical">
 
 
+    <include layout="@layout/search_fragment"/>
+
+
     <Button
         android:id="@+id/btn_day"
 
