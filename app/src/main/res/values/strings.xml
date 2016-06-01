@@ -31,5 +31,6 @@
     <string name="missing_field">Not all fields entered</string>
     <string name="save_task">Save Task?</string>
     <string name="add_task">Add Task</string>
+    <string name="todo">TODO</string>
 
 </resources>
