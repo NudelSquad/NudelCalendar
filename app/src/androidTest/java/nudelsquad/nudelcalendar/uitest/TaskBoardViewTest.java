@@ -37,7 +37,7 @@ public class TaskBoardViewTest extends ActivityInstrumentationTestCase2<MainActi
         setUpDatabase();
 
         openNavigationDrawer();
-        solo.clickOnText("Task Board");
+        solo.clickOnText(getActivity().getResources().getString(R.string.drawer_taskboard));
         solo.sleep(500);
 
     }
@@ -62,7 +62,7 @@ public class TaskBoardViewTest extends ActivityInstrumentationTestCase2<MainActi
     public void testSearchHeader()
     {
         boolean b;
-        b=solo.searchText("Upcoming Task");
+        b=solo.searchText(getActivity().getResources().getString(R.string.upcoming_tasks));
         assertTrue(b);
     }
 
@@ -94,7 +94,7 @@ public class TaskBoardViewTest extends ActivityInstrumentationTestCase2<MainActi
 
     public void testClickOnList() {
 
-        solo.clickInList(1);
+        solo.clickOnText("Fußballspiel");
         boolean fußballspiel = solo.searchText("Fußballspiel");
         assertTrue(fußballspiel);
     }
