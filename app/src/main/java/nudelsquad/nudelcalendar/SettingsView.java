@@ -29,6 +29,10 @@ public class SettingsView extends Fragment implements View.OnClickListener{
     public void initGUI(){
         Button btn_save = (Button) rootView.findViewById(R.id.btnSave);
         btn_save.setOnClickListener(this);
+        btn_save = (Button) rootView.findViewById(R.id.btnDelEvents);
+        btn_save.setOnClickListener(this);
+        btn_save = (Button) rootView.findViewById(R.id.btnDelTasks);
+        btn_save.setOnClickListener(this);
         Spinner spin = (Spinner) rootView.findViewById(R.id.spMuteFor);
         String items[] = {"15", "30", "45", "60", "75"};
         ArrayAdapter adp = new ArrayAdapter(rootView.getContext(), R.layout.support_simple_spinner_dropdown_item, items);

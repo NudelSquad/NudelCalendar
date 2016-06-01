@@ -178,5 +178,14 @@ public class DBHandlerTest extends AndroidTestCase {
         assertEquals(dbh.getTasksCount(),0);
     }
 
+    public void testDeleteAllTasks(){
+        dbh.addTask(testTask);
+        int count = dbh.getTasksCount();
+        assertEquals(count,2);
+        dbh.deleteAllTasks();
+        count = dbh.getTasksCount();
+        assertEquals(count,0);
+    }
+
 
 }
