@@ -63,7 +63,7 @@ public class AlarmHandler {
         int hours = Integer.parseInt(event_start.split(":")[0]);
         int minutes = Integer.parseInt(event_start.split(":")[1]);
 
-        cal.set(Calendar.MONTH, month);
+        cal.set(Calendar.MONTH, month-1);
         cal.set(Calendar.YEAR, year);
         cal.set(Calendar.DAY_OF_MONTH, day);
 
@@ -80,7 +80,7 @@ public class AlarmHandler {
         Intent intent = new Intent("com.nudelsquad.Nudelcalendar");
         intent.putExtra("id",event.getEVENT_ID());
         pi = PendingIntent.getBroadcast( mainActivity, requestCounter,intent, 0 );
-        alarmManager.set( AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), pi );
+        alarmManager.set( AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(),  pi);
 
         requestCounter++;
     }

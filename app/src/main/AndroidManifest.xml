@@ -41,8 +41,7 @@
 
         <activity android:name=".TaskCreateActivity" />
     </application>
-    <receiver android:name="nudelsquad.nudelcalendar.Alarm">
-    </receiver>
+    <receiver android:name=".AlarmReceiver"/>
 
 
 </manifest>

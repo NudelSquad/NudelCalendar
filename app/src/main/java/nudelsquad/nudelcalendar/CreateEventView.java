@@ -86,7 +86,7 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
     int color = Color.parseColor("#33b5e5");
     private String mFileName;
     private boolean hasRecorded=false;
-    Alarm alarm;
+
 
 
     public CreateEventView(int EventID) {
@@ -96,7 +96,7 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
-        alarm=new Alarm();
+
         rootView = inflater.inflate(R.layout.create_event_fragment, container, false);
         dateFormater = new SimpleDateFormat("dd-MM-yyyy", Locale.GERMAN);
         if(eventID != 0){
@@ -162,7 +162,9 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
                         eventType.getText().toString().isEmpty() ||
                         colorText.getText().toString().isEmpty()) {
 
-                    alarm.SetAlarm(getContext(), null);
+
+
+
 
                     AlertDialog.Builder alert1 = new AlertDialog.Builder(rootView.getContext());
                     alert1.setMessage(R.string.missing_data_alert)
@@ -389,6 +391,7 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
             }
 
             Task.getOpenTasks().clear();
+            AlarmHandler.getInstance().addEvent(e);
         }
         else {
             Event upt = new Event(eventID, Name, Start, End, Datum, Type, Loc, c, path);
