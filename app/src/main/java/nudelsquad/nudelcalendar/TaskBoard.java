@@ -1,44 +1,32 @@
 package nudelsquad.nudelcalendar;
 
 
-import android.app.ListActivity;
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.SearchView;
 import android.widget.TextView;
 import android.support.v4.app.Fragment;
-import android.widget.Toast;
 
-import com.daimajia.swipe.SwipeLayout;
-
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import java.util.Objects;
-import java.util.zip.Inflater;
+import nudelsquad.nudelcalendar.search.SearchList;
 
 
 /**
  * Created by waser2 on 27.04.2016.
  */
-public class TaskBoard extends Fragment {
-    ListView taskboardview;
+public class TaskBoard extends Fragment{
+    private ListView taskboardview;
     private View rootView;
-    TaskBoardAdapter adapter;
+    private TaskBoardAdapter adapter;
 
-    SearchView svtest;
+    SearchList search_list = new SearchList();
 
     @Override
     public void onResume() {
@@ -49,7 +37,8 @@ public class TaskBoard extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    {
 
         Calendar.getInstance().getTime();
         rootView = inflater.inflate(R.layout.activity_taskboard, container, false);
@@ -57,61 +46,13 @@ public class TaskBoard extends Fragment {
 
         taskboardview = (ListView) rootView.findViewById(R.id.taskboard_list);
         final DBHandler dbh = new DBHandler(rootView.getContext());
-
         final List<Task> tasklist = dbh.getAllTasks();
 
         adapter = new TaskBoardAdapter(rootView.getContext(), tasklist);
-
         taskboardview.setAdapter(adapter);
         taskboardview.setClickable(true);
 
-
-        ArrayList<String> searchlist=new ArrayList<String>();
-
-       for(int i = 0;i<dbh.getEventsCount();i++)
-       {
-           searchlist.add(dbh.getEvent(i).getEVENT_NAME()+"  "+dbh.getEvent(0).getEVENT_END()+"  "+dbh.getEvent(i).getEVENT_DATUM());
-       }
-        for (int i = 0; i < dbh.getTasksCount();i++)
-        {
-            searchlist.add(dbh.getTask(i).getTASK_NAME()+"  "+dbh.getTask(i).getTASK_DATUM());
-        }
-
-
-
-        svtest = (SearchView) rootView.findViewById(R.id.searchView);
-        svtest.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-
-
-                dbh.getAllEvents();
-
-             /*   Context context = getContext();
-                int duration = Toast.LENGTH_SHORT;
-                Toast toast = Toast.makeText(context, query, duration);
-                toast.show();
-                */
-
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-
-                  /*   Context context = getContext();
-                int duration = Toast.LENGTH_SHORT;
-                Toast toast = Toast.makeText(context, query, duration);
-                toast.show();
-                */
-
-                return false;
-            }
-        });
-        String a = svtest.getQuery().toString();
-
-
-
+        search_list.start(rootView,this.getContext(),dbh);
 
         taskboardview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
@@ -142,12 +83,68 @@ public class TaskBoard extends Fragment {
             }
         });
 
-
-
         return rootView;
+    }
+/*
+    private void setupSearchView()
+    {
+        searchview.setIconifiedByDefault(false);
+        searchview.setOnQueryTextListener(this);
+        searchview.setSubmitButtonEnabled(true);
+        searchview.setQueryHint("Search Here");
+    }
 
+    @Override
+    public boolean onQueryTextChange(String newText)
+    {
+        if (TextUtils.isEmpty(newText)) {
+            lv_search.clearTextFilter();
+        } else {
+            lv_search.setFilterText(newText);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query)
+    {
+        return false;
+    }
+
+
+    public void fillSearchItemList(List lst)
+    {
+
+        if(lst.get(0).getClass() == Event.class)
+        {
+            for(int index = 0; index < lst.size();index++)
+            {
+                Event temp_event = (Event) lst.get(index);
+                int temp_id = temp_event.getEVENT_ID();
+                String temp_name = temp_event.getEVENT_NAME();
+                String temp_date = temp_event.getEVENT_DATUM();
+                Boolean temp_isTask = false;
+
+               // SearchItem temp = new SearchItem();
+                searchitem_list.add(new SearchItem(temp_id,temp_name,temp_date,temp_isTask));
+            }
+        }
+        else
+        {
+            for(int index = 0; index < lst.size();index++)
+            {
+                Task temp_task = (Task) lst.get(index);
+                int temp_id = temp_task.getTASK_ID();
+                String temp_name = temp_task.getTASK_NAME();
+                String temp_date = temp_task.getTASK_DATUM();
+                Boolean temp_isTask = true;
+
+                searchitem_list.add(new SearchItem(temp_id,temp_name,temp_date,temp_isTask));
+            }
+        }
 
     }
+    */
 }
 
 
