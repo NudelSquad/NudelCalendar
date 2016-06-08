@@ -126,7 +126,6 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
 
 
 
-
         Log.i(LOG_TAG, mFileName);
 
         Button addTaskButton = (Button) rootView.findViewById(R.id.addTaskAct);

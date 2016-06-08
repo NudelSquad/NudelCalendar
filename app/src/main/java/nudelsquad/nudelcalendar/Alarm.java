@@ -25,6 +25,7 @@ public class Alarm extends BroadcastReceiver {
         wl.acquire();
 
         // Put here YOUR code.
+        Log.d(TAG, "yessss");
         Toast.makeText(context, "Alarm !!!!!!!!!!", Toast.LENGTH_LONG).show(); // For example
 
         wl.release();
