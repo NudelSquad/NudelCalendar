@@ -93,13 +93,16 @@ public class ShowEventView extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         if (v.getId() == R.id.btn_event_edit) {
             Toast.makeText(rootView.getContext(), R.string.todo, Toast.LENGTH_SHORT).show();
+            //final FragmentTransaction ft = getFragmentManager().beginTransaction();
+            //ft.replace(R.id.main_frame, new TaskLookView(), "NewFragmentTag");
+            //ft.commit();
 
         } else if (v.getId() == R.id.btn_event_delete) {
             dbh.deleteEvent(EventID);
             Toast.makeText(rootView.getContext(), R.string.event_delete, Toast.LENGTH_SHORT).show();
-//            final FragmentTransaction ft = getFragmentManager().beginTransaction();
-//            ft.replace(R.id.nav_home, getParentFragment());
-//            ft.commit();
+            final FragmentTransaction ft = getFragmentManager().beginTransaction();
+            ft.replace(R.id.nav_home, getParentFragment());
+            ft.commit();
         }
     }
 }

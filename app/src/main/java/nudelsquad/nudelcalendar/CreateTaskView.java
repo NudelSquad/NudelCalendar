@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +41,7 @@ public class CreateTaskView extends Fragment {
     private ColorPickerDialog colPicker;
     int color = Color.parseColor("#33b5e5");
     private int fromEvent = -1;
+    private Task taskToUpdate = null;
 
 
     public CreateTaskView(int fromEvent) {
@@ -50,6 +52,10 @@ public class CreateTaskView extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.create_task_fragement, container, false);
+        if(fromEvent > 0){
+            DBHandler dbh = new DBHandler(rootView.getContext());
+            taskToUpdate = dbh.getTask(fromEvent);
+        }
         findViewsById();
         dateFormater = new SimpleDateFormat("dd-MM-yyyy", Locale.GERMAN);
 
@@ -148,20 +154,34 @@ public class CreateTaskView extends Fragment {
         String datum = taskDate.getText().toString();
         String text = taskText.getText().toString();
         String Col = taskColor.getText().toString();
-        int c = Color.parseColor(Col);
+        int c = 0;
+        try{
+            c = Integer.parseInt(Col);
+        }
+        catch (Exception e){
+            c = Color.parseColor(Col);
+        }
+
 
         Task t = new Task(name, datum, text, c, -1, false);
+        DBHandler dbh = new DBHandler(rootView.getContext());
         if(fromEvent == -1){
-            DBHandler dbh = new DBHandler(rootView.getContext());
             dbh.addTask(t);
             final FragmentTransaction ft = getFragmentManager().beginTransaction();
             ft.replace(R.id.main_frame, new TaskBoard(), "NewFragmentTag");
             ft.commit();
         }
-        else {
+        else if(fromEvent == 0){
             Task.getOpenTasks().add(t);
             final FragmentTransaction ft = getFragmentManager().beginTransaction();
             ft.replace(R.id.main_frame, new CreateEventView(), "NewFragmentTag");
+            ft.commit();
+        }
+        else {
+            Task upt = new Task(taskToUpdate.getTASK_ID(), name, datum, text, c, taskToUpdate.getTASK_EVENTID(), false);
+            dbh.updateTask(upt);
+            final FragmentTransaction ft = getFragmentManager().beginTransaction();
+            ft.replace(R.id.main_frame, new TaskBoard(), "NewFragmentTag");
             ft.commit();
         }
 
@@ -178,6 +198,13 @@ public class CreateTaskView extends Fragment {
         taskColor.requestFocus();
         taskText = (EditText) rootView.findViewById(R.id.taskText);
         taskReminder = (CheckBox) rootView.findViewById(R.id.taskReminder);
+        if(taskToUpdate != null) {
+            taskName.setText(taskToUpdate.getTASK_NAME());
+            taskDate.setText(taskToUpdate.getTASK_DATUM());
+            taskColor.setText(taskToUpdate.getTASK_COLOR() + "");
+            taskText.setText(taskToUpdate.getTASK_TEXT());
+            taskReminder.setChecked(taskToUpdate.getTASK_CHECKED());
+        }
     }
 
 }

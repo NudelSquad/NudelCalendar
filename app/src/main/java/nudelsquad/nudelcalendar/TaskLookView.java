@@ -85,7 +85,10 @@ public class TaskLookView extends Fragment {
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(rootView.getContext(), "Clicked on Edit", Toast.LENGTH_SHORT).show();
+                final FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.replace(R.id.main_frame, new CreateTaskView(taskID), "NewFragmentTag");
+                ft.commit();
+
             }
         });
     }
