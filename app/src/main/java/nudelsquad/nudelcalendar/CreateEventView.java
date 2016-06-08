@@ -114,8 +114,9 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
 
         mFileName = Environment.getExternalStorageDirectory().toString() + getString(R.string.appid);
         File file = new File(mFileName);
+
         try{
-            file.mkdir();
+            file.mkdirs();
         }
         catch(SecurityException se){
             //handle it
