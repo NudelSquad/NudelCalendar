@@ -241,6 +241,23 @@ public class CreateEventOrTaskTest  extends ActivityInstrumentationTestCase2<Mai
         // missing part
     }
 
+    public void testRecordPlay(){
+        solo.clickOnText(context.getString(R.string.event));
+        solo.sleep(500);
+        View v = getActivity().findViewById(R.id.btn_record);
+        solo.sleep(500);
+        solo.clickOnView(v);
+        solo.sleep(1000);
+        solo.clickOnView(v);
+        solo.sleep(500);
+        v = getActivity().findViewById(R.id.btn_play);
+        solo.sleep(500);
+        solo.clickOnView(v);
+        solo.sleep(500);
+        solo.clickOnView(v);
+        solo.sleep(200);
+    }
+
     public void openNavigationDrawer() {
         Point deviceSize = new Point();
         getActivity().getWindowManager().getDefaultDisplay().getSize(deviceSize);

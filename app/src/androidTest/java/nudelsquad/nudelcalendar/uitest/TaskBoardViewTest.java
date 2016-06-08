@@ -37,7 +37,7 @@ public class TaskBoardViewTest extends ActivityInstrumentationTestCase2<MainActi
         setUpDatabase();
 
         openNavigationDrawer();
-        solo.clickOnText(getActivity().getResources().getString(R.string.drawer_taskboard));
+        solo.clickOnText(getActivity().getApplicationContext().getString(R.string.drawer_taskboard));
         solo.sleep(500);
 
     }

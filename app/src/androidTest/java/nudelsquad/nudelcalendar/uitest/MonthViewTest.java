@@ -3,6 +3,7 @@ package nudelsquad.nudelcalendar.uitest;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.test.ActivityInstrumentationTestCase2;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -54,7 +55,7 @@ public class MonthViewTest extends ActivityInstrumentationTestCase2<MainActivity
         dbHandler.addEvent(new Event("Event 3", "07:00", "9:00", today, "lecture", "uni", Color.BLUE,""));
         dbHandler.addEvent(new Event("Event 4", "10:00", "11:00", today, "bla", "uni", Color.BLUE,""));
     }
-
+    // failed
     public void testFindEventToday(){
         int day = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
         int week = Calendar.getInstance().get(Calendar.WEEK_OF_MONTH);
@@ -65,7 +66,7 @@ public class MonthViewTest extends ActivityInstrumentationTestCase2<MainActivity
         assertTrue(b);
 
 
-        solo.clickInList(day, 2);
+        solo.clickInList(index, 2);
         solo.sleep(200);
 
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
@@ -95,7 +96,7 @@ public class MonthViewTest extends ActivityInstrumentationTestCase2<MainActivity
         assertTrue(b);
 
 
-        solo.clickInList(day, 2);
+        solo.clickInList(index, 2);
         solo.sleep(200);
 
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
