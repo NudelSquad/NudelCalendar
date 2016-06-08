@@ -123,6 +123,7 @@ public class CreateEventOrTaskTest  extends ActivityInstrumentationTestCase2<Mai
         solo.sleep(500);
 
         boolean b;
+
         solo.enterText(0,"Fallschirmspringen");
         solo.enterText(1,"12-05-2010");
         solo.sleep(100);
@@ -142,6 +143,8 @@ public class CreateEventOrTaskTest  extends ActivityInstrumentationTestCase2<Mai
         solo.sleep(100);
         solo.clickOnImageButton(0);
         solo.sleep(100);
+
+
 
         // Test Inputs
         b = solo.searchText("Fallschirmspringen");
