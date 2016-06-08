@@ -9,6 +9,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -99,6 +100,7 @@ public class DBHandler extends SQLiteOpenHelper {
     // Adding new event
     public void addEvent(Event event) {
         SQLiteDatabase db = this.getWritableDatabase();
+        Log.e("Ecent", event.toString());
 
         ContentValues values = new ContentValues();
         //values.put(KEY_EVENT_ID, 0);

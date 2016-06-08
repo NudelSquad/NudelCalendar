@@ -45,7 +45,7 @@ public class DayList extends Fragment {
             int month = c.get(Calendar.MONTH)+1;
             int day = c.get(Calendar.DAY_OF_MONTH);
             int year = c.get(Calendar.YEAR);
-            currentDate =  day + "-" + ((month > 9) ? month : "0" + month) + "-" + year;
+            currentDate =  ((day > 9) ? day : "0" + day)  + "-" + ((month > 9) ? month : "0" + month) + "-" + year;
             DayOfWeek = c.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.GERMAN);
         }
         else {
