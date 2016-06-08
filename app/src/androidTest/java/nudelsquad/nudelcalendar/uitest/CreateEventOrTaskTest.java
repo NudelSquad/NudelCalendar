@@ -276,6 +276,7 @@ public class CreateEventOrTaskTest  extends ActivityInstrumentationTestCase2<Mai
 
     public void tearDown() throws Exception
     {
+        solo.finishOpenedActivities();
         super.tearDown();
     }
 

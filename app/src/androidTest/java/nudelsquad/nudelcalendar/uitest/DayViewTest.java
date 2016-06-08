@@ -152,6 +152,7 @@ public class DayViewTest extends ActivityInstrumentationTestCase2<MainActivity> 
     }
 
     public void tearDown() throws Exception {
+        solo.finishOpenedActivities();
         super.tearDown();
     }
 

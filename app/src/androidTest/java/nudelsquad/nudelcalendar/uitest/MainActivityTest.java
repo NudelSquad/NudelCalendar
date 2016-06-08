@@ -48,19 +48,15 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         solo.clickOnView(v);
     }
 
-    public void tearDown() throws Exception {
-        super.tearDown();
-    }
-
     public void testOpenHome(){
         openNavigationDrawer();
-        solo.clickOnText(getActivity().getApplicationContext().getString(R.string.drawer_home));
+        solo.clickOnText(getActivity().getApplicationContext().getString(R.string.drawer_home), 1);
         solo.sleep(500);
     }
 
     public void testOpenDay(){
         openNavigationDrawer();
-        solo.clickOnText(getActivity().getApplicationContext().getString(R.string.drawer_day));
+        solo.clickOnText(getActivity().getApplicationContext().getString(R.string.drawer_day), 1);
         solo.sleep(500);
     }
 
@@ -82,15 +78,9 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         solo.sleep(500);
     }
 
-    public void testOpenSettings(){
-        openNavigationDrawer();
-        solo.clickOnText(getActivity().getApplicationContext().getString(R.string.drawer_settings));
-        solo.sleep(500);
-    }
-
     public void testClickBackButton(){
         openNavigationDrawer();
-        solo.clickOnText(getActivity().getApplicationContext().getString(R.string.drawer_day));
+        solo.clickOnText(getActivity().getApplicationContext().getString(R.string.drawer_day), 1);
         solo.sleep(500);
         solo.goBack();
     }
@@ -107,6 +97,12 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         int toY = fromY;
 
         solo.drag(fromX, toX, fromY, toY, 1);
+    }
+
+    public void tearDown() throws Exception
+    {
+        solo.finishOpenedActivities();
+        super.tearDown();
     }
 
 }

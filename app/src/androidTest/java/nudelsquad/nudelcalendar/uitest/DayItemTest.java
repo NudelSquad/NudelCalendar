@@ -76,8 +76,8 @@ public class DayItemTest extends ActivityInstrumentationTestCase2<MainActivity> 
     }
 
 
-    public void testDeleteEdit(){
-        solo.clickOnButton(getActivity().getResources().getString(R.string.delete));
+    public void testEditButton(){
+        solo.clickOnButton(getActivity().getResources().getString(R.string.edit));
 
     }
 
@@ -97,6 +97,7 @@ public class DayItemTest extends ActivityInstrumentationTestCase2<MainActivity> 
     }
 
     public void tearDown() throws Exception {
+        solo.finishOpenedActivities();
         super.tearDown();
     }
 

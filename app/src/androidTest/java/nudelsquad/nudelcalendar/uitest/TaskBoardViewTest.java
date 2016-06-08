@@ -125,6 +125,7 @@ public class TaskBoardViewTest extends ActivityInstrumentationTestCase2<MainActi
 
     public void tearDown() throws Exception
     {
+        solo.finishOpenedActivities();
         super.tearDown();
     }
 

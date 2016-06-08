@@ -72,6 +72,7 @@ public class WeekViewTest extends ActivityInstrumentationTestCase2<MainActivity>
 
 
     public void tearDown() throws Exception {
+        solo.finishOpenedActivities();
         super.tearDown();
     }
 

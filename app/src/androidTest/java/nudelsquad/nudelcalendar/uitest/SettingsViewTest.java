@@ -1,13 +1,19 @@
 package nudelsquad.nudelcalendar.uitest;
 
+import android.graphics.Color;
 import android.graphics.Point;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.View;
 
 import com.robotium.solo.Solo;
 
+import java.util.List;
+
+import nudelsquad.nudelcalendar.DBHandler;
+import nudelsquad.nudelcalendar.Event;
 import nudelsquad.nudelcalendar.MainActivity;
 import nudelsquad.nudelcalendar.R;
+import nudelsquad.nudelcalendar.Task;
 
 /**
  * Created by emanuel on 20/04/16.
@@ -15,6 +21,7 @@ import nudelsquad.nudelcalendar.R;
 public class SettingsViewTest extends ActivityInstrumentationTestCase2<MainActivity> {
 
     private Solo solo;
+    private DBHandler dbh;
 
     public SettingsViewTest() {
         super(MainActivity.class);
@@ -28,7 +35,6 @@ public class SettingsViewTest extends ActivityInstrumentationTestCase2<MainActiv
         solo.sleep(1000);
 
     }
-
 
     public void testSwitcher() {
         View swLS = getActivity().findViewById(R.id.swLS);
@@ -54,17 +60,6 @@ public class SettingsViewTest extends ActivityInstrumentationTestCase2<MainActiv
         assertTrue(b);
 
         solo.clickInList(2);
-
-
-
-    }
-
-    // funktioniert
-    public void testButton() {
-        solo.clickOnButton(getActivity().getResources().getString(R.string.save));
-        solo.sleep(500);
-        boolean saved = solo.searchText(getActivity().getResources().getString(R.string.saved));
-        assertTrue(saved);
     }
 
 
@@ -80,9 +75,11 @@ public class SettingsViewTest extends ActivityInstrumentationTestCase2<MainActiv
         int toY = fromY;
 
         solo.drag(fromX, toX, fromY, toY, 1);
+        solo.sleep(500);
     }
 
     public void tearDown() throws Exception {
+        solo.finishOpenedActivities();
         super.tearDown();
     }
 
