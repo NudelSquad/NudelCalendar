@@ -141,7 +141,7 @@ public class CreateTaskView extends Fragment {
             @Override
             public void onClick(View v) {
                 final FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ft.replace(R.id.main_frame, new CreateEventView(), "NewFragmentTag");
+                ft.replace(R.id.main_frame, new CreateEventView(0), "NewFragmentTag");
                 ft.commit();
             }
         });
@@ -174,7 +174,7 @@ public class CreateTaskView extends Fragment {
         else if(fromEvent == 0){
             Task.getOpenTasks().add(t);
             final FragmentTransaction ft = getFragmentManager().beginTransaction();
-            ft.replace(R.id.main_frame, new CreateEventView(), "NewFragmentTag");
+            ft.replace(R.id.main_frame, new CreateEventView(0), "NewFragmentTag");
             ft.commit();
         }
         else {
@@ -201,7 +201,8 @@ public class CreateTaskView extends Fragment {
         if(taskToUpdate != null) {
             taskName.setText(taskToUpdate.getTASK_NAME());
             taskDate.setText(taskToUpdate.getTASK_DATUM());
-            taskColor.setText(taskToUpdate.getTASK_COLOR() + "");
+            taskColor.setText("#" + Integer.toHexString(taskToUpdate.getTASK_COLOR()));
+            taskColor.setBackgroundColor(taskToUpdate.getTASK_COLOR());
             taskText.setText(taskToUpdate.getTASK_TEXT());
             taskReminder.setChecked(taskToUpdate.getTASK_CHECKED());
         }

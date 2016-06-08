@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity
                     public void onClick(DialogInterface dialog, int which) {
                         Fragment fragment = null;
                         if (which == 0){
-                            fragment = new CreateEventView();
+                            fragment = new CreateEventView(0);
                         }
                         if (which == 1){
                            fragment = new CreateTaskView(-1);  //-1 wil eigener Task

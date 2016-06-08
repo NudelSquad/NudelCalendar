@@ -78,17 +78,29 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
     private static boolean mStartPlaying = true;
     private DBHandler dbHandler;
 
+    private int eventID = 0;
+    private Event eventToUpdate = null;
+
 
     //private Spinner days;
     int color = Color.parseColor("#33b5e5");
     private String mFileName;
     private boolean hasRecorded=false;
 
+
+    public CreateEventView(int EventID) {
+        this.eventID = EventID;
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.create_event_fragment, container, false);
         dateFormater = new SimpleDateFormat("dd-MM-yyyy", Locale.GERMAN);
+        if(eventID != 0){
+            DBHandler dbh = new DBHandler(rootView.getContext());
+            eventToUpdate = dbh.getEvent(eventID);
+        }
         findViewsById();
         setDateTimeField();
         setBeginTimeField();
@@ -150,7 +162,7 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
                     AlertDialog.Builder alert1 = new AlertDialog.Builder(rootView.getContext());
                     alert1.setMessage(R.string.missing_data_alert)
                             .setCancelable(false)
-                            .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                            .setPositiveButton(R.string.cancel, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     dialog.cancel();
@@ -166,6 +178,9 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
                                 public void onClick(DialogInterface dialog, int which) {
                                     saveEvent();
                                     Toast.makeText(rootView.getContext(), R.string.saved, Toast.LENGTH_SHORT).show();
+                                    final FragmentTransaction ft = getFragmentManager().beginTransaction();
+                                    ft.replace(R.id.main_frame, new DayList(), "NewFragmentTag");
+                                    ft.commit();
                                 }
                             })
 
@@ -242,7 +257,7 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
 
         btnRecord = (ImageButton) rootView.findViewById(R.id.btn_record);
         btnPlay = (ImageButton) rootView.findViewById(R.id.btn_play);
-        //days = (Spinner) rootView.findViewById(R.id.days);
+
 
         lvTasks = (ListView) rootView.findViewById(R.id.tasks_list);
         tasks = Task.getOpenTasks();
@@ -254,6 +269,16 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
         ArrayAdapter adp = new ArrayAdapter(rootView.getContext(), android.R.layout.simple_list_item_1, items);
         lvTasks.setAdapter(adp);
 
+        if(eventToUpdate != null){
+            eventName.setText(eventToUpdate.getEVENT_NAME());
+            edtTextEventDate.setText(eventToUpdate.getEVENT_DATUM());
+            edtTextBegin.setText(eventToUpdate.getEVENT_START());
+            edtTextEnd.setText(eventToUpdate.getEVENT_END());
+            eventPlace.setText(eventToUpdate.getEVENT_LOCATION());
+            eventType.setText(eventToUpdate.getEVENT_TYPE());
+            colorText.setText("#" + Integer.toHexString(eventToUpdate.getEVENT_COLOR()));
+            colorText.setBackgroundColor(eventToUpdate.getEVENT_COLOR());
+        }
 
     }
 
@@ -346,15 +371,21 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
 
         Event e = new Event(Name, Start, End, Datum, Type, Loc, c, path);
 
-        dbHandler.addEvent(e);
+        if(eventToUpdate == null){
+            dbHandler.addEvent(e);
+            int evid = dbHandler.getEventsCount();
+            for(int i = 0; i < tasks.size(); i++){
+                tasks.get(i).setTASK_EVENTID(evid);
+                dbHandler.addTask(tasks.get(i));
+            }
 
-        int evid = dbHandler.getEventsCount();
-        for(int i = 0; i < tasks.size(); i++){
-            tasks.get(i).setTASK_EVENTID(evid);
-            dbHandler.addTask(tasks.get(i));
+            Task.getOpenTasks().clear();
+        }
+        else {
+            Event upt = new Event(eventID, Name, Start, End, Datum, Type, Loc, c, path);
+            dbHandler.updateEvent(upt);
         }
 
-        Task.getOpenTasks().clear();
     }
 
 
