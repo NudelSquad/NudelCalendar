@@ -27,20 +27,25 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
     public void setUp() throws Exception {
         super.setUp();
         solo = new Solo(getInstrumentation(), getActivity());
+        solo.goBack();
 
     }
 
 
     public void testButtonToday() {
-        solo.clickOnButton(0);
+        View v = getActivity().findViewById(R.id.btn_day);
+        solo.clickOnView(v);
+        solo.sleep(500);
     }
 
     public void testButtonWeek() {
-        solo.clickOnButton(1);
+        View v = getActivity().findViewById(R.id.btn_week);
+        solo.clickOnView(v);
     }
 
     public void testButtonMonths() {
-        solo.clickOnButton(2);
+        View v = getActivity().findViewById(R.id.btn_month);
+        solo.clickOnView(v);
     }
 
     public void tearDown() throws Exception {
@@ -61,19 +66,19 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 
     public void testOpenWeek(){
         openNavigationDrawer();
-        solo.clickOnText("Week", 2);
+        solo.clickOnText(getActivity().getApplicationContext().getString(R.string.drawer_week), 2);
         solo.sleep(500);
     }
 
     public void testOpenMonth(){
         openNavigationDrawer();
-        solo.clickOnText(getActivity().getApplicationContext().getString(R.string.drawer_month));
+        solo.clickOnText(getActivity().getApplicationContext().getString(R.string.drawer_month), 2);
         solo.sleep(500);
     }
 
     public void testOpenTaskBoard(){
         openNavigationDrawer();
-        solo.clickOnText(getActivity().getApplicationContext().getString(R.string.drawer_month));
+        solo.clickOnText(getActivity().getApplicationContext().getString(R.string.drawer_taskboard));
         solo.sleep(500);
     }
 

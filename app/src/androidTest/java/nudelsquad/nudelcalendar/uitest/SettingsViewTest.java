@@ -59,6 +59,7 @@ public class SettingsViewTest extends ActivityInstrumentationTestCase2<MainActiv
 
     }
 
+    // funktioniert
     public void testButton() {
         solo.clickOnButton(getActivity().getResources().getString(R.string.save));
         solo.sleep(500);
