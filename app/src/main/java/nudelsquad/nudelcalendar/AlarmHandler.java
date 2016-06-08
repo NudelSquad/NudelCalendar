@@ -52,12 +52,33 @@ public class AlarmHandler {
     public void addEvent(Event event) {
         Calendar cal = Calendar.getInstance();
 
-        cal.setTimeInMillis(System.currentTimeMillis());
-        cal.add(Calendar.SECOND, 2);
+
+        String event_datum = event.getEVENT_DATUM();
+        String event_start = event.getEVENT_START();
+
+
+        int day = Integer.parseInt(event_datum.split("-")[0]);
+        int  month= Integer.parseInt(event_datum.split("-")[1]);
+        int  year= Integer.parseInt(event_datum.split("-")[2]);
+        int hours = Integer.parseInt(event_start.split(":")[0]);
+        int minutes = Integer.parseInt(event_start.split(":")[1]);
+
+        cal.set(Calendar.MONTH, month);
+        cal.set(Calendar.YEAR, year);
+        cal.set(Calendar.DAY_OF_MONTH, day);
+
+        cal.set(Calendar.HOUR_OF_DAY, hours);
+        cal.set(Calendar.MINUTE, minutes);
+        cal.set(Calendar.SECOND,0);
+
+
+
+        Log.d(TAG, String.valueOf((cal.getTimeInMillis()-System.currentTimeMillis())/1000));
+        Log.d(TAG, cal.toString());
 
 
         Intent intent = new Intent("com.nudelsquad.Nudelcalendar");
-        intent.putExtra("id", event.getEVENT_ID());
+        intent.putExtra("id",event.getEVENT_ID());
         pi = PendingIntent.getBroadcast( mainActivity, requestCounter,intent, 0 );
         alarmManager.set( AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), pi );
 
