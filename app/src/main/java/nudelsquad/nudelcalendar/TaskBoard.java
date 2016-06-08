@@ -68,12 +68,9 @@ public class TaskBoard extends Fragment {
                 Object item = taskboardview.getAdapter().getItem(position);
                 TextView description = (TextView) view.findViewById(R.id.txt_description);
 
-
-                int visibility = description.getVisibility();
-                if (visibility == View.GONE)
-                    description.setVisibility(View.VISIBLE);
-                else
-                    description.setVisibility(View.GONE);
+                final FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.replace(R.id.main_frame, new TaskLookView(tasklist.get(position).getTASK_ID()), "NewFragmentTag");
+                ft.commit();
 
                 return true;
             }
@@ -82,9 +79,15 @@ public class TaskBoard extends Fragment {
         taskboardview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                final FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ft.replace(R.id.main_frame, new TaskLookView(tasklist.get(position).getTASK_ID()), "NewFragmentTag");
-                ft.commit();
+                TextView description = (TextView) view.findViewById(R.id.txt_description);
+
+
+                int visibility = description.getVisibility();
+                if (visibility == View.GONE)
+                    description.setVisibility(View.VISIBLE);
+                else
+                    description.setVisibility(View.GONE);
+
             }
         });
 
