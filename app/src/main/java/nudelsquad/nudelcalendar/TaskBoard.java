@@ -52,7 +52,6 @@ public class TaskBoard extends Fragment{
         taskboardview.setAdapter(adapter);
         taskboardview.setClickable(true);
 
-        search_list.start(rootView,this.getContext(),dbh);
 
         taskboardview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override

@@ -44,8 +44,8 @@ public class SearchListAdapter extends BaseAdapter implements Filterable {
                 if (constraint != null) {
                     if (orig != null && orig.size() > 0) {
                         for (final SearchItem g : orig) {
-                            if (g.getName_().toLowerCase()
-                                    .contains(constraint.toString()))
+                            if (g.getName_().toLowerCase().contains(constraint.toString()) ||
+                                    g.getDate_().contains(constraint.toString()))
                                 results.add(g);
                         }
                     }
