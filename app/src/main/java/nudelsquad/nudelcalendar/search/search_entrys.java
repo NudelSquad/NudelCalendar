@@ -16,8 +16,8 @@ public class search_entrys extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_entrys);
 
-
-       /* // Get the intent, verify the action and get the query
+/*
+        // Get the intent, verify the action and get the query
         Intent intent = getIntent();
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
@@ -26,6 +26,7 @@ public class search_entrys extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), query, Toast.LENGTH_LONG).show();
         }
         */
+
 
     }
 

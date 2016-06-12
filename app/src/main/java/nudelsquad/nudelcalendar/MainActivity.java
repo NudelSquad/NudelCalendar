@@ -1,5 +1,6 @@
 package nudelsquad.nudelcalendar;
 
+
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
@@ -29,6 +30,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -38,6 +40,8 @@ import com.google.android.gms.common.api.GoogleApiClient;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import nudelsquad.nudelcalendar.search.SearchList;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -64,6 +68,20 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        ImageButton btn_search = (ImageButton) findViewById(R.id.btn_search);
+        btn_search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Fragment fragment = new SearchList();
+                FragmentManager fm = getSupportFragmentManager();
+                FragmentTransaction transaction = fm.beginTransaction();
+                transaction.replace(R.id.main_frame, fragment);
+                transaction.commit();
+
+            }
+        });
+
         myBundle.putString("selectedDate", String.valueOf("n"));
 
         //Get Settings
@@ -147,8 +165,8 @@ public class MainActivity extends AppCompatActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
-        }
 
+    }
         return super.onOptionsItemSelected(item);
     }
 
@@ -294,13 +312,14 @@ public class MainActivity extends AppCompatActivity
                     transaction.replace(R.id.main_frame, fragment);
                     transaction.commit();
                     break;
-                case R.id.btn_month:fragment = new WeekViewBase();
+                case R.id.btn_month:
                     fragment = new MonthView();
                     fm = getSupportFragmentManager();
                     transaction = fm.beginTransaction();
                     transaction.replace(R.id.main_frame, fragment);
                     transaction.commit();
                     break;
+
             }
         }
     }
