@@ -9,8 +9,22 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".search.SearchList">
 
-    <ListView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/lv_search" />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="This search lists Events and Tasks with Startdate"
+            android:id="@+id/textView6"
+            android:textSize="16dp"/>
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/lv_search" />
+
+    </LinearLayout>
 </RelativeLayout>
