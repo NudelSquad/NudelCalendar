@@ -2,6 +2,8 @@ package nudelsquad.nudelcalendar;
 
 import android.graphics.Color;
 import android.graphics.RectF;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,16 +14,22 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.alamkanak.weekview.*;
 import com.alamkanak.weekview.WeekView;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Marco on 27.04.2016.
@@ -37,9 +45,18 @@ public class WeekViewBase extends Fragment implements WeekView.EventClickListene
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getActivity().getResources().getColor(R.color.colorPurple)));
+        Window window = getActivity().getWindow();
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.setStatusBarColor(getActivity().getResources().getColor(R.color.colorDarkPurple));
+        }
+
+
         rootView = inflater.inflate(R.layout.week_fragment, container, false);
         // Get a reference for the week view in the layout.
-        mWeekView = (com.alamkanak.weekview.WeekView) rootView.findViewById(R.id.weekView);
+        mWeekView = (WeekView) rootView.findViewById(R.id.weekView);
 
         // Show a toast message about the touched event.
         mWeekView.setOnEventClickListener(this);
@@ -110,61 +127,82 @@ public class WeekViewBase extends Fragment implements WeekView.EventClickListene
             });
         }
 
-        protected String getEventTitle(Calendar time) {
-            return String.format("Event of %02d:%02d %s/%d", time.get(Calendar.HOUR_OF_DAY), time.get(Calendar.MINUTE), time.get(Calendar.MONTH)+1, time.get(Calendar.DAY_OF_MONTH));
-        }
-
         @Override
         public void onEventClick(WeekViewEvent event, RectF eventRect) {                //go to Event
 
             final FragmentTransaction ft = getFragmentManager().beginTransaction();
-            ft.replace(R.id.main_frame, new TaskLookView(), "NewFragmentTag");
+            ft.replace(R.id.main_frame, new ShowEventView((int) event.getId()), "NewFragmentTag");
             ft.commit();
         }
 
         @Override
         public void onEventLongPress(WeekViewEvent event, RectF eventRect) {
-            Toast.makeText(rootView.getContext(), "is needed?", Toast.LENGTH_SHORT).show();
+            Toast.makeText(rootView.getContext(), "Event", Toast.LENGTH_LONG).show();
         }
 
         @Override
         public void onEmptyViewLongPress(Calendar time) {
-            Toast.makeText(rootView.getContext(), "is needed?", Toast.LENGTH_SHORT).show();
-        }
-
-        public com.alamkanak.weekview.WeekView getWeekView() {
-            return mWeekView;
+            Toast.makeText(rootView.getContext(), "Empty", Toast.LENGTH_LONG).show();
         }
 
     @Override
     public List<? extends WeekViewEvent> onMonthChange(int newYear, int newMonth) {
         List<WeekViewEvent> events = new ArrayList<WeekViewEvent>();
 
-        Calendar startTime = Calendar.getInstance();
-        startTime.set(Calendar.HOUR_OF_DAY, 3);
-        startTime.set(Calendar.MINUTE, 0);
-        startTime.set(Calendar.MONTH, newMonth - 1);
-        startTime.set(Calendar.YEAR, newYear);
-        Calendar endTime = (Calendar) startTime.clone();
-        endTime.add(Calendar.HOUR, 1);
-        endTime.set(Calendar.MONTH, newMonth - 1);
-        WeekViewEvent event = new WeekViewEvent(1, getEventTitle(startTime), startTime, endTime);
-        event.setColor(Color.RED);
-        events.add(event);
+        DBHandler dbh = new DBHandler(rootView.getContext());
 
-        startTime = Calendar.getInstance();
-        startTime.set(Calendar.HOUR_OF_DAY, 3);
-        startTime.set(Calendar.MINUTE, 30);
-        startTime.set(Calendar.MONTH, newMonth-1);
-        startTime.set(Calendar.YEAR, newYear);
-        endTime = (Calendar) startTime.clone();
-        endTime.set(Calendar.HOUR_OF_DAY, 4);
-        endTime.set(Calendar.MINUTE, 30);
-        endTime.set(Calendar.MONTH, newMonth-1);
-        event = new WeekViewEvent(10, getEventTitle(startTime), startTime, endTime);
-        event.setColor(Color.BLUE);
-        events.add(event);
+        List<Event> items= dbh.getEventsFromMonthOfYear(newMonth + "-" + newYear);
+        for (Event e:items) {
+            Calendar startTime = Calendar.getInstance();
+            DateFormat timeFormat = new SimpleDateFormat("hh:mm");
+
+            Date start = null;
+            Date end=null;
+            try {
+                start = timeFormat.parse(e.getEVENT_START());
+                end = timeFormat.parse(e.getEVENT_END());
+            } catch (ParseException e1) {
+                e1.printStackTrace();
+            }
+
+            String[] dat = e.getEVENT_DATUM().split("-");
+            startTime.set(Calendar.HOUR_OF_DAY, start.getHours());
+            startTime.set(Calendar.MINUTE, start.getMinutes());
+            startTime.set(Calendar.DAY_OF_MONTH, Integer.parseInt(dat[0]));
+            startTime.set(Calendar.MONTH, newMonth - 1);
+            startTime.set(Calendar.YEAR, newYear);
+
+
+
+            long milliseconds = getDateDiff(start, end, TimeUnit.MILLISECONDS);
+            int minutes = (int) ((milliseconds / (1000*60)) % 60);
+            int hours   = (int) ((milliseconds / (1000*60*60)) % 24);
+
+
+
+            Calendar endTime = (Calendar) startTime.clone();
+            endTime.add(Calendar.HOUR, hours);
+            endTime.add(Calendar.MINUTE, minutes);
+            endTime.set(Calendar.MONTH, newMonth - 1);
+            endTime.set(Calendar.DAY_OF_MONTH, Integer.parseInt(dat[0]));
+            WeekViewEvent event = new WeekViewEvent(e.getEVENT_ID(), e.getEVENT_NAME(), startTime, endTime);
+            event.setColor(e.getEVENT_COLOR());
+            events.add(event);
+        }
 
         return events;
     }
+
+    /**
+     * Get a diff between two dates
+     * @param date1 the oldest date
+     * @param date2 the newest date
+     * @param timeUnit the unit in which you want the diff
+     * @return the diff value, in the provided unit
+     */
+    public static long getDateDiff(Date date1, Date date2, TimeUnit timeUnit) {
+        long diffInMillies = date2.getTime() - date1.getTime();
+        return timeUnit.convert(diffInMillies, TimeUnit.MILLISECONDS);
+    }
+
 }

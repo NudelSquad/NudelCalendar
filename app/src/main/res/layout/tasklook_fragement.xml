@@ -35,7 +35,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Notes:"
+        android:text="@string/notes"
         android:layout_marginTop="5dp"
         android:id="@+id/textView4" />
 
@@ -50,7 +50,7 @@
     <CheckBox
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="set Reminder"
+        android:text="@string/set_reminder"
         android:id="@+id/cb_task_reminder"
         android:layout_gravity="right"
         android:layout_marginTop="5dp"
@@ -67,14 +67,14 @@
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Edit"
+            android:text="@string/edit"
             android:id="@+id/btn_edit_task" />
 
         <Button
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Delete"
+            android:text="@string/delete"
             android:id="@+id/btn_delete_task"
             android:layout_gravity="center_horizontal" />
     </LinearLayout>

@@ -1,29 +1,46 @@
 package nudelsquad.nudelcalendar;
 
-import android.graphics.Color;
+import android.app.AlarmManager;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.design.widget.NavigationView;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -31,8 +48,9 @@ import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Locale;
+
+import nudelsquad.nudelcalendar.search.SearchList;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -44,25 +62,91 @@ public class MainActivity extends AppCompatActivity
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
     private GoogleApiClient client;
+    SharedPreferences sharedPrefs = null;                       //to Save Settings
+    private static final String PrefName = "SettingPreferences";
+    private static final String Pref_KEY_LANDSC = "LANDSCAPEMODE";
+    private static final String Pref_KEY_REMINDER = "REMINDER";
+
+
+    public static Bundle myBundle = new Bundle();
+    PendingIntent pi;
+    BroadcastReceiver br;
+    AlarmManager am;
+    DBHandler dbHandler;
+    private TextToSpeech t1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
+        dbHandler = new DBHandler(getBaseContext());
+
+
+        //Get Settings
+        sharedPrefs = getSharedPreferences(PrefName, 0);
+        if(sharedPrefs.getBoolean(Pref_KEY_LANDSC, false)){
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        }
+        else
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+        setup();
+
+        AlarmHandler.getInstance().setMainActivity(this);
+        AlarmHandler.getInstance().setAlarmManager(am);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-
-        //OPEN ADD FRAME
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.add_btn);
-        fab.setOnClickListener(new View.OnClickListener() {
+        Button btn_search = (Button) findViewById(R.id.btn_search);
+        btn_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Fragment fragment = new CreateEventView();
+
+                Fragment fragment = new SearchList();
                 FragmentManager fm = getSupportFragmentManager();
                 FragmentTransaction transaction = fm.beginTransaction();
                 transaction.replace(R.id.main_frame, fragment);
                 transaction.commit();
+
+            }
+        });
+
+        myBundle.putString("selectedDate", String.valueOf("n"));
+
+
+
+
+        //OPEN ADD FRAME
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.add_btn);
+        assert fab != null;
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setTitle(getString(R.string.creaet_task_question));
+                builder.setItems(new String[]{getString(R.string.event), getString(R.string.task)}, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        Fragment fragment = null;
+                        if (which == 0) {
+                            fragment = new CreateEventView(0);
+                        }
+                        if (which == 1) {
+                            fragment = new CreateTaskView(-1);  //-1 wil eigener Task
+                        }
+                        FragmentManager fm = getSupportFragmentManager();
+                        FragmentTransaction transaction = fm.beginTransaction();
+                        transaction.replace(R.id.main_frame, fragment);
+                        transaction.commit();
+                    }
+                });
+                AlertDialog alert = builder.create(); // The error log points to this line
+                alert.show();
+
             }
         });
 
@@ -71,6 +155,7 @@ public class MainActivity extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
+
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -81,12 +166,11 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
+        Fragment fragment = new StartScreenFrame();
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction transaction = fm.beginTransaction();
+        transaction.replace(R.id.main_frame, fragment);
+        transaction.commit();
     }
 
     @Override
@@ -105,12 +189,15 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            return true;
+            Fragment fragment = new SettingsView();
+            FragmentManager fm = getSupportFragmentManager();
+            FragmentTransaction transaction = fm.beginTransaction();
+            transaction.replace(R.id.main_frame, fragment, "settings");
+            transaction.commit();
         }
 
         return super.onOptionsItemSelected(item);
     }
-
 
     //Switch between Frames throw menu
     @Override
@@ -119,44 +206,64 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_home) {
+            MainActivity.this.getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0x3F51B5));
+            Window window = this.getWindow();
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                window.setStatusBarColor(MainActivity.this.getResources().getColor(R.color.colorPrimaryDark));
+            }
             Fragment fragment = new StartScreenFrame();
             FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction transaction = fm.beginTransaction();
-            transaction.replace(R.id.main_frame, fragment);
+            transaction.replace(R.id.main_frame, fragment, "home");
             transaction.commit();
 
         } else if (id == R.id.nav_day) {
+            MainActivity.this.getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0xFFFF0A));
             Fragment fragment = new DayList();
             FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction transaction = fm.beginTransaction();
-            transaction.replace(R.id.main_frame, fragment);
+            transaction.replace(R.id.main_frame, fragment, "day");
             transaction.commit();
 
         } else if (id == R.id.nav_week) {
+            MainActivity.this.getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0xD700D7));
             Fragment fragment = new WeekViewBase();
             FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction transaction = fm.beginTransaction();
-            transaction.replace(R.id.main_frame, fragment);
+            transaction.replace(R.id.main_frame, fragment, "week");
             transaction.commit();
 
         } else if (id == R.id.nav_month) {
+            MainActivity.this.getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0xA66829));
             Fragment fragment = new MonthView();
             FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction transaction = fm.beginTransaction();
-            transaction.replace(R.id.main_frame, fragment);
+            transaction.replace(R.id.main_frame, fragment, "month");
             transaction.commit();
 
-        } else if (id == R.id.nav_taskwall) {
+        } else if (id == R.id.nav_taskboard) {
+            Fragment fragment = new TaskBoard();
+            FragmentManager fm = getSupportFragmentManager();
+            FragmentTransaction transaction = fm.beginTransaction();
+            transaction.replace(R.id.main_frame, fragment, "taskboard");
+            transaction.commit();
 
         } else if (id == R.id.nav_settings) {
+            MainActivity.this.getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0x3F51B5));
+            Window window = this.getWindow();
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                window.setStatusBarColor(MainActivity.this.getResources().getColor(R.color.colorPrimaryDark));
+            }
             Fragment fragment = new SettingsView();
             FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction transaction = fm.beginTransaction();
-            transaction.replace(R.id.main_frame, fragment);
+            transaction.replace(R.id.main_frame, fragment, "settings");
             transaction.commit();
         }
-
-
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -181,7 +288,7 @@ public class MainActivity extends AppCompatActivity
                 Uri.parse("android-app://nudelsquad.nudelcalendar/http/host/path")
         );
         AppIndex.AppIndexApi.start(client, viewAction);
-        mainFrame = (FrameLayout)findViewById(R.id.main_frame);
+        mainFrame = (FrameLayout) findViewById(R.id.main_frame);
         Fragment fragment = new StartScreenFrame();
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
@@ -211,8 +318,9 @@ public class MainActivity extends AppCompatActivity
 
 
     //Startscreen Fragment ist hier, weils sonst Probleme mit dem ändern des MainFrames gibt (glaub ich)
-    public class StartScreenFrame extends Fragment implements View.OnClickListener{
+    public class StartScreenFrame extends Fragment implements View.OnClickListener {
         View rootView;
+
         public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
             //setContentView(R.layout.activity_day_list);
             rootView = inflater.inflate(
@@ -221,19 +329,18 @@ public class MainActivity extends AppCompatActivity
             return rootView;
         }
 
-        public void getUiInitialization(){
-            Button btn = (Button)rootView.findViewById(R.id.btn_day);
+        public void getUiInitialization() {
+            Button btn = (Button) rootView.findViewById(R.id.btn_day);
             btn.setOnClickListener(this);
-            btn = (Button)rootView.findViewById(R.id.btn_week);
+            btn = (Button) rootView.findViewById(R.id.btn_week);
             btn.setOnClickListener(this);
-            btn = (Button)rootView.findViewById(R.id.btn_month);
+            btn = (Button) rootView.findViewById(R.id.btn_month);
             btn.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
-
-            switch (v.getId()){
+            switch (v.getId()) {
                 case R.id.btn_day:
                     Fragment fragment = new DayList();
                     FragmentManager fm = getSupportFragmentManager();
@@ -241,21 +348,94 @@ public class MainActivity extends AppCompatActivity
                     transaction.replace(R.id.main_frame, fragment);
                     transaction.commit();
                     break;
-                case  R.id.btn_week:
+                case R.id.btn_week:
                     fragment = new WeekViewBase();
                     fm = getSupportFragmentManager();
                     transaction = fm.beginTransaction();
                     transaction.replace(R.id.main_frame, fragment);
                     transaction.commit();
                     break;
-                case R.id.btn_month:fragment = new WeekViewBase();
+                case R.id.btn_month:
+		    fragment = new WeekViewBase();
                     fragment = new MonthView();
                     fm = getSupportFragmentManager();
                     transaction = fm.beginTransaction();
                     transaction.replace(R.id.main_frame, fragment);
                     transaction.commit();
                     break;
+
             }
         }
+
+    }
+
+    private void setup() {
+
+        br = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context c, Intent i) {
+
+                //Get Settings
+                if(!sharedPrefs.getBoolean(Pref_KEY_REMINDER, true))
+                    return;
+
+                int id = i.getExtras().getInt("id");
+                final Event event = dbHandler.getEvent(id);
+
+
+                Intent intent = new Intent(getBaseContext(), MainActivity.class);
+                // use System.currentTimeMillis() to have a unique ID for the pending intent
+                PendingIntent pIntent = PendingIntent.getActivity(getBaseContext(), (int) System.currentTimeMillis(), intent, 0);
+
+                // build notification
+                // the addAction re-use the same intent to keep the example short
+                Notification n = new Notification.Builder(getBaseContext())
+                        .setContentTitle(event.getEVENT_NAME())
+                        .setContentText(event.getEVENT_LOCATION())
+                        .setSmallIcon(R.mipmap.ic_launcher)
+                        .setContentIntent(pIntent)
+                        .setAutoCancel(true).build();
+
+
+                NotificationManager notificationManager =
+                        (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+
+                notificationManager.notify(0, n);
+
+                String audiopath = event.getEVENT_AUDIOPATH();
+
+
+                t1 = new TextToSpeech(getBaseContext(), new TextToSpeech.OnInitListener() {
+                    @Override
+                    public void onInit(int status) {
+
+                        if (status == TextToSpeech.SUCCESS) {
+
+                            int result = t1.setLanguage(getResources().getConfiguration().locale);
+
+                            if (result == TextToSpeech.LANG_MISSING_DATA
+                                    || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                                Log.e("TTS", "This Language is not supported");
+                            } else {
+                                t1.speak(event.getEVENT_NAME(), TextToSpeech.QUEUE_FLUSH, null);
+                            }
+
+                        } else {
+                            Log.e("TTS", "Initilization Failed!");
+                        }
+
+                    }
+
+                });
+
+
+                Log.d("MAIN", "received: " + event.toString());
+            }
+        };
+
+
+        registerReceiver(br, new IntentFilter("com.nudelsquad.Nudelcalendar"));
+
+        am = (AlarmManager) (this.getSystemService(Context.ALARM_SERVICE));
     }
 }

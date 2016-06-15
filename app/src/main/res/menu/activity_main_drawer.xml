@@ -5,27 +5,27 @@
         <item
             android:id="@+id/nav_home"
             android:icon="@drawable/ic_home"
-            android:title="Home" />
+            android:title="@string/drawer_home" />
         <item
             android:id="@+id/nav_day"
             android:icon="@drawable/ic_day"
-            android:title="Day" />
+            android:title="@string/drawer_day" />
         <item
             android:id="@+id/nav_week"
             android:icon="@drawable/ic_week"
-            android:title="Week" />
+            android:title="@string/drawer_week" />
         <item
             android:id="@+id/nav_month"
             android:icon="@drawable/ic_month"
-            android:title="Month" />
+            android:title="@string/drawer_month" />
         <item
-            android:id="@+id/nav_taskwall"
-            android:icon="@drawable/ic_month"
-            android:title="Task wall" />
+            android:id="@+id/nav_taskboard"
+            android:icon="@drawable/ic_home"
+            android:title="@string/drawer_taskboard" />
         <item
             android:id="@+id/nav_settings"
             android:icon="@drawable/ic_setting"
-            android:title="Settings" />
+            android:title="@string/drawer_settings" />
     </group>
 
     <!--

@@ -3,10 +3,9 @@
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-
+    <string name="nameoftask"><u>Name of Task:</u></string>
+    <string name="duedate"><u>Due Date:</u></string>
     <string name="action_settings">Settings</string>
-
-
     <string name="from_date">Date of event</string>
     <string name="begin">Begin of event</string>
     <string name="endOfEvent">End of event</string>
@@ -16,7 +15,53 @@
     <string name="colorEditText">Color</string>
     <string name="taskName">Task name</string>
     <string name="taskDate">Task date</string>
-    <string name="reminder">Set reminder</string>
     <string name="editText">Text</string>
     <string name="editText2">Select color</string>
+    <string name="title_activity_audio_record_test">AudioRecordTest</string>
+    <string name="event_added">Event Added</string>
+    <string name="saved">Saved</string>
+    <string name="yes">Yes</string>
+    <string name="save_event_question">Save Event?</string>
+    <string name="missing_data_alert">Missing required data!</string>
+    <string name="ok">Ok</string>
+    <string name="choose_color">Choose Color</string>
+    <string name="no">No</string>
+    <string name="event_delete">Event Deleted</string>
+    <string name="missing_field">Not all fields entered</string>
+    <string name="save_task">Save Task?</string>
+    <string name="add_task">Add Task</string>
+    <string name="todo">TODO</string>
+    <string name="title">Title</string>
+    <string name="cancel">Cancel</string>
+    <string name="save">Save</string>
+    <string name="placeholder">placeholder</string>
+    <string name="notes">Notes:</string>
+    <string name="set_reminder">set reminder</string>
+    <string name="upcoming_tasks">Upcoming Tasks</string>
+    <string name="name">Name</string>
+    <string name="date">Date</string>
+    <string name="finished">finished</string>
+    <string name="nudelcalendar">NudelCalendar</string>
+    <string name="reminder">Reminder</string>
+    <string name="landscape_mode">Landscape Mode</string>
+    <string name="set_mute_for">set mute for</string>
+    <string name="minutes">minutes</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="todo_list">Todo List:</string>
+    <string name="creaet_task_question">What do you want to create?</string>
+    <string name="event">Event</string>
+    <string name="task">Task</string>
+    <string name="delete_Task_question">Delete Task?</string>
+    <string name="delete_Task">Delete Task</string>
+    <string name="drawer_home">Home</string>
+    <string name="drawer_day">Day</string>
+    <string name="drawer_week">Week</string>
+    <string name="drawer_month">Month</string>
+    <string name="drawer_taskboard">Task Board</string>
+    <string name="drawer_settings">Settings</string>
+    <string name="appid">/data/com.nudelsquad.Nudelcalendar/</string>
+    <string name="no_permissions">No permissions to Record</string>
+
+
 </resources>
