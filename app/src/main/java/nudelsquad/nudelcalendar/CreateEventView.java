@@ -51,11 +51,8 @@ import java.util.Locale;
  * <uses-permission android:name="android.permission.RECORD_AUDIO" />
  */
 
-public class CreateEventView extends Fragment implements View.OnClickListener, ActivityCompat.OnRequestPermissionsResultCallback {
+public class CreateEventView extends Fragment implements View.OnClickListener {
     private static final String TAG = "RECORDER";
-    private static final int PERMISSION_VOICE_RECORD = 1;;
-    private static final int REQUEST_STORAGE = 0;
-    private static final int REQUEST_MIC = 1;
     private View rootView;
     private EditText edtTextEventDate;
     private EditText edtTextBegin;
@@ -216,8 +213,7 @@ public class CreateEventView extends Fragment implements View.OnClickListener, A
                 if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.RECORD_AUDIO)!= PackageManager.PERMISSION_GRANTED ||
                         ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
 
-                    requestPermissionStorage();
-                    requestRecordAudio();
+                    Toast.makeText(getActivity().getBaseContext(), R.string.no_permissions, Toast.LENGTH_SHORT).show();
 
                     return;
                 }
@@ -481,110 +477,5 @@ public class CreateEventView extends Fragment implements View.OnClickListener, A
         }
     }
 
-    private void requestPermissionStorage() {
-        Log.i(TAG, "Storage permission has NOT been granted. Requesting permission.");
-
-        // BEGIN_INCLUDE(camera_permission_request)
-        if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
-                Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-            // Provide an additional rationale to the user if the permission was not granted
-            // and the user would benefit from additional context for the use of the permission.
-            // For example if the user has previously denied the permission.
-            Log.i(TAG,
-                    "Displaying camera permission rationale to provide additional context.");
-            Snackbar.make(getView(), "Give me permission tor store Data",Snackbar.LENGTH_INDEFINITE)
-                    .setAction(R.string.ok, new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            ActivityCompat.requestPermissions(getActivity(),
-                                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                                    REQUEST_STORAGE);
-                        }
-                    })
-                    .show();
-        } else {
-
-            // Camera permission has not been granted yet. Request it directly.
-            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                    REQUEST_STORAGE);
-        }
-        // END_INCLUDE(camera_permission_request)
-    }
-
-    private void requestRecordAudio() {
-        Log.i(TAG, "Audio permission has NOT been granted. Requesting permission.");
-
-        // BEGIN_INCLUDE(camera_permission_request)
-        if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
-                Manifest.permission.RECORD_AUDIO)) {
-            // Provide an additional rationale to the user if the permission was not granted
-            // and the user would benefit from additional context for the use of the permission.
-            // For example if the user has previously denied the permission.
-            Log.i(TAG,
-                    "Displaying audio permission rationale to provide additional context.");
-            Snackbar.make(getView(), "Give me permission to recorde Audio",Snackbar.LENGTH_INDEFINITE)
-                    .setAction(R.string.ok, new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            ActivityCompat.requestPermissions(getActivity(),
-                                    new String[]{Manifest.permission.RECORD_AUDIO},
-                                    REQUEST_MIC);
-                        }
-                    })
-                    .show();
-        } else {
-
-            // Camera permission has not been granted yet. Request it directly.
-            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.RECORD_AUDIO},
-                    REQUEST_MIC);
-        }
-        // END_INCLUDE(camera_permission_request)
-    }
-
-    /**
-     * Callback received when a permissions request has been completed.
-     */
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-
-        if (requestCode == REQUEST_STORAGE) {
-            // BEGIN_INCLUDE(permission_result)
-            // Received permission result for camera permission.
-            Log.i(TAG, "Received response for Camera permission request.");
-
-            // Check if the only required permission has been granted
-            if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Camera permission has been granted, preview can be displayed
-                Log.i(TAG, "CAMERA permission has now been granted. Showing preview.");
-                Snackbar.make(getView(), R.string.no, Snackbar.LENGTH_SHORT).show();
-            } else {
-                Log.i(TAG, "CAMERA permission was NOT granted.");
-                Snackbar.make(getView(), R.string.yes, Snackbar.LENGTH_SHORT).show();
-
-            }
-            // END_INCLUDE(permission_result)
-
-        } else if (requestCode == REQUEST_MIC) {
-            // BEGIN_INCLUDE(permission_result)
-            // Received permission result for camera permission.
-            Log.i(TAG, "Received response for Camera permission request.");
-
-            // Check if the only required permission has been granted
-            if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Camera permission has been granted, preview can be displayed
-                Log.i(TAG, "CAMERA permission has now been granted. Showing preview.");
-                Snackbar.make(getView(), R.string.no, Snackbar.LENGTH_SHORT).show();
-            } else {
-                Log.i(TAG, "CAMERA permission was NOT granted.");
-                Snackbar.make(getView(), R.string.yes, Snackbar.LENGTH_SHORT).show();
-
-            }
-            // END_INCLUDE(permission_result)
-
-        } else {
-            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        }
-    }
 }
 
