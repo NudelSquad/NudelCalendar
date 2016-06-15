@@ -375,6 +375,12 @@ public class CreateEventView extends Fragment implements View.OnClickListener, A
         String path ="";
         int c = Color.parseColor(Col);
 
+        if(Start.equals("null"))
+            Start = edtTextBegin.getText().toString();
+
+        if(End.equals("null"))
+            End = edtTextEnd.getText().toString();
+
         if(hasRecorded)
             path=mFileName;
 
