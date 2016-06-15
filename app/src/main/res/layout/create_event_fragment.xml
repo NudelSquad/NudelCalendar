@@ -77,7 +77,7 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/editText6"
+                android:id="@+id/end"
                 android:textSize="25dp"
                 android:hint="@string/endOfEvent"
                 android:layout_below="@+id/begin" />
@@ -88,7 +88,7 @@
                 android:id="@+id/placeText"
                 android:textSize="25dp"
                 android:hint="@string/placeText"
-                android:layout_below="@+id/editText6" />
+                android:layout_below="@+id/end" />
 
             <EditText
                 android:layout_width="match_parent"
