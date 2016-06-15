@@ -20,9 +20,11 @@ public class DaeleteAllTasksTest extends ActivityInstrumentationTestCase2<MainAc
     public void setUp() throws Exception {
         super.setUp();
         solo = new Solo(getInstrumentation(), getActivity());
-        openNavigationDrawer();
-        solo.clickOnText(getActivity().getResources().getString(R.string.drawer_settings));
+        solo.clickOnMenuItem(getActivity().getBaseContext().getString(R.string.action_settings));
+        //openNavigationDrawer();
         solo.sleep(1000);
+        //solo.clickOnText(getActivity().getResources().getString(R.string.drawer_settings));
+        //solo.sleep(1000);
     }
 
     public void testDeleteAllTasks() {

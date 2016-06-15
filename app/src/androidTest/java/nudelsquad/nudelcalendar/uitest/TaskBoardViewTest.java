@@ -109,6 +109,7 @@ public class TaskBoardViewTest extends ActivityInstrumentationTestCase2<MainActi
     public void testDeleteTask(){
         solo.clickLongInList(6);
         solo.clickOnView(getActivity().findViewById(R.id.btn_delete_task));
+        solo.sleep(200);
         solo.clickOnText(getActivity().getBaseContext().getString(R.string.yes));
         solo.sleep(500);
     }
