@@ -34,6 +34,7 @@ public class DayItemTest extends ActivityInstrumentationTestCase2<MainActivity> 
         solo = new Solo(getInstrumentation(), getActivity());
         View viewById = getActivity().findViewById(R.id.btn_day);
         solo.clickOnView(viewById);
+        solo.sleep(100);
         solo.clickInList(1);
         solo.sleep(100);
 

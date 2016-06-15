@@ -28,7 +28,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         super.setUp();
         solo = new Solo(getInstrumentation(), getActivity());
         solo.goBack();
-
+        solo.sleep(100);
     }
 
 

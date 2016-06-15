@@ -26,13 +26,11 @@ public class SaveButtonTest extends ActivityInstrumentationTestCase2<MainActivit
     }
 
     public void testButton() {
-        View v = getActivity().findViewById(R.id.btnSave);
-        solo.clickOnView(v);
+        solo.clickOnButton(getActivity().getBaseContext().getString(R.string.save));
         solo.sleep(500);
         boolean saved = solo.searchText(getActivity().getResources().getString(R.string.saved));
         assertTrue(saved);
         solo.sleep(1000);
-        solo.finishOpenedActivities();
     }
 
 
