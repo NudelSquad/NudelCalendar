@@ -43,23 +43,6 @@ public class SettingsViewTest extends ActivityInstrumentationTestCase2<MainActiv
         solo.clickOnView(swRem);
     }
 
-    public void testComboBox() {
-        boolean b;
-
-        b = solo.searchText("15");
-        assertTrue(b);
-        b = solo.searchText("30");
-        assertTrue(b);
-        b = solo.searchText("45");
-        assertTrue(b);
-        b = solo.searchText("60");
-        assertTrue(b);
-        b = solo.searchText("75");
-        assertTrue(b);
-
-        solo.clickInList(2);
-    }
-
 
     public void openNavigationDrawer() {
         Point deviceSize = new Point();
