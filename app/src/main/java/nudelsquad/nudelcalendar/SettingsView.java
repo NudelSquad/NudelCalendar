@@ -46,7 +46,7 @@ public class SettingsView extends Fragment implements View.OnClickListener{
             Switch landSC = (Switch) rootView.findViewById(R.id.swLS);
             landSC.setChecked(true);
         }
-        if(sharedPrefs.getBoolean(Pref_KEY_REMINDER, false)){
+        if(sharedPrefs.getBoolean(Pref_KEY_REMINDER, true)){
             Switch landSC = (Switch) rootView.findViewById(R.id.swRem);
             landSC.setChecked(true);
         }

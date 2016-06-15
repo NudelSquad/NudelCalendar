@@ -79,6 +79,14 @@ public class MainActivity extends AppCompatActivity
         dbHandler = new DBHandler(getBaseContext());
 
 
+        //Get Settings
+        sharedPrefs = getSharedPreferences(PrefName, 0);
+        if(sharedPrefs.getBoolean(Pref_KEY_LANDSC, false)){
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        }
+        else
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
         setup();
 
         AlarmHandler.getInstance().setMainActivity(this);
@@ -104,13 +112,7 @@ public class MainActivity extends AppCompatActivity
 
         myBundle.putString("selectedDate", String.valueOf("n"));
 
-        //Get Settings
-        sharedPrefs = getSharedPreferences(PrefName, 0);
-        if(sharedPrefs.getBoolean(Pref_KEY_LANDSC, false)){
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        }
-        else
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
 
 
         //OPEN ADD FRAME
@@ -183,9 +185,13 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            return true;
+            Fragment fragment = new SettingsView();
+            FragmentManager fm = getSupportFragmentManager();
+            FragmentTransaction transaction = fm.beginTransaction();
+            transaction.replace(R.id.main_frame, fragment, "settings");
+            transaction.commit();
+        }
 
-    }
         return super.onOptionsItemSelected(item);
     }
 
@@ -347,6 +353,10 @@ public class MainActivity extends AppCompatActivity
         br = new BroadcastReceiver() {
             @Override
             public void onReceive(Context c, Intent i) {
+
+                //Get Settings
+                if(!sharedPrefs.getBoolean(Pref_KEY_REMINDER, true))
+                    return;
 
                 int id = i.getExtras().getInt("id");
                 final Event event = dbHandler.getEvent(id);
