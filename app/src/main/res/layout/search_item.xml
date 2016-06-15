@@ -12,6 +12,7 @@
         android:id="@+id/tv_searchname"
         android:layout_weight="1"
         android:maxLines="1"
+        android:maxWidth="80dp"
         android:ellipsize="end"
         android:gravity="center_horizontal"
         />

@@ -31,10 +31,10 @@ public class SearchListAdapter extends BaseAdapter implements Filterable {
     }
 
 
-
     public Filter getFilter() {
         return new Filter() {
 
+            // Filters search input
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
                 final FilterResults oReturn = new FilterResults();
@@ -58,8 +58,8 @@ public class SearchListAdapter extends BaseAdapter implements Filterable {
 
             @SuppressWarnings("unchecked")
             @Override
-            protected void publishResults(CharSequence constraint,
-                                          FilterResults results) {
+            protected void publishResults(CharSequence constraint, FilterResults results)
+            {
                 search_item_list = (ArrayList<SearchItem>) results.values;
                 notifyDataSetChanged();
             }

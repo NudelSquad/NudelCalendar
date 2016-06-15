@@ -37,7 +37,8 @@ public class SettingsViewTest extends ActivityInstrumentationTestCase2<MainActiv
         solo.clickOnView(swRem);
     }
 
-    public void testComboBox() {
+
+    /*public void testComboBox() {
         View view = getActivity().findViewById(R.id.spMuteFor);
         solo.clickOnView(view);
         boolean b;
@@ -58,7 +59,7 @@ public class SettingsViewTest extends ActivityInstrumentationTestCase2<MainActiv
 
 
     }
-
+*/
     public void testButton() {
         solo.clickOnButton("Save");
         solo.sleep(500);
