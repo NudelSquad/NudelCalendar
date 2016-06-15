@@ -3,6 +3,7 @@ package nudelsquad.nudelcalendar.uitest;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.test.ActivityInstrumentationTestCase2;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -46,23 +47,26 @@ public class MonthViewTest extends ActivityInstrumentationTestCase2<MainActivity
         Date time = Calendar.getInstance().getTime();
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
         String today = formatter.format(time);
-        dbHandler.addEvent(new Event("Event 1", "9:00 AM", "12:00 AM", today, "party", "home", Color.GREEN,""));
-        dbHandler.addEvent(new Event("Event 2", "07:00 AM", "9:00 AM", today, "lecture", "uni", Color.BLUE,""));
+        dbHandler.addEvent(new Event("Event 1", "9:00", "12:00", today, "party", "home", Color.GREEN,""));
+        dbHandler.addEvent(new Event("Event 2", "07:00", "9:00", today, "lecture", "uni", Color.BLUE,""));
 
         time.setDate(Calendar.getInstance().get(Calendar.DAY_OF_MONTH)+1);
         today=formatter.format(time);
-        dbHandler.addEvent(new Event("Event 3", "07:00 AM", "9:00 AM", today, "lecture", "uni", Color.BLUE,""));
-        dbHandler.addEvent(new Event("Event 4", "10:00 AM", "11:00 AM", today, "bla", "uni", Color.BLUE,""));
+        dbHandler.addEvent(new Event("Event 3", "07:00", "9:00", today, "lecture", "uni", Color.BLUE,""));
+        dbHandler.addEvent(new Event("Event 4", "10:00", "11:00", today, "bla", "uni", Color.BLUE,""));
     }
-
+    // failed
     public void testFindEventToday(){
-        int day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+        int day = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
+        int week = Calendar.getInstance().get(Calendar.WEEK_OF_MONTH);
+        int index = day + (week - 1) * 7;
+
         boolean b;
-        b = solo.searchText(String.valueOf(day));
+        b = solo.searchText(String.valueOf(index));
         assertTrue(b);
 
 
-        solo.clickInList(day, 2);
+        solo.clickInList(index, 2);
         solo.sleep(200);
 
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
@@ -83,13 +87,16 @@ public class MonthViewTest extends ActivityInstrumentationTestCase2<MainActivity
 
 
     public void testClickOnToday() {
-        int day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+        int day = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
+        int week = Calendar.getInstance().get(Calendar.WEEK_OF_MONTH);
+        int index = day + (week - 1) * 7;
+
         boolean b;
-        b = solo.searchText(String.valueOf(day));
+        b = solo.searchText(String.valueOf(index));
         assertTrue(b);
 
 
-        solo.clickInList(day, 2);
+        solo.clickInList(index, 2);
         solo.sleep(200);
 
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
@@ -103,12 +110,15 @@ public class MonthViewTest extends ActivityInstrumentationTestCase2<MainActivity
     public void testFindEventTomorrow(){
         Calendar calendar= Calendar.getInstance();
         calendar.add(Calendar.DAY_OF_MONTH,1);
+        int day = calendar.get(Calendar.DAY_OF_WEEK);
+        int week = calendar.get(Calendar.WEEK_OF_MONTH);
+        int index = day + (week - 1) * 7;
         boolean b;
         b = solo.searchText(String.valueOf(calendar.get(Calendar.DAY_OF_MONTH)));
         assertTrue(b);
 
 
-        solo.clickInList(calendar.get(Calendar.DAY_OF_MONTH), 2);
+        solo.clickInList(index, 2);
         solo.sleep(200);
 
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
@@ -143,4 +153,9 @@ public class MonthViewTest extends ActivityInstrumentationTestCase2<MainActivity
     }
 
 
+    public void tearDown() throws Exception
+    {
+        solo.finishOpenedActivities();
+        super.tearDown();
+    }
 }

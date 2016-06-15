@@ -50,29 +50,44 @@ public class WeekViewTest extends ActivityInstrumentationTestCase2<MainActivity>
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
         String today = formatter.format(calendar.getTime());
-        dbHandler.addEvent(new Event("Event 2", "7:00 AM", "9:00 AM", today, "lecture", "uni", Color.BLUE,""));
-        dbHandler.addEvent(new Event("Event 1", "9:00 AM", "11:59 AM", today, "party", "home", Color.GREEN,""));
+        dbHandler.addEvent(new Event("Event 2", "7:00", "9:00", today, "lecture", "uni", Color.BLUE,""));
+        dbHandler.addEvent(new Event("Event 1", "9:00", "11:59", today, "party", "home", Color.GREEN,""));
 
         calendar.add(Calendar.DAY_OF_MONTH, 2);
         today=formatter.format(calendar.getTime());
-        dbHandler.addEvent(new Event("Event 3", "7:00 AM", "9:00 AM", today, "lecture", "uni", Color.BLUE,""));
-        dbHandler.addEvent(new Event("Event 4", "10:00 AM", "11:00 AM", today, "bla", "uni", Color.YELLOW,""));
+        dbHandler.addEvent(new Event("Event 3", "7:00", "9:00", today, "lecture", "uni", Color.BLUE,""));
+        dbHandler.addEvent(new Event("Event 4", "10:00", "11:00", today, "bla", "uni", Color.YELLOW,""));
 
     }
 
 
     public void testFindEvent() {
+        solo.clickOnScreen(238.1f, 1551.6f);
+        solo.sleep(500);
         boolean b = solo.searchText("Event 2");
-        assertTrue(true);
-        solo.clickInList(1);
-        solo.sleep(5000);
+        assertTrue(b);
+
+    }
+
+    public void testLongClickOnEvent(){
+        solo.clickLongOnScreen(238.1f, 1551.6f);
+        solo.sleep(100);
+        boolean b = solo.searchText("Event");
+        assertTrue(b);
+    }
+
+    public void testLongClickOnEmptyField(){
+        solo.clickLongOnScreen(500f, 500f);
+        solo.sleep(100);
+        boolean b = solo.searchText("Empty");
+        assertTrue(b);
     }
 
 
 
     public void tearDown() throws Exception {
+        solo.finishOpenedActivities();
         super.tearDown();
-        dbHandler.resetDatabase();
     }
 
 

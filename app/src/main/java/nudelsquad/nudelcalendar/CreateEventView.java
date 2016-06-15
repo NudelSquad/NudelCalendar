@@ -7,22 +7,28 @@ import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -50,8 +56,7 @@ import java.util.Locale;
  */
 
 public class CreateEventView extends Fragment implements View.OnClickListener {
-    private static final String LOG_TAG = "RECORDER";
-    private static final int PERMISSION_VOICE_RECORD = 1;
+    private static final String TAG = "RECORDER";
     private View rootView;
     private EditText edtTextEventDate;
     private EditText edtTextBegin;
@@ -88,13 +93,22 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
     private boolean hasRecorded=false;
 
 
+
     public CreateEventView(int EventID) {
         this.eventID = EventID;
     }
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getActivity().getResources().getColor(R.color.colorPrimary)));
+        Window window = getActivity().getWindow();
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.setStatusBarColor(getActivity().getResources().getColor(R.color.colorPrimaryDark));
+        }
+
         rootView = inflater.inflate(R.layout.create_event_fragment, container, false);
         dateFormater = new SimpleDateFormat("dd-MM-yyyy", Locale.GERMAN);
         if(eventID != 0){
@@ -110,10 +124,12 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
 
 
 
-        mFileName = Environment.getExternalStorageDirectory().toString() + "/data/com.nudelsquad.Nudelcalendar/";
+
+        mFileName = Environment.getExternalStorageDirectory().toString() + getString(R.string.appid);
         File file = new File(mFileName);
+
         try{
-            file.mkdir();
+            file.mkdirs();
         }
         catch(SecurityException se){
             //handle it
@@ -123,8 +139,7 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
 
 
 
-
-        Log.i(LOG_TAG, mFileName);
+        Log.i(TAG, mFileName);
 
         Button addTaskButton = (Button) rootView.findViewById(R.id.addTaskAct);
         addTaskButton.setOnClickListener(new View.OnClickListener() {
@@ -158,6 +173,10 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
                         edtTextEnd.getText().toString().isEmpty() ||
                         eventType.getText().toString().isEmpty() ||
                         colorText.getText().toString().isEmpty()) {
+
+
+
+
 
                     AlertDialog.Builder alert1 = new AlertDialog.Builder(rootView.getContext());
                     alert1.setMessage(R.string.missing_data_alert)
@@ -202,17 +221,10 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
         btnRecord.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (ContextCompat.checkSelfPermission(getActivity(),
-                        Manifest.permission.RECORD_AUDIO)
-                        != PackageManager.PERMISSION_GRANTED ||
-                        ContextCompat.checkSelfPermission(getActivity(),
-                                Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                                != PackageManager.PERMISSION_GRANTED) {
+                if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.RECORD_AUDIO)!= PackageManager.PERMISSION_GRANTED ||
+                        ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
 
-
-                    ActivityCompat.requestPermissions(getActivity(),
-                            new String[]{Manifest.permission.READ_PHONE_STATE},
-                            PERMISSION_VOICE_RECORD);
+                    Toast.makeText(getActivity().getBaseContext(), R.string.no_permissions, Toast.LENGTH_SHORT).show();
 
                     return;
                 }
@@ -306,7 +318,9 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
                 newTime.set(Calendar.HOUR_OF_DAY, hourOfDay);
                 newTime.set(Calendar.MINUTE, minute);
                 String timeString = DateUtils.formatDateTime(rootView.getContext(), newTime.getTimeInMillis(), DateUtils.FORMAT_SHOW_TIME);
+                Log.d("Time", hourOfDay + " " + minute);
                 edtTextBegin.setText(timeString);
+                edtTextBegin.setTag(hourOfDay+":"+minute);
             }
         }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), android.text.format.DateFormat.is24HourFormat(rootView.getContext()));
     }
@@ -323,6 +337,7 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
                 newTime.set(Calendar.MINUTE, minute);
                 String timeString = DateUtils.formatDateTime(rootView.getContext(), newTime.getTimeInMillis(), DateUtils.FORMAT_SHOW_TIME);
                 edtTextEnd.setText(timeString);
+                edtTextEnd.setTag(hourOfDay+":"+minute);
             }
         }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), android.text.format.DateFormat.is24HourFormat(rootView.getContext()));
     }
@@ -356,8 +371,9 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
     }
 
     private void saveEvent() {
-        String Start = edtTextBegin.getText().toString();
-        String End = edtTextEnd.getText().toString();
+
+        String Start = String.valueOf(edtTextBegin.getTag());
+        String End = String.valueOf(edtTextEnd.getTag());
         String Datum = edtTextEventDate.getText().toString();
         String Name = eventName.getText().toString();
         String Type = eventType.getText().toString();
@@ -365,6 +381,12 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
         String Col = colorText.getText().toString();
         String path ="";
         int c = Color.parseColor(Col);
+
+        if(Start.equals("null"))
+            Start = edtTextBegin.getText().toString();
+
+        if(End.equals("null"))
+            End = edtTextEnd.getText().toString();
 
         if(hasRecorded)
             path=mFileName;
@@ -380,6 +402,7 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
             }
 
             Task.getOpenTasks().clear();
+            AlarmHandler.getInstance().addEvent(e);
         }
         else {
             Event upt = new Event(eventID, Name, Start, End, Datum, Type, Loc, c, path);
@@ -415,7 +438,7 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
             mPlayer.prepare();
             mPlayer.start();
         } catch (IOException e) {
-            Log.e(LOG_TAG, "prepare() failed");
+            Log.e(TAG, "prepare() failed");
         }
     }
 
@@ -436,7 +459,7 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
         try {
             mRecorder.prepare();
         } catch (IOException e) {
-            Log.e(LOG_TAG, "prepare() failed");
+            Log.e(TAG, "prepare() failed");
         }
 
         mRecorder.start();
@@ -464,5 +487,6 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
             mPlayer = null;
         }
     }
+
 }
 
