@@ -114,10 +114,6 @@ public class WeekViewBase extends Fragment implements WeekView.EventClickListene
             });
         }
 
-        protected String getEventTitle(Calendar time) {
-            return String.format("Event of %02d:%02d %s/%d", time.get(Calendar.HOUR_OF_DAY), time.get(Calendar.MINUTE), time.get(Calendar.MONTH)+1, time.get(Calendar.DAY_OF_MONTH));
-        }
-
         @Override
         public void onEventClick(WeekViewEvent event, RectF eventRect) {                //go to Event
 
@@ -128,16 +124,12 @@ public class WeekViewBase extends Fragment implements WeekView.EventClickListene
 
         @Override
         public void onEventLongPress(WeekViewEvent event, RectF eventRect) {
-            Toast.makeText(rootView.getContext(), "is needed?", Toast.LENGTH_SHORT).show();
+            Toast.makeText(rootView.getContext(), "Event", Toast.LENGTH_LONG).show();
         }
 
         @Override
         public void onEmptyViewLongPress(Calendar time) {
-            Toast.makeText(rootView.getContext(), "is needed?", Toast.LENGTH_SHORT).show();
-        }
-
-        public com.alamkanak.weekview.WeekView getWeekView() {
-            return mWeekView;
+            Toast.makeText(rootView.getContext(), "Empty", Toast.LENGTH_LONG).show();
         }
 
     @Override

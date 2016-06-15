@@ -69,6 +69,20 @@ public class WeekViewTest extends ActivityInstrumentationTestCase2<MainActivity>
 
     }
 
+    public void testLongClickOnEvent(){
+        solo.clickLongOnScreen(238.1f, 1551.6f);
+        solo.sleep(100);
+        boolean b = solo.searchText("Event");
+        assertTrue(b);
+    }
+
+    public void testLongClickOnEmptyField(){
+        solo.clickLongOnScreen(500f, 500f);
+        solo.sleep(100);
+        boolean b = solo.searchText("Empty");
+        assertTrue(b);
+    }
+
 
 
     public void tearDown() throws Exception {
