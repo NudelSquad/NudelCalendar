@@ -42,9 +42,11 @@ public class SearchListAdapter extends BaseAdapter implements Filterable {
                 if (orig == null)
                     orig = search_item_list;
                 if (constraint != null) {
-                    if (orig != null && orig.size() > 0) {
-                        for (final SearchItem g : orig) {
-                            if (g.getName_().toLowerCase().contains(constraint.toString()) ||
+                    if (orig != null && orig.size() > 0)
+                    {
+                        for (final SearchItem g : orig)
+                        {
+                            if (g.getName_().toLowerCase().contains(constraint.toString().toLowerCase()) ||
                                     g.getDate_().contains(constraint.toString()))
                                 results.add(g);
                         }
@@ -99,8 +101,6 @@ public class SearchListAdapter extends BaseAdapter implements Filterable {
         }
 
         SearchItem searchItem =  search_item_list.get(position);
-
-        //Log.e("EVENT", "StartTime = " + ev_bean_.getEVENT_START() + "Type = " + ev_bean_.getEVENT_TYPE());
 
         holder.searchname.setText(searchItem.getName_());
         holder.searchdate.setText(searchItem.getDate_());

@@ -16,6 +16,14 @@
             android:layout_marginBottom="10dp"
             android:clickable="true" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="This search lists all Events and Tasks"
+            android:gravity="center_horizontal"
+            android:id="@+id/txtlistevtaskheader"
+            android:textSize="16dp" />
+
         <ListView
             android:id="@+id/listViewSearch"
             android:layout_width="match_parent"
