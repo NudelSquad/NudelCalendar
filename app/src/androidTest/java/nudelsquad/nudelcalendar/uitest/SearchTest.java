@@ -24,67 +24,85 @@ public class SearchTest extends ActivityInstrumentationTestCase2<MainActivity> {
 
     private Solo solo;
     private DBHandler dbh;
+    private View searchbtnview;
 
     public SearchTest()
     {
         super(MainActivity.class);
     }
 
-    public void testInput()
-    {
 
+    public void testMuchDatabaseEntrys()
+    {
+        fillDatabaseWithEvents(100);
+        fillDatabaseWithTasks(100);
+
+        solo.sleep(500);
+        solo.clickOnView(searchbtnview);
+        solo.sleep(1000);
+
+        View searchinput = getActivity().findViewById(R.id.searchView);
+        solo.clickOnView(searchinput);
+
+        solo.typeText(0,"100");
+        solo.sleep(500);
+
+        // Click on Task number 100
+        solo.clickLongInList(1);
+
+        Boolean b = solo.searchText("100");
+        assertTrue(b);
     }
 
-    public void testLongClickAtFirstItem()
+    public void testSearchSpecificEventItem()
     {
+        fillDatabaseWithEvents(15);
+        fillDatabaseWithTasks(15);
+
+        solo.sleep(500);
+        solo.clickOnView(searchbtnview);
+
+        solo.sleep(1000);
+
         View searchinput = getActivity().findViewById(R.id.searchView);
         solo.clickOnView(searchinput);
 
         //type event or task part
-        solo.typeText(0,"t");
+        solo.typeText(0,"TestEvent7");
         solo.sleep(500);
 
         solo.clickLongInList(0);
         solo.sleep(500);
 
         // Search for name of event or task
-        Boolean b = solo.searchText("ev1.getName()");
+        Boolean b = solo.searchText("TestEvent7");
         assertTrue(b);
     }
 
 
+    public void fillDatabaseWithEvents(int number_of_events)
+    {
+        for(int i = 1; i <= number_of_events; i ++)
+        {
+            dbh.addEvent(new Event(i, "TestEvent" + i , "17:00", "18:00", "19-06-2016", "testtext", "TestLocation" + i, 124, ""));
+        }
+    }
+
+    public void fillDatabaseWithTasks(int number_of_tasks)
+    {
+        for(int i = 1; i <= number_of_tasks; i ++)
+        {
+            dbh.addTask(new Task("TestTask"+i, "26.06.2016", "TestText", 123, 1, false));
+        }
+    }
+
     public void setUp() throws Exception
     {
+        super.setUp();
         solo = new Solo(getInstrumentation(), getActivity());
-
-      /*  Event ev1 = new Event("TestEvent", "17:00", "18:00", "18-05-2016", "TestType", "TestLocation", 123, "");
-        Event ev2 = new Event(1, "TestEvent1", "17:01", "18:01", "19-05-2016", "TestType1", "TestLocation1", 124, "");
-        Task task1 = new Task("TestTask", "18.05.2016", "blabla", 123, 1, false);
-        Task task2 = new Task("TestTask2", "18.05.2016", "blabla", 123, -1, false);
-        Task task3 = new Task(1, "TestTask1", "19.05.2016", "blabla1", 124, 2, true);
-        Task task4 = new Task("TestTask", "18.05.2016", "blabla", 123, 1, false);
-        Task task5 = new Task("TestTask2", "18.05.2016", "blabla", 123, -1, false);
-        dbh = new DBHandler(getInstrumentation().getContext());
-        dbh.onCreate(SQLiteDatabase.openDatabase(dbh.getDatabaseName(),null,(SQLiteDatabase.OPEN_READONLY | SQLiteDatabase.NO_LOCALIZED_COLLATORS)));
-
-        SQLiteDatabase a;
-
+        dbh = new DBHandler(getActivity().getBaseContext());
         dbh.resetDatabase();
-
-        dbh.addEvent(ev1);
-        dbh.addEvent(ev2);
-        dbh.addTask(task1);
-        dbh.addTask(task2);
-        dbh.addTask(task3);
-        dbh.addTask(task4);
-        dbh.addTask(task5);
-*/
-
-        View search = getActivity().findViewById(R.id.btn_search);
-        solo.clickOnView(search);
-
-        solo.sleep(500);
-
+        searchbtnview = getActivity().findViewById(R.id.btn_search);
     }
 
 }
