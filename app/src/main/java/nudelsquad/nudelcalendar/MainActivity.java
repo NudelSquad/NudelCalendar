@@ -11,7 +11,9 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.support.annotation.Nullable;
@@ -34,6 +36,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -202,6 +206,13 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_home) {
+            MainActivity.this.getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0x3F51B5));
+            Window window = this.getWindow();
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                window.setStatusBarColor(MainActivity.this.getResources().getColor(R.color.colorPrimaryDark));
+            }
             Fragment fragment = new StartScreenFrame();
             FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction transaction = fm.beginTransaction();
@@ -209,6 +220,7 @@ public class MainActivity extends AppCompatActivity
             transaction.commit();
 
         } else if (id == R.id.nav_day) {
+            MainActivity.this.getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0xFFFF0A));
             Fragment fragment = new DayList();
             FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction transaction = fm.beginTransaction();
@@ -216,6 +228,7 @@ public class MainActivity extends AppCompatActivity
             transaction.commit();
 
         } else if (id == R.id.nav_week) {
+            MainActivity.this.getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0xD700D7));
             Fragment fragment = new WeekViewBase();
             FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction transaction = fm.beginTransaction();
@@ -223,6 +236,7 @@ public class MainActivity extends AppCompatActivity
             transaction.commit();
 
         } else if (id == R.id.nav_month) {
+            MainActivity.this.getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0xA66829));
             Fragment fragment = new MonthView();
             FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction transaction = fm.beginTransaction();
@@ -237,6 +251,13 @@ public class MainActivity extends AppCompatActivity
             transaction.commit();
 
         } else if (id == R.id.nav_settings) {
+            MainActivity.this.getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0x3F51B5));
+            Window window = this.getWindow();
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                window.setStatusBarColor(MainActivity.this.getResources().getColor(R.color.colorPrimaryDark));
+            }
             Fragment fragment = new SettingsView();
             FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction transaction = fm.beginTransaction();
