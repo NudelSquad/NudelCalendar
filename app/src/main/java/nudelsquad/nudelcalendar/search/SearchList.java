@@ -48,7 +48,6 @@ public class SearchList extends Fragment implements SearchView.OnQueryTextListen
 
         dbh = new DBHandler(rootView.getContext());
 
-
         final List<Event> list_events = dbh.getAllEvents();
         final List<Task> list_tasks = dbh.getAllTasks();
 
@@ -152,7 +151,6 @@ public class SearchList extends Fragment implements SearchView.OnQueryTextListen
 
     public void fillSearchItemList(List lst)
     {
-
         if(lst.get(0).getClass() == Event.class)
         {
             for(int index = 0; index < lst.size();index++)
@@ -181,9 +179,4 @@ public class SearchList extends Fragment implements SearchView.OnQueryTextListen
         }
 
     }
-
-
-
-
-
 }
