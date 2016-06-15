@@ -44,8 +44,6 @@ public class SettingsViewTest extends ActivityInstrumentationTestCase2<MainActiv
     }
 
     public void testComboBox() {
-        View view = getActivity().findViewById(R.id.spMuteFor);
-        solo.clickOnView(view);
         boolean b;
 
         b = solo.searchText("15");
