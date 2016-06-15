@@ -26,6 +26,7 @@ import nudelsquad.nudelcalendar.Event;
 import nudelsquad.nudelcalendar.R;
 import nudelsquad.nudelcalendar.ShowEventView;
 import nudelsquad.nudelcalendar.Task;
+import nudelsquad.nudelcalendar.TaskLookView;
 
 public class SearchList extends Fragment implements SearchView.OnQueryTextListener{
 
@@ -89,7 +90,7 @@ public class SearchList extends Fragment implements SearchView.OnQueryTextListen
                         if(task.getTASK_ID() == temp.getId_())
                         {
                             // Its an task
-                            fragment= new ShowEventView(temp.getId_());
+                            fragment= new TaskLookView(temp.getId_());
                             fm = getFragmentManager();
                             transaction = fm.beginTransaction();
                             transaction.replace(R.id.main_frame, fragment);
