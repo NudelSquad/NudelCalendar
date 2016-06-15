@@ -44,8 +44,8 @@ public class DayViewTest extends ActivityInstrumentationTestCase2<MainActivity> 
         Date time = Calendar.getInstance().getTime();
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
         String today = formatter.format(time);
-        dbHandler.addEvent(new Event("Event 1", "9:00 AM", "12:00 AM", today, "party", "home", Color.GREEN,""));
-        dbHandler.addEvent(new Event("Event 2", "07:00 AM", "9:00 AM", today, "lecture", "uni", Color.BLUE,""));
+        dbHandler.addEvent(new Event("Event 1", "9:00", "12:00", today, "party", "home", Color.GREEN,""));
+        dbHandler.addEvent(new Event("Event 2", "07:00", "9:00", today, "lecture", "uni", Color.BLUE,""));
     }
 
     public void testCurrentDate() {
@@ -65,9 +65,9 @@ public class DayViewTest extends ActivityInstrumentationTestCase2<MainActivity> 
         boolean b;
         b = solo.searchText("Event 1");
         assertTrue(b);
-        b = solo.searchText("9:00 AM");
+        b = solo.searchText("9:00");
         assertTrue(b);
-        b = solo.searchText("12:00 AM");
+        b = solo.searchText("12:00");
         assertTrue(b);
         b = solo.searchText("party");
         assertTrue(b);
@@ -89,9 +89,9 @@ public class DayViewTest extends ActivityInstrumentationTestCase2<MainActivity> 
         assertTrue(b);
         b = solo.searchText("Event 1");
         assertTrue(b);
-        b = solo.searchText("9:00 AM");
+        b = solo.searchText("9:00");
         assertTrue(b);
-        b = solo.searchText("12:00 AM");
+        b = solo.searchText("12:00");
         assertTrue(b);
         b = solo.searchText("party");
         assertTrue(b);
@@ -101,9 +101,9 @@ public class DayViewTest extends ActivityInstrumentationTestCase2<MainActivity> 
 
         b = solo.searchText("Event 2");
         assertTrue(b);
-        b = solo.searchText("7:00 AM");
+        b = solo.searchText("7:00");
         assertTrue(b);
-        b = solo.searchText("9:00 AM");
+        b = solo.searchText("9:00");
         assertTrue(b);
         b = solo.searchText("lecture");
         assertTrue(b);
@@ -126,9 +126,9 @@ public class DayViewTest extends ActivityInstrumentationTestCase2<MainActivity> 
         assertTrue(b);
         b = solo.searchText("Event 1");
         assertTrue(b);
-        b = solo.searchText("9:00 AM");
+        b = solo.searchText("9:00");
         assertTrue(b);
-        b = solo.searchText("12:00 AM");
+        b = solo.searchText("12:00");
         assertTrue(b);
         b = solo.searchText("party");
         assertTrue(b);
@@ -152,8 +152,8 @@ public class DayViewTest extends ActivityInstrumentationTestCase2<MainActivity> 
     }
 
     public void tearDown() throws Exception {
+        solo.finishOpenedActivities();
         super.tearDown();
     }
-
 
 }

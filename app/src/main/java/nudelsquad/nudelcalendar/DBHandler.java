@@ -9,7 +9,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +35,7 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String KEY_EVENT_TYPE = "type";
     private static final String KEY_EVENT_LOCATION = "location";
     private static final String KEY_EVENT_COLOR = "color";
-    private static final String KEY_EVENT_AUUDIOPATH = "audiopath";
+    private static final String KEY_EVENT_AUDIOPATH = "audiopath";
 
     private static final String CREATE_TABLE_EVENTS = "CREATE TABLE " + TABLE_EVENTS + "("
             + KEY_EVENT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + KEY_EVENT_NAME + " TEXT,"
@@ -44,7 +43,7 @@ public class DBHandler extends SQLiteOpenHelper {
             + KEY_EVENT_DATUM + " DATE, "
             + KEY_EVENT_TYPE + " TEXT, " + KEY_EVENT_LOCATION + " TEXT, "
             + KEY_EVENT_COLOR + " INTEGER, "
-            + KEY_EVENT_AUUDIOPATH + " TEXT " + ")";
+            + KEY_EVENT_AUDIOPATH + " TEXT " + ")";
 
     //----------------------------------------------------------------------
 
@@ -78,6 +77,7 @@ public class DBHandler extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_EVENTS);
         db.execSQL(CREATE_TABLE_TASKS);
     }
+
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
@@ -111,14 +111,17 @@ public class DBHandler extends SQLiteOpenHelper {
         values.put(KEY_EVENT_DATUM, event.getEVENT_DATUM());
         values.put(KEY_EVENT_LOCATION, event.getEVENT_LOCATION());
         values.put(KEY_EVENT_COLOR, event.getEVENT_COLOR());
-        values.put(KEY_EVENT_AUUDIOPATH, event.getEVENT_AUDIOPATH());
+        values.put(KEY_EVENT_AUDIOPATH, event.getEVENT_AUDIOPATH());
 
         //TODO Implement Reminder logic
         //values.put(KEY_EVENT_REMINDER, event.getEVENT_REMINDER());
 
         // Inserting a Row
-        db.insert(TABLE_EVENTS, null, values);
+        int insert = (int) db.insert(TABLE_EVENTS, null, values);
         db.close(); // Closing database connection
+        event.setEVENT_ID(insert);
+
+        return;
     }
     // Getting one event
     public Event getEvent(int id) {
@@ -126,7 +129,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
         Cursor cursor = db.query(TABLE_EVENTS, new String[]{KEY_EVENT_ID,
                         KEY_EVENT_NAME, KEY_EVENT_START, KEY_EVENT_STOP, KEY_EVENT_DATUM, KEY_EVENT_TYPE,
-                        KEY_EVENT_LOCATION, KEY_EVENT_COLOR, KEY_EVENT_AUUDIOPATH}, KEY_EVENT_ID + "=?",
+                        KEY_EVENT_LOCATION, KEY_EVENT_COLOR, KEY_EVENT_AUDIOPATH}, KEY_EVENT_ID + "=?",
                 new String[]{String.valueOf(id)}, null, null, null, null);
         if (cursor != null && cursor.moveToFirst()) {
 
@@ -240,7 +243,7 @@ public class DBHandler extends SQLiteOpenHelper {
         values.put(KEY_EVENT_TYPE, event.getEVENT_TYPE());
         values.put(KEY_EVENT_LOCATION, event.getEVENT_LOCATION());
         values.put(KEY_EVENT_COLOR, event.getEVENT_COLOR());
-        values.put(KEY_EVENT_AUUDIOPATH, event.getEVENT_AUDIOPATH());
+        values.put(KEY_EVENT_AUDIOPATH, event.getEVENT_AUDIOPATH());
 
         // updating row
         return db.update(TABLE_EVENTS, values, KEY_EVENT_ID + " = ?",

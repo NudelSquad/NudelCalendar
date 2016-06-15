@@ -62,17 +62,18 @@ public class WeekViewTest extends ActivityInstrumentationTestCase2<MainActivity>
 
 
     public void testFindEvent() {
+        solo.clickOnScreen(238.1f, 1551.6f);
+        solo.sleep(500);
         boolean b = solo.searchText("Event 2");
-        assertTrue(true);
-        solo.clickInList(1);
-        solo.sleep(5000);
+        assertTrue(b);
+
     }
 
 
 
     public void tearDown() throws Exception {
+        solo.finishOpenedActivities();
         super.tearDown();
-        dbHandler.resetDatabase();
     }
 
 

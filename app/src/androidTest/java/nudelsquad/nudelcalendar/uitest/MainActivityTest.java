@@ -1,17 +1,24 @@
 package nudelsquad.nudelcalendar.uitest;
 
+import android.graphics.Point;
+import android.support.v4.widget.DrawerLayout;
 import android.test.ActivityInstrumentationTestCase2;
+import android.view.View;
+import android.widget.ListView;
 
 import com.robotium.solo.Solo;
 
 import nudelsquad.nudelcalendar.MainActivity;
+import nudelsquad.nudelcalendar.MonthView;
+import nudelsquad.nudelcalendar.R;
 
 /**
  * Created by emanuel on 20/04/16.
  */
 public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActivity> {
 
-    private Solo mySolo;
+    private Solo solo;
+
 
     public MainActivityTest() {
         super(MainActivity.class);
@@ -19,27 +26,83 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 
     public void setUp() throws Exception {
         super.setUp();
-        mySolo = new Solo(getInstrumentation(), getActivity());
+        solo = new Solo(getInstrumentation(), getActivity());
+        solo.goBack();
 
     }
 
 
     public void testButtonToday() {
-        mySolo.clickOnButton(0);
+        View v = getActivity().findViewById(R.id.btn_day);
+        solo.clickOnView(v);
+        solo.sleep(500);
     }
 
     public void testButtonWeek() {
-        mySolo.clickOnButton(1);
+        View v = getActivity().findViewById(R.id.btn_week);
+        solo.clickOnView(v);
     }
 
     public void testButtonMonths() {
-        mySolo.clickOnButton(2);
+        View v = getActivity().findViewById(R.id.btn_month);
+        solo.clickOnView(v);
     }
 
-    public void tearDown() throws Exception {
+    public void testOpenHome(){
+        openNavigationDrawer();
+        solo.clickOnText(getActivity().getApplicationContext().getString(R.string.drawer_home), 1);
+        solo.sleep(500);
+    }
+
+    public void testOpenDay(){
+        openNavigationDrawer();
+        solo.clickOnText(getActivity().getApplicationContext().getString(R.string.drawer_day), 1);
+        solo.sleep(500);
+    }
+
+    public void testOpenWeek(){
+        openNavigationDrawer();
+        solo.clickOnText(getActivity().getApplicationContext().getString(R.string.drawer_week), 2);
+        solo.sleep(500);
+    }
+
+    public void testOpenMonth(){
+        openNavigationDrawer();
+        solo.clickOnText(getActivity().getApplicationContext().getString(R.string.drawer_month), 2);
+        solo.sleep(500);
+    }
+
+    public void testOpenTaskBoard(){
+        openNavigationDrawer();
+        solo.clickOnText(getActivity().getApplicationContext().getString(R.string.drawer_taskboard));
+        solo.sleep(500);
+    }
+
+    public void testClickBackButton(){
+        openNavigationDrawer();
+        solo.clickOnText(getActivity().getApplicationContext().getString(R.string.drawer_day), 1);
+        solo.sleep(500);
+        solo.goBack();
+    }
+
+    public void openNavigationDrawer() {
+        Point deviceSize = new Point();
+        getActivity().getWindowManager().getDefaultDisplay().getSize(deviceSize);
+
+        int screenWidth = deviceSize.x;
+        int screenHeight = deviceSize.y;
+        int fromX = 0;
+        int toX = screenWidth / 2;
+        int fromY = screenHeight / 2;
+        int toY = fromY;
+
+        solo.drag(fromX, toX, fromY, toY, 1);
+    }
+
+    public void tearDown() throws Exception
+    {
+        solo.finishOpenedActivities();
         super.tearDown();
     }
-
-
 
 }

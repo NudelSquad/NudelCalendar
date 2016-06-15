@@ -187,5 +187,9 @@ public class DBHandlerTest extends AndroidTestCase {
         assertEquals(count,0);
     }
 
+    public void setEvents(){
+
+    }
+
 
 }

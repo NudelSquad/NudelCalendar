@@ -12,6 +12,7 @@ public final class R {
     }
     public static final class drawable {
         public static int ic_stop_black_24dp=0x7f020000;
+        public static int trash=0x7f020001;
     }
     public static final class id {
         public static int color_picker_view=0x7f050000;
