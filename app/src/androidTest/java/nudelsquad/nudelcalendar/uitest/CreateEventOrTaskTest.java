@@ -9,6 +9,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 
 import com.robotium.solo.Solo;
 
@@ -38,9 +39,9 @@ public class CreateEventOrTaskTest extends ActivityInstrumentationTestCase2<Main
         super.setUp();
         solo = new Solo(getInstrumentation(), getActivity());
         context = getActivity().getApplicationContext();
-        dbHandler=new DBHandler(context);
+        dbHandler = new DBHandler(context);
 
-        SecurityManager securityManager = new SecurityManager();
+
         View addEventOrTask = getActivity().findViewById(R.id.add_btn);
         solo.clickOnView(addEventOrTask);
         solo.sleep(500);
@@ -239,61 +240,22 @@ public class CreateEventOrTaskTest extends ActivityInstrumentationTestCase2<Main
         // missing part
     }
 
-  /*  public void testRecordPlay() {
+    public void testRecordPlay() {
         solo.clickOnText(context.getString(R.string.event));
         solo.sleep(500);
         View v = getActivity().findViewById(R.id.btn_record);
         solo.clickOnView(v);
         solo.sleep(500);
-
-        boolean b;
-
-        b = solo.searchText(getActivity().getBaseContext().getString(R.string.ok));
-        if (b) {
-            solo.clickOnText(getActivity().getBaseContext().getString(R.string.ok));
-            solo.sleep(100);
-//            ViewGroup viewGroup = (ViewGroup) getActivity().findViewById(android.R.id.content);
-//            ViewGroup vg = (ViewGroup) viewGroup.getChildAt(0);
-
-            for(View v1: solo.getViews()) {
-                if(v instanceof Button) {
-                    if( ((Button)v1).getText().toString().equalsIgnoreCase("allow") )
-                    {
-                        solo.clickOnView(v1);
-                        solo.sleep(300);
-                        break;
-                    }
-                }
-
-            }
-
-
-            solo.clickOnScreen(784, 1150);
-            solo.clickOnScreen(784, 1150);
-            solo.clickOnScreen(784, 1150);
-
-            solo.sleep(500);
-        }
-        solo.clickOnView(v);
-
-        b = solo.searchText(getActivity().getBaseContext().getString(R.string.ok));
-        if (b) {
-            solo.clickOnText(getActivity().getBaseContext().getString(R.string.ok));
-            solo.sleep(100);
-
-            solo.sleep(500);
-        }
-
         solo.clickOnView(v);
 
 
         v = getActivity().findViewById(R.id.btn_play);
-        solo.sleep(500);
         solo.clickOnView(v);
         solo.sleep(500);
         solo.clickOnView(v);
         solo.sleep(200);
-    }*/
+    }
+
 
     public void openNavigationDrawer() {
         Point deviceSize = new Point();
@@ -491,8 +453,31 @@ public class CreateEventOrTaskTest extends ActivityInstrumentationTestCase2<Main
         solo.sleep(100);
 
 
-
         solo.clickOnButton(context.getString(R.string.save));
+
+    }
+
+    public void testDateEvent(){
+        solo.clickOnText(context.getString(R.string.event));
+        solo.sleep(500);
+
+        solo.enterText((EditText) getActivity().findViewById(R.id.textFromDate), "test");
+        solo.clickOnButton("OK");
+
+        solo.enterText((EditText) getActivity().findViewById(R.id.begin), "begin");
+
+        solo.clickOnButton("OK");
+
+        solo.enterText((EditText) getActivity().findViewById(R.id.end), "end");
+        solo.clickOnButton("OK");
+
+        solo.clickOnView(getActivity().findViewById(R.id.colorEditText));
+        solo.clickOnScreen(840, 1440);
+
+        solo.clickOnView(getActivity().findViewById(R.id.colorEditText));
+        solo.clickOnScreen(840, 1440);
+
+
 
     }
 

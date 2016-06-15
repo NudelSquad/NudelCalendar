@@ -13,10 +13,7 @@ import android.media.MediaRecorder;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
@@ -252,7 +249,7 @@ public class CreateEventView extends Fragment implements View.OnClickListener {
 
         eventName = (EditText) rootView.findViewById(R.id.eventNameText);
 
-        edtTextEnd = (EditText) rootView.findViewById(R.id.editText6);
+        edtTextEnd = (EditText) rootView.findViewById(R.id.end);
         edtTextEnd.setInputType(InputType.TYPE_NULL);
         edtTextEnd.requestFocus();
 
