@@ -20,12 +20,13 @@ public class DeleteAllEventsTest extends ActivityInstrumentationTestCase2<MainAc
     public void setUp() throws Exception {
         super.setUp();
         solo = new Solo(getInstrumentation(), getActivity());
-        openNavigationDrawer();
-        solo.clickOnText(getActivity().getResources().getString(R.string.drawer_settings));
-        solo.sleep(1000);
+
     }
 
     public void testDeleteAllEvents() {
+        openNavigationDrawer();
+        solo.clickOnText(getActivity().getResources().getString(R.string.drawer_settings));
+        solo.sleep(1000);
         View v = getActivity().findViewById(R.id.btnDelEvents);
         solo.clickOnView(v);
         solo.sleep(500);
