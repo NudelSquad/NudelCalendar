@@ -56,7 +56,7 @@ public class TaskBoardViewTest extends ActivityInstrumentationTestCase2<MainActi
         dbh.addTask(new Task("Fußballspiel",today,"Dies ist ein testtext und nicht sehr aussagekräftig",Color.YELLOW,4,true));
         dbh.addTask(new Task("Essen kochen",today,"Dies ist ein testtext und nicht sehr aussagekräftig",Color.BLACK,5,false));
         dbh.addTask(new Task("ANDROID pro werden",today,"Dies ist eine Feststellung und nicht sehr aussagekräftig",Color.GRAY,6,true));
-
+        dbh.addTask(new Task("Löschen",today,"Dies ist ein testtext und nicht sehr aussagekräftig",Color.GREEN,7,true));
     }
 
     public void testSearchHeader()
@@ -104,6 +104,18 @@ public class TaskBoardViewTest extends ActivityInstrumentationTestCase2<MainActi
         View taskboardlist = getActivity().findViewById(R.id.taskboard_list);
         solo.clickInList(1);
 
+    }
+
+    public void testDeleteTask(){
+        solo.clickLongInList(6);
+        solo.clickOnView(getActivity().findViewById(R.id.btn_delete_task));
+        solo.clickOnText(getActivity().getBaseContext().getString(R.string.yes));
+        solo.sleep(500);
+    }
+
+    public void testClickOnCheckbox(){
+        solo.clickOnView(getActivity().findViewById(R.id.chk_task));
+        solo.sleep(500);
     }
 
 

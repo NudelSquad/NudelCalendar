@@ -30,13 +30,15 @@ public class SettingsViewTest extends ActivityInstrumentationTestCase2<MainActiv
     public void setUp() throws Exception {
         super.setUp();
         solo = new Solo(getInstrumentation(), getActivity());
-        openNavigationDrawer();
-        solo.clickOnText(getActivity().getResources().getString(R.string.drawer_settings));
-        solo.sleep(1000);
+
 
     }
 
     public void testSwitcher() {
+
+        openNavigationDrawer();
+        solo.clickOnText(getActivity().getResources().getString(R.string.drawer_settings));
+        solo.sleep(1000);
         View swLS = getActivity().findViewById(R.id.swLS);
         View swRem = getActivity().findViewById(R.id.swRem);
         solo.clickOnView(swLS);

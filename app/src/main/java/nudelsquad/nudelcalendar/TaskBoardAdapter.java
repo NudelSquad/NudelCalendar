@@ -127,7 +127,6 @@ public class TaskBoardAdapter extends BaseAdapter {
             }
         });
 
-        //TODO
         return convertView;
     }
 
