@@ -29,7 +29,6 @@ public class DaeleteAllTasksTest extends ActivityInstrumentationTestCase2<MainAc
         View v = getActivity().findViewById(R.id.btnDelTasks);
         solo.clickOnView(v);
         solo.sleep(500);
-        solo.finishOpenedActivities();
     }
 
     public void openNavigationDrawer() {

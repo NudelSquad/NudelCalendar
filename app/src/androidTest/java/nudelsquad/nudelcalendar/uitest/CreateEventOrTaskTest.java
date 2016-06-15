@@ -457,29 +457,41 @@ public class CreateEventOrTaskTest extends ActivityInstrumentationTestCase2<Main
 
     }
 
-    public void testDateEvent(){
-        solo.clickOnText(context.getString(R.string.event));
-        solo.sleep(500);
+    public void testEventDate() {
 
-        solo.enterText((EditText) getActivity().findViewById(R.id.textFromDate), "test");
+        solo.enterText(0, "Fallschirmspringen");
+        solo.enterText(1, "date");
+        solo.sleep(100);
+        solo.clickOnImageButton(0); // Chancel to close window
+        solo.sleep(100);
+        solo.enterText(2, "start");
+        solo.sleep(100);
+        solo.clickOnImageButton(0);
+        solo.sleep(100);
+        solo.enterText(3, "end");
+        solo.sleep(100);
+        solo.clickOnImageButton(0);
+        solo.sleep(100);
+        solo.enterText(4, "Austria-Graz");
+        solo.enterText(5, "Sport Event");
+        solo.enterText(6, "#color");
+
+        solo.clickOnText("date");
+        solo.sleep(100);
+        solo.clickOnButton("OK");
+        solo.clickOnText("start");
+        solo.sleep(100);
+        solo.clickOnButton("OK");
+        solo.clickOnText("end");
+        solo.sleep(100);
         solo.clickOnButton("OK");
 
-        solo.enterText((EditText) getActivity().findViewById(R.id.begin), "begin");
-
+        solo.clickOnText("color");
+        solo.sleep(100);
         solo.clickOnButton("OK");
-
-        solo.enterText((EditText) getActivity().findViewById(R.id.end), "end");
-        solo.clickOnButton("OK");
-
-        solo.clickOnView(getActivity().findViewById(R.id.colorEditText));
-        solo.clickOnScreen(840, 1440);
-
-        solo.clickOnView(getActivity().findViewById(R.id.colorEditText));
-        solo.clickOnScreen(840, 1440);
-
-
 
     }
+
 
 
     public void tearDown() throws Exception {
