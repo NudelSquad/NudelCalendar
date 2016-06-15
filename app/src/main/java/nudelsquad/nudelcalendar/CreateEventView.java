@@ -476,7 +476,7 @@ public class CreateEventView extends Fragment implements View.OnClickListener, A
     }
 
     private void requestPermissionStorage() {
-        Log.i(TAG, "CAMERA permission has NOT been granted. Requesting permission.");
+        Log.i(TAG, "Storage permission has NOT been granted. Requesting permission.");
 
         // BEGIN_INCLUDE(camera_permission_request)
         if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
@@ -486,7 +486,7 @@ public class CreateEventView extends Fragment implements View.OnClickListener, A
             // For example if the user has previously denied the permission.
             Log.i(TAG,
                     "Displaying camera permission rationale to provide additional context.");
-            Snackbar.make(getView(), "Pls give me permission",Snackbar.LENGTH_INDEFINITE)
+            Snackbar.make(getView(), "Give me permission tor store Data",Snackbar.LENGTH_INDEFINITE)
                     .setAction(R.string.ok, new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -506,7 +506,7 @@ public class CreateEventView extends Fragment implements View.OnClickListener, A
     }
 
     private void requestRecordAudio() {
-        Log.i(TAG, "CAMERA permission has NOT been granted. Requesting permission.");
+        Log.i(TAG, "Audio permission has NOT been granted. Requesting permission.");
 
         // BEGIN_INCLUDE(camera_permission_request)
         if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
@@ -515,8 +515,8 @@ public class CreateEventView extends Fragment implements View.OnClickListener, A
             // and the user would benefit from additional context for the use of the permission.
             // For example if the user has previously denied the permission.
             Log.i(TAG,
-                    "Displaying camera permission rationale to provide additional context.");
-            Snackbar.make(getView(), "Pls give me permission",Snackbar.LENGTH_INDEFINITE)
+                    "Displaying audio permission rationale to provide additional context.");
+            Snackbar.make(getView(), "Give me permission to recorde Audio",Snackbar.LENGTH_INDEFINITE)
                     .setAction(R.string.ok, new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -551,10 +551,10 @@ public class CreateEventView extends Fragment implements View.OnClickListener, A
             if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // Camera permission has been granted, preview can be displayed
                 Log.i(TAG, "CAMERA permission has now been granted. Showing preview.");
-                Snackbar.make(getView(), "no", Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(getView(), R.string.no, Snackbar.LENGTH_SHORT).show();
             } else {
                 Log.i(TAG, "CAMERA permission was NOT granted.");
-                Snackbar.make(getView(), "YES", Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(getView(), R.string.yes, Snackbar.LENGTH_SHORT).show();
 
             }
             // END_INCLUDE(permission_result)
@@ -568,10 +568,10 @@ public class CreateEventView extends Fragment implements View.OnClickListener, A
             if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // Camera permission has been granted, preview can be displayed
                 Log.i(TAG, "CAMERA permission has now been granted. Showing preview.");
-                Snackbar.make(getView(), "no", Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(getView(), R.string.no, Snackbar.LENGTH_SHORT).show();
             } else {
                 Log.i(TAG, "CAMERA permission was NOT granted.");
-                Snackbar.make(getView(), "YES", Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(getView(), R.string.yes, Snackbar.LENGTH_SHORT).show();
 
             }
             // END_INCLUDE(permission_result)

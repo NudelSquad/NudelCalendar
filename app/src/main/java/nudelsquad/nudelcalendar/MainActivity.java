@@ -321,14 +321,13 @@ public class MainActivity extends AppCompatActivity
                 final Event event = dbHandler.getEvent(id);
 
 
-
                 Intent intent = new Intent(getBaseContext(), MainActivity.class);
                 // use System.currentTimeMillis() to have a unique ID for the pending intent
                 PendingIntent pIntent = PendingIntent.getActivity(getBaseContext(), (int) System.currentTimeMillis(), intent, 0);
 
                 // build notification
                 // the addAction re-use the same intent to keep the example short
-                Notification n  = new Notification.Builder(getBaseContext())
+                Notification n = new Notification.Builder(getBaseContext())
                         .setContentTitle(event.getEVENT_NAME())
                         .setContentText(event.getEVENT_LOCATION())
                         .setSmallIcon(R.mipmap.ic_launcher)
@@ -344,21 +343,19 @@ public class MainActivity extends AppCompatActivity
                 String audiopath = event.getEVENT_AUDIOPATH();
 
 
-
-
-                t1=new TextToSpeech(getBaseContext(), new TextToSpeech.OnInitListener() {
+                t1 = new TextToSpeech(getBaseContext(), new TextToSpeech.OnInitListener() {
                     @Override
                     public void onInit(int status) {
 
                         if (status == TextToSpeech.SUCCESS) {
 
-                            int result = t1.setLanguage(Locale.US);
+                            int result = t1.setLanguage(getResources().getConfiguration().locale);
 
                             if (result == TextToSpeech.LANG_MISSING_DATA
                                     || result == TextToSpeech.LANG_NOT_SUPPORTED) {
                                 Log.e("TTS", "This Language is not supported");
                             } else {
-                               t1.speak(event.getEVENT_NAME(),  TextToSpeech.QUEUE_FLUSH, null);
+                                t1.speak(event.getEVENT_NAME(), TextToSpeech.QUEUE_FLUSH, null);
                             }
 
                         } else {
@@ -368,8 +365,6 @@ public class MainActivity extends AppCompatActivity
                     }
 
                 });
-
-
 
 
                 Log.d("MAIN", "received: " + event.toString());

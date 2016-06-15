@@ -4,7 +4,10 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.test.ActivityInstrumentationTestCase2;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.robotium.solo.Solo;
 
@@ -19,7 +22,7 @@ import nudelsquad.nudelcalendar.Task;
 /**
  * Created by waser2 on 18.05.2016.
  */
-public class CreateEventOrTaskTest  extends ActivityInstrumentationTestCase2<MainActivity> {
+public class CreateEventOrTaskTest extends ActivityInstrumentationTestCase2<MainActivity> {
 
     private Solo solo;
     private Context context;
@@ -39,8 +42,7 @@ public class CreateEventOrTaskTest  extends ActivityInstrumentationTestCase2<Mai
     }
 
 
-    public void testSearchTextTaskOrEvent()
-    {
+    public void testSearchTextTaskOrEvent() {
         boolean event = solo.searchText(context.getString(R.string.event));
         assertTrue(event);
         boolean task = solo.searchText(context.getString(R.string.task));
@@ -48,19 +50,18 @@ public class CreateEventOrTaskTest  extends ActivityInstrumentationTestCase2<Mai
     }
 
 
-    public void testButtonDiscardTask()
-    {
+    public void testButtonDiscardTask() {
         boolean b;
         solo.clickOnText(context.getString(R.string.task));
         solo.sleep(100);
 
-        solo.enterText(0,"Lernen-Task");
-        solo.enterText(1,"12-05-2010");
+        solo.enterText(0, "Lernen-Task");
+        solo.enterText(1, "12-05-2010");
         solo.clickOnImageButton(1);  // press OK on Date Selector
         solo.clickOnCheckBox(0); // activate Reminder Checkbox
-        solo.enterText(2,"Trallalala dies ist Testtext");
+        solo.enterText(2, "Trallalala dies ist Testtext");
         solo.sleep(100);
-        solo.enterText(3,"#45454545");
+        solo.enterText(3, "#45454545");
         solo.clickOnImageButton(1);
         solo.sleep(500);
 
@@ -78,20 +79,18 @@ public class CreateEventOrTaskTest  extends ActivityInstrumentationTestCase2<Mai
     }
 
 
-
-    public void testButtonCreateTask()
-    {
+    public void testButtonCreateTask() {
         boolean b;
         solo.clickOnText(context.getString(R.string.task));
         solo.sleep(100);
 
-        solo.enterText(0,"Lernen-Task");
-        solo.enterText(1,"12-05-2010");
+        solo.enterText(0, "Lernen-Task");
+        solo.enterText(1, "12-05-2010");
         solo.clickOnImageButton(1);  // press OK on Date Selector
         solo.clickOnCheckBox(0); // activate Reminder Checkbox
-        solo.enterText(2,"Trallalala dies ist Testtext");
+        solo.enterText(2, "Trallalala dies ist Testtext");
         solo.sleep(100);
-        solo.enterText(3,"#45454545");
+        solo.enterText(3, "#45454545");
         solo.clickOnImageButton(1);
         solo.sleep(500);
 
@@ -117,33 +116,31 @@ public class CreateEventOrTaskTest  extends ActivityInstrumentationTestCase2<Mai
     }
 
 
-    public void testButtonCreateEvent()
-    {
+    public void testButtonCreateEvent() {
         solo.clickOnText(context.getString(R.string.event));
         solo.sleep(500);
 
         boolean b;
 
-        solo.enterText(0,"Fallschirmspringen");
-        solo.enterText(1,"12-05-2010");
+        solo.enterText(0, "Fallschirmspringen");
+        solo.enterText(1, "12-05-2010");
         solo.sleep(100);
         solo.clickOnImageButton(0); // Chancel to close window
         solo.sleep(100);
-        solo.enterText(2,"12:12 PM");
+        solo.enterText(2, "12:12 PM");
         solo.sleep(100);
         solo.clickOnImageButton(0);
         solo.sleep(100);
-        solo.enterText(3,"08:08 AM");
+        solo.enterText(3, "08:08 AM");
         solo.sleep(100);
         solo.clickOnImageButton(0);
         solo.sleep(100);
-        solo.enterText(4,"Austria-Graz");
-        solo.enterText(5,"Sport Event");
-        solo.enterText(6,"#23434343");
+        solo.enterText(4, "Austria-Graz");
+        solo.enterText(5, "Sport Event");
+        solo.enterText(6, "#23434343");
         solo.sleep(100);
         solo.clickOnImageButton(0);
         solo.sleep(100);
-
 
 
         // Test Inputs
@@ -161,7 +158,7 @@ public class CreateEventOrTaskTest  extends ActivityInstrumentationTestCase2<Mai
         assertTrue(b);
         b = solo.searchText("#23434343");
         assertTrue(b);
-        
+
 
         solo.clickOnButton(context.getString(R.string.save));
         solo.sleep(100);
@@ -169,28 +166,27 @@ public class CreateEventOrTaskTest  extends ActivityInstrumentationTestCase2<Mai
         solo.sleep(100);
     }
 
-    public void testButtonDiscardEvent()
-    {
+    public void testButtonDiscardEvent() {
         solo.clickOnText(context.getString(R.string.event));
         solo.sleep(500);
 
         boolean b;
-        solo.enterText(0,"Fallschirmspringen");
-        solo.enterText(1,"12-05-2010");
+        solo.enterText(0, "Fallschirmspringen");
+        solo.enterText(1, "12-05-2010");
         solo.sleep(100);
         solo.clickOnImageButton(0); // Chancel to close window
         solo.sleep(100);
-        solo.enterText(2,"12:12 PM");
+        solo.enterText(2, "12:12 PM");
         solo.sleep(100);
         solo.clickOnImageButton(0);
         solo.sleep(100);
-        solo.enterText(3,"08:08 AM");
+        solo.enterText(3, "08:08 AM");
         solo.sleep(100);
         solo.clickOnImageButton(0);
         solo.sleep(100);
-        solo.enterText(4,"Austria-Graz");
-        solo.enterText(5,"Sport Event");
-        solo.enterText(6,"#23434343");
+        solo.enterText(4, "Austria-Graz");
+        solo.enterText(5, "Sport Event");
+        solo.enterText(6, "#23434343");
         solo.clickOnImageButton(0);
 
         solo.sleep(100);
@@ -212,8 +208,7 @@ public class CreateEventOrTaskTest  extends ActivityInstrumentationTestCase2<Mai
         assertFalse(b);
     }
 
-    public void testDateWidget()
-    {
+    public void testDateWidget() {
         // Widget does not relly work
         solo.clickOnText(context.getString(R.string.event));
         solo.sleep(200);
@@ -226,10 +221,7 @@ public class CreateEventOrTaskTest  extends ActivityInstrumentationTestCase2<Mai
     }
 
 
-
-
-    public void testClockWidget()
-    {
+    public void testClockWidget() {
 
         solo.clickOnText(context.getString(R.string.event));
         solo.sleep(200);
@@ -241,15 +233,54 @@ public class CreateEventOrTaskTest  extends ActivityInstrumentationTestCase2<Mai
         // missing part
     }
 
-    public void testRecordPlay(){
+    public void testRecordPlay() {
         solo.clickOnText(context.getString(R.string.event));
         solo.sleep(500);
         View v = getActivity().findViewById(R.id.btn_record);
-        solo.sleep(500);
-        solo.clickOnView(v);
-        solo.sleep(1000);
         solo.clickOnView(v);
         solo.sleep(500);
+
+        boolean b;
+
+        b = solo.searchText(getActivity().getBaseContext().getString(R.string.ok));
+        if (b) {
+            solo.clickOnText(getActivity().getBaseContext().getString(R.string.ok));
+            solo.sleep(100);
+//            ViewGroup viewGroup = (ViewGroup) getActivity().findViewById(android.R.id.content);
+//            ViewGroup vg = (ViewGroup) viewGroup.getChildAt(0);
+
+            for(View v1: solo.getViews()) {
+                if(v instanceof Button) {
+                    if( ((Button)v1).getText().toString().equalsIgnoreCase("allow") )
+                    {
+                        solo.clickOnView(v1);
+                        solo.sleep(300);
+                        break;
+                    }
+                }
+
+            }
+
+
+            solo.clickOnScreen(784, 1150);
+            solo.clickOnScreen(784, 1150);
+            solo.clickOnScreen(784, 1150);
+
+            solo.sleep(500);
+        }
+        solo.clickOnView(v);
+
+        b = solo.searchText(getActivity().getBaseContext().getString(R.string.ok));
+        if (b) {
+            solo.clickOnText(getActivity().getBaseContext().getString(R.string.ok));
+            solo.sleep(100);
+
+            solo.sleep(500);
+        }
+
+        solo.clickOnView(v);
+
+
         v = getActivity().findViewById(R.id.btn_play);
         solo.sleep(500);
         solo.clickOnView(v);
@@ -273,9 +304,7 @@ public class CreateEventOrTaskTest  extends ActivityInstrumentationTestCase2<Mai
     }
 
 
-
-    public void tearDown() throws Exception
-    {
+    public void tearDown() throws Exception {
         solo.finishOpenedActivities();
         super.tearDown();
     }
