@@ -187,9 +187,33 @@ public class DBHandlerTest extends AndroidTestCase {
         assertEquals(count,0);
     }
 
-    public void setEvents(){
+    public void testSetter(){
+        Event tmp = new Event("TestEvent", "17:00", "18:00", "18-05-2016", "TestType", "TestLocation", 123, "");
+        tmp.setEVENT_ID(10);
+        assertEquals(tmp.getEVENT_ID(),10);
+        tmp.setEVENT_AUDIOPATH("");
+        assertEquals(tmp.getEVENT_AUDIOPATH(),"");
+        tmp.setEVENT_COLOR(123);
+        assertEquals(tmp.getEVENT_COLOR(),123);
+        tmp.setEVENT_DATUM("18-05-2016");
+        assertEquals(tmp.getEVENT_DATUM(),"18-05-2016");
+        tmp.setEVENT_END("14:00");
+        assertEquals(tmp.getEVENT_END(),"14:00");
+        tmp.setEVENT_START("13:00");
+        assertEquals(tmp.getEVENT_START(),"13:00");
+        tmp.setEVENT_LOCATION("home");
+        assertEquals(tmp.getEVENT_LOCATION(),"home");
+        tmp.setEVENT_TYPE("Uni");
+        assertEquals(tmp.getEVENT_TYPE(),"Uni");
+
 
     }
+
+    public void testEmptyEvent() {
+        Event event = dbh.getEvent(100);
+        assertEquals(event, null);
+    }
+
 
 
 }
