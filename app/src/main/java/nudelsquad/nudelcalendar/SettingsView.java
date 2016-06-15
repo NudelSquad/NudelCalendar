@@ -25,6 +25,7 @@ public class SettingsView extends Fragment implements View.OnClickListener{
     SharedPreferences sharedPrefs = null;                       //to Save Settings
     private static final String PrefName = "SettingPreferences";
     private static final String Pref_KEY_LANDSC = "LANDSCAPEMODE";
+    private static final String Pref_KEY_REMINDER = "REMINDER";
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -41,15 +42,13 @@ public class SettingsView extends Fragment implements View.OnClickListener{
         btn_save.setOnClickListener(this);
         btn_save = (Button) rootView.findViewById(R.id.btnDelTasks);
         btn_save.setOnClickListener(this);
-        Spinner spin = (Spinner) rootView.findViewById(R.id.spMuteFor);
-        String items[] = {"15", "30", "45", "60", "75"};
-        ArrayAdapter adp = new ArrayAdapter(rootView.getContext(), R.layout.support_simple_spinner_dropdown_item, items);
-        spin.setAdapter(adp);
         if(sharedPrefs.getBoolean(Pref_KEY_LANDSC, false)){
             Switch landSC = (Switch) rootView.findViewById(R.id.swLS);
             landSC.setChecked(true);
-
-
+        }
+        if(sharedPrefs.getBoolean(Pref_KEY_REMINDER, false)){
+            Switch landSC = (Switch) rootView.findViewById(R.id.swRem);
+            landSC.setChecked(true);
         }
     }
 
@@ -59,8 +58,10 @@ public class SettingsView extends Fragment implements View.OnClickListener{
         if (v.getId() == R.id.btnSave){
             Toast.makeText(rootView.getContext(), R.string.saved, Toast.LENGTH_LONG).show();
             Switch landSC = (Switch) rootView.findViewById(R.id.swLS);
+            Switch rem = (Switch) rootView.findViewById(R.id.swRem);
             SharedPreferences.Editor editor = sharedPrefs.edit();
             editor.putBoolean(Pref_KEY_LANDSC, landSC.isChecked());
+            editor.putBoolean(Pref_KEY_REMINDER, rem.isChecked());
             editor.commit();
         }
         if (v.getId() == R.id.btnDelEvents){

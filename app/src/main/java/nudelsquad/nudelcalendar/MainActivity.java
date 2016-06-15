@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity
     SharedPreferences sharedPrefs = null;                       //to Save Settings
     private static final String PrefName = "SettingPreferences";
     private static final String Pref_KEY_LANDSC = "LANDSCAPEMODE";
+    private static final String Pref_KEY_REMINDER = "REMINDER";
 
 
     public static Bundle myBundle = new Bundle();
@@ -73,6 +74,7 @@ public class MainActivity extends AppCompatActivity
         else
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
+        Toast.makeText(getApplicationContext(),"olo: " + sharedPrefs.getBoolean(Pref_KEY_REMINDER, false), Toast.LENGTH_SHORT).show();   //REMINDER
 
         //OPEN ADD FRAME
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.add_btn);
