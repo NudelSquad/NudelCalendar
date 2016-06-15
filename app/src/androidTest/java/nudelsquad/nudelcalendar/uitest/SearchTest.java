@@ -82,6 +82,30 @@ public class SearchTest extends ActivityInstrumentationTestCase2<MainActivity> {
         Boolean b = solo.searchText("TestEvent7");
         assertTrue(b);
     }
+    public void testSearchSpecificTaskItem()
+    {
+        fillDatabaseWithEvents(15);
+        fillDatabaseWithTasks(15);
+
+        solo.sleep(500);
+        solo.clickOnView(searchbtnview);
+
+        solo.sleep(1000);
+
+        View searchinput = getActivity().findViewById(R.id.searchView);
+        solo.clickOnView(searchinput);
+
+        //type event or task part
+        solo.typeText(0,"TestTask9");
+        solo.sleep(500);
+
+        solo.clickLongInList(0);
+        solo.sleep(500);
+
+        // Search for name of event or task
+        Boolean b = solo.searchText("TestTask9");
+        assertTrue(b);
+    }
 
 
     public void fillDatabaseWithEvents(int number_of_events)

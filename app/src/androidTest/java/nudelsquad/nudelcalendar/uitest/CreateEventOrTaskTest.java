@@ -296,26 +296,13 @@ public class CreateEventOrTaskTest extends ActivityInstrumentationTestCase2<Main
 
         boolean b;
 
-        solo.enterText(0, "Fallschirmspringen");
-        solo.enterText(1, today);
-        solo.sleep(100);
-        solo.clickOnImageButton(0); // Chancel to close window
-        solo.sleep(100);
-        solo.enterText(2, "12:12");
-        solo.sleep(100);
-        solo.clickOnImageButton(0);
-        solo.sleep(100);
-        solo.enterText(3, "08:08");
-        solo.sleep(100);
-        solo.clickOnImageButton(0);
-        solo.sleep(100);
-        solo.enterText(4, "Austria-Graz");
-        solo.enterText(5, "Sport Event");
-        solo.enterText(6, "#23434343");
-        solo.sleep(100);
-        solo.clickOnImageButton(0);
-        solo.sleep(100);
-
+        solo.typeText(0, "Fallschirmspringen");
+        solo.typeText(1, today);
+        solo.typeText(2, "12:12");
+        solo.typeText(3, "08:08");
+        solo.typeText(4, "Austria-Graz");
+        solo.typeText(5, "Sport Event");
+        solo.typeText(6, "#23434343");
 
         solo.clickOnButton(context.getString(R.string.save));
         solo.sleep(100);
@@ -324,28 +311,20 @@ public class CreateEventOrTaskTest extends ActivityInstrumentationTestCase2<Main
         solo.clickInList(1);
         solo.clickOnButton(context.getString(R.string.edit));
 
-
-        solo.sleep(100);
+        solo.sleep(500);
         solo.clearEditText(2);
-        solo.enterText(2, "12:13");
-        solo.sleep(100);
-        solo.clickOnImageButton(0);
-        solo.sleep(100);
         solo.clearEditText(3);
-        solo.enterText(3, "08:09");
-        solo.sleep(100);
-        solo.clickOnImageButton(0);
-        solo.sleep(100);
         solo.clearEditText(4);
-        solo.enterText(4, "Austria-Graz1");
         solo.clearEditText(5);
-        solo.enterText(5, "Sport Event1");
         solo.clearEditText(6);
-        solo.enterText(6, "#23434343");
-        solo.sleep(100);
-        solo.clickOnImageButton(0);
-        solo.sleep(100);
 
+        solo.sleep(500);
+
+        solo.enterText(2, "12:13");
+        solo.enterText(3, "08:09");
+        solo.enterText(4, "Austria-Graz1");
+        solo.enterText(5, "Sport Event1");
+        solo.enterText(6, "#23434343");
 
         // Test Inputs
         b = solo.searchText("Fallschirmspringen");
@@ -379,26 +358,13 @@ public class CreateEventOrTaskTest extends ActivityInstrumentationTestCase2<Main
 
         boolean b;
 
-        solo.enterText(0, "Fallschirmspringen");
-        solo.enterText(1, today);
-        solo.sleep(100);
-        solo.clickOnImageButton(0); // Chancel to close window
-        solo.sleep(100);
-        solo.enterText(2, "12:12");
-        solo.sleep(100);
-        solo.clickOnImageButton(0);
-        solo.sleep(100);
-        solo.enterText(3, "08:08");
-        solo.sleep(100);
-        solo.clickOnImageButton(0);
-        solo.sleep(100);
-        solo.enterText(4, "Austria-Graz");
-        solo.enterText(5, "Sport Event");
-        solo.enterText(6, "#23434343");
-        solo.sleep(100);
-        solo.clickOnImageButton(0);
-        solo.sleep(100);
-
+        solo.typeText(0, "Fallschirmspringen");
+        solo.typeText(1, today);
+        solo.typeText(2, "12:12");
+        solo.typeText(3, "08:08");
+        solo.typeText(4, "Austria-Graz");
+        solo.typeText(5, "Sport Event");
+        solo.typeText(6, "#23434343");
 
         solo.clickOnButton(context.getString(R.string.save));
         solo.sleep(100);
@@ -407,43 +373,40 @@ public class CreateEventOrTaskTest extends ActivityInstrumentationTestCase2<Main
         solo.clickInList(1);
         solo.clickOnButton(context.getString(R.string.edit));
 
-
-        solo.sleep(100);
+        solo.sleep(500);
         solo.clearEditText(2);
-        solo.enterText(2, "12:13");
-        solo.sleep(100);
-        solo.clickOnImageButton(0);
-        solo.sleep(100);
         solo.clearEditText(3);
-        solo.enterText(3, "08:09");
-        solo.sleep(100);
-        solo.clickOnImageButton(0);
-        solo.sleep(100);
         solo.clearEditText(4);
-        solo.enterText(4, "Austria-Graz1");
         solo.clearEditText(5);
-        solo.enterText(5, "Sport Event1");
         solo.clearEditText(6);
-        solo.enterText(6, "#23434343");
-        solo.sleep(100);
-        solo.clickOnImageButton(0);
-        solo.sleep(100);
 
+        solo.sleep(500);
+
+        solo.enterText(2, "12:13");
+        solo.enterText(3, "08:09");
+        solo.enterText(4, "Austria-Graz1");
+        solo.enterText(5, "Sport Event1");
+        solo.enterText(6, "#23434343");
+
+        solo.sleep(1000);
+        solo.clickOnImageButton(0);
+        solo.sleep(1000);
+        solo.clickOnImageButton(1);
+        solo.sleep(1000);
+        solo.clickOnImageButton(2);
+        solo.sleep(1000);
+        solo.clickOnImageButton(3);
+        solo.sleep(1000);
 
         solo.clickOnButton(context.getString(R.string.add_task));
-
         solo.clickOnText(context.getString(R.string.task));
         solo.sleep(100);
 
-
-        solo.enterText(0, "Lernen-Task");
-        solo.enterText(1, "12-05-2010");
-        solo.clickOnImageButton(1);  // press OK on Date Selector
+        solo.typeText(0, "Lernen-Task");
+        solo.typeText(1, "12-05-2010");
         solo.clickOnCheckBox(0); // activate Reminder Checkbox
-        solo.enterText(2, "Trallalala dies ist Testtext");
-        solo.sleep(100);
-        solo.enterText(3, "#45454545");
-        solo.clickOnImageButton(1);
+        solo.typeText(2, "Trallalala dies ist Testtext");
+        solo.typeText(3, "#45454545");
         solo.sleep(500);
 
         b = solo.searchText("Lernen-Task");
