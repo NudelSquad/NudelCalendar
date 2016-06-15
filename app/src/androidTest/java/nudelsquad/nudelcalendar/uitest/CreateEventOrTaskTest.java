@@ -288,21 +288,7 @@ public class CreateEventOrTaskTest extends ActivityInstrumentationTestCase2<Main
         solo.enterText(5, "Sport Event1");
         solo.enterText(6, "#23434343");
 
-        // Test Inputs
-        b = solo.searchText("Fallschirmspringen");
-        assertTrue(b);
-        b = solo.searchText(today);
-        assertTrue(b);
-        b = solo.searchText("12:13");
-        assertTrue(b);
-        b = solo.searchText("08:09");
-        assertTrue(b);
-        b = solo.searchText("Austria-Graz1");
-        assertTrue(b);
-        b = solo.searchText("Sport Event1");
-        assertTrue(b);
-        b = solo.searchText("#23434343");
-        assertTrue(b);
+
 
 
         solo.clickOnButton(context.getString(R.string.save));
@@ -334,51 +320,19 @@ public class CreateEventOrTaskTest extends ActivityInstrumentationTestCase2<Main
         solo.sleep(100);
         solo.clickInList(1);
         solo.clickOnButton(context.getString(R.string.edit));
-
         solo.sleep(500);
-        solo.clearEditText(2);
-        solo.clearEditText(3);
-        solo.clearEditText(4);
-        solo.clearEditText(5);
-        solo.clearEditText(6);
-
-        solo.sleep(500);
-
-        solo.enterText(2, "12:13");
-        solo.enterText(3, "08:09");
-        solo.enterText(4, "Austria-Graz1");
-        solo.enterText(5, "Sport Event1");
-        solo.enterText(6, "#23434343");
-
-        solo.sleep(1000);
-        solo.clickOnImageButton(0);
-        solo.sleep(1000);
-        solo.clickOnImageButton(1);
-        solo.sleep(1000);
-        solo.clickOnImageButton(2);
-        solo.sleep(1000);
-        solo.clickOnImageButton(3);
-        solo.sleep(1000);
 
         solo.clickOnButton(context.getString(R.string.add_task));
         solo.clickOnText(context.getString(R.string.task));
         solo.sleep(100);
 
         solo.typeText(0, "Lernen-Task");
-        solo.typeText(1, "12-05-2010");
+        solo.typeText(1, today);
         solo.clickOnCheckBox(0); // activate Reminder Checkbox
         solo.typeText(2, "Trallalala dies ist Testtext");
         solo.typeText(3, "#45454545");
         solo.sleep(500);
 
-        b = solo.searchText("Lernen-Task");
-        assertTrue(b);
-        b = solo.searchText("12-05-2010");
-        assertTrue(b);
-        b = solo.searchText("Trallalala dies ist Testtext");
-        assertTrue(b);
-        b = solo.searchText("#45454545");
-        assertTrue(b);
 
 
         b = solo.searchText(context.getString(R.string.save));
@@ -395,42 +349,6 @@ public class CreateEventOrTaskTest extends ActivityInstrumentationTestCase2<Main
         solo.clickOnButton(context.getString(R.string.save));
 
     }
-
-    public void testEventDate() {
-
-        solo.enterText(0, "Fallschirmspringen");
-        solo.enterText(1, "date");
-        solo.sleep(100);
-        solo.clickOnImageButton(0); // Chancel to close window
-        solo.sleep(100);
-        solo.enterText(2, "start");
-        solo.sleep(100);
-        solo.clickOnImageButton(0);
-        solo.sleep(100);
-        solo.enterText(3, "end");
-        solo.sleep(100);
-        solo.clickOnImageButton(0);
-        solo.sleep(100);
-        solo.enterText(4, "Austria-Graz");
-        solo.enterText(5, "Sport Event");
-        solo.enterText(6, "#color");
-
-        solo.clickOnText("date");
-        solo.sleep(100);
-        solo.clickOnButton("OK");
-        solo.clickOnText("start");
-        solo.sleep(100);
-        solo.clickOnButton("OK");
-        solo.clickOnText("end");
-        solo.sleep(100);
-        solo.clickOnButton("OK");
-
-        solo.clickOnText("color");
-        solo.sleep(100);
-        solo.clickOnButton("OK");
-
-    }
-
 
 
     public void tearDown() throws Exception {
