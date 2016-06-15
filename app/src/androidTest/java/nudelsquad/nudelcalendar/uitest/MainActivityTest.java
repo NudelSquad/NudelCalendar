@@ -85,6 +85,12 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         solo.goBack();
     }
 
+    public void testClickOnSettings(){
+        solo.clickOnMenuItem(getActivity().getBaseContext().getString(R.string.action_settings));
+        solo.sleep(500);
+
+    }
+
     public void openNavigationDrawer() {
         Point deviceSize = new Point();
         getActivity().getWindowManager().getDefaultDisplay().getSize(deviceSize);

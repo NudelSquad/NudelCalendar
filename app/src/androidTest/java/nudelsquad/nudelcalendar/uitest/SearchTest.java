@@ -105,4 +105,10 @@ public class SearchTest extends ActivityInstrumentationTestCase2<MainActivity> {
         searchbtnview = getActivity().findViewById(R.id.btn_search);
     }
 
+
+    public void tearDown() throws Exception {
+        solo.finishOpenedActivities();
+        super.tearDown();
+    }
+
 }
