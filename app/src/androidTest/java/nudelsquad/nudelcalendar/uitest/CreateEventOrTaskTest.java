@@ -1,5 +1,6 @@
 package nudelsquad.nudelcalendar.uitest;
 
+import android.app.admin.DeviceAdminInfo;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Point;
@@ -15,6 +16,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import nudelsquad.nudelcalendar.DBHandler;
 import nudelsquad.nudelcalendar.MainActivity;
 import nudelsquad.nudelcalendar.R;
 import nudelsquad.nudelcalendar.Task;
@@ -26,6 +28,7 @@ public class CreateEventOrTaskTest extends ActivityInstrumentationTestCase2<Main
 
     private Solo solo;
     private Context context;
+    private DBHandler dbHandler;
 
     public CreateEventOrTaskTest() {
         super(MainActivity.class);
@@ -35,7 +38,9 @@ public class CreateEventOrTaskTest extends ActivityInstrumentationTestCase2<Main
         super.setUp();
         solo = new Solo(getInstrumentation(), getActivity());
         context = getActivity().getApplicationContext();
+        dbHandler=new DBHandler(context);
 
+        SecurityManager securityManager = new SecurityManager();
         View addEventOrTask = getActivity().findViewById(R.id.add_btn);
         solo.clickOnView(addEventOrTask);
         solo.sleep(500);
@@ -83,6 +88,7 @@ public class CreateEventOrTaskTest extends ActivityInstrumentationTestCase2<Main
         boolean b;
         solo.clickOnText(context.getString(R.string.task));
         solo.sleep(100);
+
 
         solo.enterText(0, "Lernen-Task");
         solo.enterText(1, "12-05-2010");
@@ -232,8 +238,8 @@ public class CreateEventOrTaskTest extends ActivityInstrumentationTestCase2<Main
 
         // missing part
     }
-/*
-    public void testRecordPlay() {
+
+  /*  public void testRecordPlay() {
         solo.clickOnText(context.getString(R.string.event));
         solo.sleep(500);
         View v = getActivity().findViewById(R.id.btn_record);
@@ -301,6 +307,193 @@ public class CreateEventOrTaskTest extends ActivityInstrumentationTestCase2<Main
         int toY = fromY;
 
         solo.drag(fromX, toX, fromY, toY, 1);
+    }
+
+    public void testEditEvent() {
+
+        dbHandler.resetDatabase();
+        solo.clickOnText(context.getString(R.string.event));
+        solo.sleep(500);
+        Date time = Calendar.getInstance().getTime();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        String today = formatter.format(time);
+
+        boolean b;
+
+        solo.enterText(0, "Fallschirmspringen");
+        solo.enterText(1, today);
+        solo.sleep(100);
+        solo.clickOnImageButton(0); // Chancel to close window
+        solo.sleep(100);
+        solo.enterText(2, "12:12");
+        solo.sleep(100);
+        solo.clickOnImageButton(0);
+        solo.sleep(100);
+        solo.enterText(3, "08:08");
+        solo.sleep(100);
+        solo.clickOnImageButton(0);
+        solo.sleep(100);
+        solo.enterText(4, "Austria-Graz");
+        solo.enterText(5, "Sport Event");
+        solo.enterText(6, "#23434343");
+        solo.sleep(100);
+        solo.clickOnImageButton(0);
+        solo.sleep(100);
+
+
+        solo.clickOnButton(context.getString(R.string.save));
+        solo.sleep(100);
+        solo.clickOnButton(context.getString(R.string.yes));
+        solo.sleep(100);
+        solo.clickInList(1);
+        solo.clickOnButton(context.getString(R.string.edit));
+
+
+        solo.sleep(100);
+        solo.clearEditText(2);
+        solo.enterText(2, "12:13");
+        solo.sleep(100);
+        solo.clickOnImageButton(0);
+        solo.sleep(100);
+        solo.clearEditText(3);
+        solo.enterText(3, "08:09");
+        solo.sleep(100);
+        solo.clickOnImageButton(0);
+        solo.sleep(100);
+        solo.clearEditText(4);
+        solo.enterText(4, "Austria-Graz1");
+        solo.clearEditText(5);
+        solo.enterText(5, "Sport Event1");
+        solo.clearEditText(6);
+        solo.enterText(6, "#23434343");
+        solo.sleep(100);
+        solo.clickOnImageButton(0);
+        solo.sleep(100);
+
+
+        // Test Inputs
+        b = solo.searchText("Fallschirmspringen");
+        assertTrue(b);
+        b = solo.searchText(today);
+        assertTrue(b);
+        b = solo.searchText("12:13");
+        assertTrue(b);
+        b = solo.searchText("08:09");
+        assertTrue(b);
+        b = solo.searchText("Austria-Graz1");
+        assertTrue(b);
+        b = solo.searchText("Sport Event1");
+        assertTrue(b);
+        b = solo.searchText("#23434343");
+        assertTrue(b);
+
+
+        solo.clickOnButton(context.getString(R.string.save));
+
+    }
+
+    public void testEditEventAndAddTask() {
+
+        dbHandler.resetDatabase();
+        solo.clickOnText(context.getString(R.string.event));
+        solo.sleep(500);
+        Date time = Calendar.getInstance().getTime();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        String today = formatter.format(time);
+
+        boolean b;
+
+        solo.enterText(0, "Fallschirmspringen");
+        solo.enterText(1, today);
+        solo.sleep(100);
+        solo.clickOnImageButton(0); // Chancel to close window
+        solo.sleep(100);
+        solo.enterText(2, "12:12");
+        solo.sleep(100);
+        solo.clickOnImageButton(0);
+        solo.sleep(100);
+        solo.enterText(3, "08:08");
+        solo.sleep(100);
+        solo.clickOnImageButton(0);
+        solo.sleep(100);
+        solo.enterText(4, "Austria-Graz");
+        solo.enterText(5, "Sport Event");
+        solo.enterText(6, "#23434343");
+        solo.sleep(100);
+        solo.clickOnImageButton(0);
+        solo.sleep(100);
+
+
+        solo.clickOnButton(context.getString(R.string.save));
+        solo.sleep(100);
+        solo.clickOnButton(context.getString(R.string.yes));
+        solo.sleep(100);
+        solo.clickInList(1);
+        solo.clickOnButton(context.getString(R.string.edit));
+
+
+        solo.sleep(100);
+        solo.clearEditText(2);
+        solo.enterText(2, "12:13");
+        solo.sleep(100);
+        solo.clickOnImageButton(0);
+        solo.sleep(100);
+        solo.clearEditText(3);
+        solo.enterText(3, "08:09");
+        solo.sleep(100);
+        solo.clickOnImageButton(0);
+        solo.sleep(100);
+        solo.clearEditText(4);
+        solo.enterText(4, "Austria-Graz1");
+        solo.clearEditText(5);
+        solo.enterText(5, "Sport Event1");
+        solo.clearEditText(6);
+        solo.enterText(6, "#23434343");
+        solo.sleep(100);
+        solo.clickOnImageButton(0);
+        solo.sleep(100);
+
+
+        solo.clickOnButton(context.getString(R.string.add_task));
+
+        solo.clickOnText(context.getString(R.string.task));
+        solo.sleep(100);
+
+
+        solo.enterText(0, "Lernen-Task");
+        solo.enterText(1, "12-05-2010");
+        solo.clickOnImageButton(1);  // press OK on Date Selector
+        solo.clickOnCheckBox(0); // activate Reminder Checkbox
+        solo.enterText(2, "Trallalala dies ist Testtext");
+        solo.sleep(100);
+        solo.enterText(3, "#45454545");
+        solo.clickOnImageButton(1);
+        solo.sleep(500);
+
+        b = solo.searchText("Lernen-Task");
+        assertTrue(b);
+        b = solo.searchText("12-05-2010");
+        assertTrue(b);
+        b = solo.searchText("Trallalala dies ist Testtext");
+        assertTrue(b);
+        b = solo.searchText("#45454545");
+        assertTrue(b);
+
+
+        b = solo.searchText(context.getString(R.string.save));
+        assertTrue(b);
+        solo.clickOnButton(context.getString(R.string.save));
+        solo.sleep(100);
+
+        b = solo.searchText(context.getString(R.string.yes));
+        assertTrue(b);
+        solo.clickOnButton(context.getString(R.string.yes));
+        solo.sleep(100);
+
+
+
+        solo.clickOnButton(context.getString(R.string.save));
+
     }
 
 
