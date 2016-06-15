@@ -20,16 +20,13 @@
             app:popupTheme="@style/AppTheme.PopupOverlay">
 
 
-        <ImageButton
-            android:src="@drawable/ic_search_black_24dp"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+        <Button
+            android:background="@drawable/ic_search_black_24dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:layout_gravity="right"
-
-
             android:id="@+id/btn_search" />
-
-            </android.support.v7.widget.Toolbar>
+        </android.support.v7.widget.Toolbar>
 
 
     </android.support.design.widget.AppBarLayout>
