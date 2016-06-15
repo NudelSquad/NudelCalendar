@@ -1,13 +1,18 @@
 package nudelsquad.nudelcalendar;
 
+import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -31,7 +36,14 @@ public class DayList extends Fragment {
         @Override
         public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
             //setContentView(R.layout.activity_day_list);
-            View rootView = inflater.inflate(R.layout.activity_day_list, container, false);
+               ((AppCompatActivity) getActivity()).getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getActivity().getResources().getColor(R.color.colorYellow)));
+               Window window = getActivity().getWindow();
+               window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+               window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+               if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                   window.setStatusBarColor(getActivity().getResources().getColor(R.color.colorDarkYellow));
+               }
+               View rootView = inflater.inflate(R.layout.activity_day_list, container, false);
             Bundle args = getArguments();
             daylist = (ListView)rootView.findViewById(R.id.day_eventlist);
 

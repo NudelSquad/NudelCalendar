@@ -2,6 +2,8 @@ package nudelsquad.nudelcalendar;
 
 import android.graphics.Color;
 import android.graphics.RectF;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,6 +14,8 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.alamkanak.weekview.*;
@@ -41,9 +45,18 @@ public class WeekViewBase extends Fragment implements WeekView.EventClickListene
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getActivity().getResources().getColor(R.color.colorPurple)));
+        Window window = getActivity().getWindow();
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.setStatusBarColor(getActivity().getResources().getColor(R.color.colorDarkPurple));
+        }
+
+
         rootView = inflater.inflate(R.layout.week_fragment, container, false);
         // Get a reference for the week view in the layout.
-        mWeekView = (com.alamkanak.weekview.WeekView) rootView.findViewById(R.id.weekView);
+        mWeekView = (WeekView) rootView.findViewById(R.id.weekView);
 
         // Show a toast message about the touched event.
         mWeekView.setOnEventClickListener(this);
